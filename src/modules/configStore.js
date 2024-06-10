@@ -16,6 +16,8 @@ export const useConfigStore = defineStore('config', {
             dark_mode: false,
             // Hardware
             ble_active_scan: false,
+            ble_scan_time: 5,
+            timezone: "CET-1CEST,M3.5.0,M10.5.0/3",
             // Wifi
             wifi_portal_timeout: 0,
             wifi_connect_timeout: 0,
@@ -61,33 +63,35 @@ export const useConfigStore = defineStore('config', {
                 .then(res => res.json())
                 .then(json => {
                     logDebug("configStore.load()", json)
-                    
+
                     global.disabled = false
-                    this.id = json.id,
-                        // Device
-                        this.mdns = json.mdns,
-                        this.temp_format = json.temp_format,
-                        this.gravity_format = json.gravity_format,
-                        this.dark_mode = json.dark_mode,
-                        // Hardware
-                        this.ble_active_scan = json.ble_active_scan,
-                        // Wifi
-                        this.wifi_portal_timeout = json.wifi_portal_timeout,
-                        this.wifi_connect_timeout = json.wifi_connect_timeout,
-                        this.wifi_ssid = json.wifi_ssid,
-                        this.wifi_ssid2 = json.wifi_ssid2,
-                        this.wifi_pass = json.wifi_pass,
-                        this.wifi_pass2 = json.wifi_pass2,
-                        // Push - Generic
-                        this.token = json.token,
-                        this.push_timeout = json.push_timeout,
-                        // Push - Http Post 1
-                        this.http_post_target = json.http_post_target
+                    this.id = json.id
+                    // Device
+                    this.mdns = json.mdns
+                    this.temp_format = json.temp_format
+                    this.gravity_format = json.gravity_format
+                    this.dark_mode = json.dark_mode
+                    // Hardware
+                    this.ble_active_scan = json.ble_active_scan
+                    this.ble_scan_time = json.ble_scan_time
+                    this.timezone = json.timezone
+                    // Wifi
+                    this.wifi_portal_timeout = json.wifi_portal_timeout
+                    this.wifi_connect_timeout = json.wifi_connect_timeout
+                    this.wifi_ssid = json.wifi_ssid
+                    this.wifi_ssid2 = json.wifi_ssid2
+                    this.wifi_pass = json.wifi_pass
+                    this.wifi_pass2 = json.wifi_pass2
+                    // Push - Generic
+                    this.token = json.token
+                    this.push_timeout = json.push_timeout
+                    // Push - Http Post 1
+                    this.http_post_target = json.http_post_target
                     this.http_post_header1 = json.http_post_header1
                     this.http_post_header2 = json.http_post_header2
-                    this.http_post_int = json.http_post_int,
-                        this.http_post_format = json.http_post_format,
-                        callback(true)
+                    this.http_post_int = json.http_post_int
+                    this.http_post_format = json.http_post_format
+                    callback(true)
                 })
                 .catch(err => {
                     global.disabled = false

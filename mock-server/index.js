@@ -29,6 +29,8 @@ configData = {
   dark_mode: false, 
   // Hardware
   ble_active_scan: false,
+  ble_scan_time: 5,
+  timezone: "CET-1CEST,M3.5.0,M10.5.0/3",
   // Wifi
   wifi_portal_timeout: 120,
   wifi_connect_timeout: 20,
@@ -39,7 +41,7 @@ configData = {
   // Push - Generic
   token: "mytoken",
   push_timeout: 10,
-  // Push - Http Post 1
+  // Push - Http Post 1–
   http_post_target: "http://192.168.1.10:9090/api/v1/ZYfjlUNeiuyu9N/telemetry",
   http_post_header1: "Auth: Basic T7IF9DD9fF3RDddE=",
   http_post_header2: "Auth: Advanced T7IF9DD9fF3RDddE=",
