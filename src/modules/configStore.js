@@ -15,7 +15,7 @@ export const useConfigStore = defineStore('config', {
             gravity_format: "",
             dark_mode: false,
             // Hardware
-
+            ble_active_scan: false,
             // Wifi
             wifi_portal_timeout: 0,
             wifi_connect_timeout: 0,
@@ -31,6 +31,9 @@ export const useConfigStore = defineStore('config', {
             http_post_header1: "",
             http_post_header2: "",
             http_post_format: "",
+
+            // Values that are not updated but needed for format template viewer
+            sleep_interval: 900,
         }
     },
     actions: {
@@ -58,6 +61,7 @@ export const useConfigStore = defineStore('config', {
                 .then(res => res.json())
                 .then(json => {
                     logDebug("configStore.load()", json)
+                    
                     global.disabled = false
                     this.id = json.id,
                         // Device
@@ -66,7 +70,7 @@ export const useConfigStore = defineStore('config', {
                         this.gravity_format = json.gravity_format,
                         this.dark_mode = json.dark_mode,
                         // Hardware
-
+                        this.ble_active_scan = json.ble_active_scan,
                         // Wifi
                         this.wifi_portal_timeout = json.wifi_portal_timeout,
                         this.wifi_connect_timeout = json.wifi_connect_timeout,

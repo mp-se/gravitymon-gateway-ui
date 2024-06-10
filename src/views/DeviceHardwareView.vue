@@ -7,8 +7,20 @@
         <form @submit.prevent="save" class="needs-validation" novalidate>
             <div class="row">
 
+                <div class="col-md-6">
+                    <BsInputRadio v-model="config.ble_active_scan" :options="bleScanOptions" label="BLE Scanning"
+                        width="" :disabled="global.disabled"></BsInputRadio>
+                </div>
+
                 <div class="col-md-12">
-                    <hr>
+                    <p></p>
+                    <p>Supporting the following GravityMon BLE transmission options:
+                        <li>GravityMon iBeacon</li>
+                        <li>GravityMon Service</li>
+                        <li>GravityMon EddyStone (Require Active Mode)</li>
+                    </p>
+
+                    <p>If you want to use the Tilt transmission options I recommend TiltBridge!</p>
                 </div>
 
             </div>
@@ -38,11 +50,15 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { validateCurrentForm, restart } from "@/modules/utils"
-import { global, config, status } from "@/modules/pinia"
-import * as badge from '@/modules/badge'
+import { global, config } from "@/modules/pinia"
 import { logDebug, logError, logInfo } from '@/modules/logger'
+
+const bleScanOptions = ref([
+    { label: 'Active', value: true },
+    { label: 'Passive', value: false },
+])
 
 const save = () => {
     if (!validateCurrentForm()) return

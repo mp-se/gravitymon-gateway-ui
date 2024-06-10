@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <p></p>
-        <p class="h3">Push - HTTP Post #1</p>
+        <p class="h3">Push - HTTP Post</p>
         <hr>
 
         <form @submit.prevent="save" class="needs-validation" novalidate>

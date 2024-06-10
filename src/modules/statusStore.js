@@ -16,6 +16,12 @@ export const useStatusStore = defineStore('status', {
             total_heap: 0,
             free_heap: 0,
             wifi_setup: false,
+
+            // Values that are not updated but needed for format template viewer
+            angle: 35,
+            gravity: 1.015,
+            temp: 20.1,
+            battery: 4.0,
         }
     },
     getters: {

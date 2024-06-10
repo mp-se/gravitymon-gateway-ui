@@ -11,23 +11,11 @@ export const httpHeaderOptions = ref([
 ])
 
 export const httpPostUrlOptions = ref([
-  { label: 'Brewfather ispindel', value: 'http://log.brewfather.net/ispindel?id=<yourid>' },
-  { label: 'Brewfather stream', value: 'http://log.brewfather.net/stream?id=<yourid>' },
-  { label: 'UBI dots', value: 'http://industrial.api.ubidots.com/api/v1.6/devices/<devicename>/?token=<api-token>' },
-  { label: 'UBI dots secure', value: 'https://industrial.api.ubidots.com/api/v1.6/devices/<devicename>/?token=<api-token>' },
-  { label: 'Brewersfriend (P)', value: 'http://log.brewersfriend.com/ispindel/[API KEY]' },
-  { label: 'Brewersfriend (SG)', value: 'http://log.brewersfriend.com/ispindel_sg/[API KEY]' },
-  { label: 'Brewspy', value: 'http://brew-spy.com/api/ispindel' },
-  { label: 'Thingsspeak', value: 'http://api.thingspeak.com/update.json' },
-  { label: 'Blynk', value: 'http://blynk.cloud/external/api/batch/update' },
-  { label: 'Bierdot bricks', value: 'https://brewbricks.com/api/iot/v1' },
+  { label: '-blank-', value: '' },
 ])
 
 export const httpPostFormatOptions = ref([
-  { label: "GravityMon", value: "%7B%20%22name%22%20%3A%20%22%24%7Bmdns%7D%22%2C%20%22ID%22%3A%20%22%24%7Bid%7D%22%2C%20%22token%22%20%3A%20%22%24%7Btoken%7D%22%2C%20%22interval%22%3A%20%24%7Bsleep-interval%7D%2C%20%22temperature%22%3A%20%24%7Btemp%7D%2C%20%22temp_units%22%3A%20%22%24%7Btemp-unit%7D%22%2C%20%22gravity%22%3A%20%24%7Bgravity%7D%2C%20%22angle%22%3A%20%24%7Bangle%7D%2C%20%22battery%22%3A%20%24%7Bbattery%7D%2C%20%22RSSI%22%3A%20%24%7Brssi%7D%2C%20%22corr-gravity%22%3A%20%24%7Bcorr-gravity%7D%2C%20%22gravity-unit%22%3A%20%22%24%7Bgravity-unit%7D%22%2C%20%22run-time%22%3A%20%24%7Brun-time%7D%7D" },
   { label: "iSpindle", value: "%7B%20%22name%22%20%3A%20%22%24%7Bmdns%7D%22%2C%20%22ID%22%3A%20%22%24%7Bid%7D%22%2C%20%22token%22%20%3A%20%22%24%7Btoken%7D%22%2C%20%22interval%22%3A%20%24%7Bsleep-interval%7D%2C%20%22temperature%22%3A%20%24%7Btemp%7D%2C%20%22temp_units%22%3A%20%22%24%7Btemp-unit%7D%22%2C%20%22gravity%22%3A%20%24%7Bgravity%7D%2C%20%22angle%22%3A%20%24%7Bangle%7D%2C%20%22battery%22%3A%20%24%7Bbattery%7D%2C%20%22RSSI%22%3A%20%24%7Brssi%7D%7D" },
-  { label: "BrewFatherCustom", value: "%7B%20%20%20%22name%22%3A%20%22%24%7Bmdns%7D%22%2C%20%20%20%22temp%22%3A%20%24%7Btemp%7D%2C%20%20%20%22aux_temp%22%3A%200%2C%20%20%20%22ext_temp%22%3A%200%2C%20%20%20%22temp_unit%22%3A%20%22%24%7Btemp-unit%7D%22%2C%20%20%20%22gravity%22%3A%20%24%7Bgravity%7D%2C%20%20%20%22gravity_unit%22%3A%20%22%24%7Bgravity-unit%7D%22%2C%20%20%20%22pressure%22%3A%200%2C%20%20%20%22pressure_unit%22%3A%20%22PSI%22%2C%20%20%20%22ph%22%3A%200%2C%20%20%20%22bpm%22%3A%200%2C%20%20%20%22comment%22%3A%20%22%22%2C%20%20%20%22beer%22%3A%20%22%22%2C%20%20%20%22battery%22%3A%20%24%7Bbattery%7D%7D" },
-  { label: "UBIDots", value: "%7B%20%20%20%22temperature%22%3A%20%24%7Btemp%7D%2C%20%20%20%22gravity%22%3A%20%24%7Bgravity%7D%2C%20%20%20%22angle%22%3A%20%24%7Bangle%7D%2C%20%20%20%22battery%22%3A%20%24%7Bbattery%7D%2C%20%20%20%22rssi%22%3A%20%24%7Brssi%7D%7D" },
 ])
 
 export function validateCurrentForm() {
@@ -74,35 +62,35 @@ export function applyTemplate(status, config, template) {
   s = s.replaceAll("${tilt}", status.angle)
   s = s.replaceAll("${app-ver}", status.app_ver)
   s = s.replaceAll("${app-build}", status.app_build)
-  s = s.replaceAll("${battery-percent}", 100)
+  //s = s.replaceAll("${battery-percent}", 100)
   s = s.replaceAll("${rssi}", status.rssi)
-  s = s.replaceAll("${run-time}", status.runtime_average)
-  s = s.replaceAll("${corr-gravity}", status.gravity)
+  //s = s.replaceAll("${run-time}", status.runtime_average)
+  //s = s.replaceAll("${corr-gravity}", status.gravity)
   s = s.replaceAll("${battery}", status.battery)
 
   if (config.gravity_format === 'G') {
     var sg = status.gravity
     s = s.replaceAll("${gravity}", sg)
     s = s.replaceAll("${gravity-sg}", sg)
-    s = s.replaceAll("${corr-gravity-sg}", sg)
+    //s = s.replaceAll("${corr-gravity-sg}", sg)
     var plato = 259 - (259 - sg);
     s = s.replaceAll("${gravity-plato}", plato)
-    s = s.replaceAll("${corr-gravity-plato}", plato)
+    //s = s.replaceAll("${corr-gravity-plato}", plato)
   } else {
     var plato = status.gravity
     s = s.replaceAll("${gravity}", plato)
     s = s.replaceAll("${gravity-plato}", plato)
-    s = s.replaceAll("${corr-gravity-plato}", plato)
+    //s = s.replaceAll("${corr-gravity-plato}", plato)
     var sg = 259 / (259 - plato)
     s = s.replaceAll("${gravity-sg}", sg)
-    s = s.replaceAll("${corr-gravity-sg}", sg)
+    //s = s.replaceAll("${corr-gravity-sg}", sg)
   }
 
   s = s.replaceAll("${mdns}", config.mdns)
   s = s.replaceAll("${id}", config.id)
   s = s.replaceAll("${sleep-interval}", config.sleep_interval)
   s = s.replaceAll("${token}", config.token)
-  s = s.replaceAll("${token2}", config.token2)
+  //s = s.replaceAll("${token2}", config.token2)
   s = s.replaceAll("${temp-unit}", config.temp_format)
   s = s.replaceAll("${gravity-unit}", config.gravity_format)
 

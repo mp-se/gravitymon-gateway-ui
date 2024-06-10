@@ -80,17 +80,17 @@ import { logDebug, logError, logInfo } from '@/modules/logger'
 const tempOptions = ref([
     { label: 'Celsius °C', value: 'C' },
     { label: 'Fahrenheit °F', value: 'F' },
-]);
+])
 
 const gravityOptions = ref([
     { label: 'Specific Gravity', value: 'G' },
     { label: 'Plato', value: 'P' },
-]);
+])
 
 const uiOptions = ref([
     { label: 'Day mode', value: false },
     { label: 'Dark mode', value: true },
-]);
+])
 
 const factory = () => {
     global.clearMessages()
