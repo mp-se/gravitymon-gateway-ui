@@ -25,7 +25,7 @@
                     <p>Supporting the following GravityMon BLE transmission options:
                         <li>GravityMon iBeacon</li>
                         <li>GravityMon Service</li>
-                        <li>GravityMon EddyStone (Require Active Mode)</li>
+                        <li>GravityMon EddyStone (Require BLE 5.0 board, does not work on ESP32)</li>
                     </p>
 
                     <p>If you want to use the Tilt transmission options I recommend TiltBridge!</p>
