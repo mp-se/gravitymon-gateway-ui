@@ -17,6 +17,12 @@
                         help="The number of seconds that the device will wait until a remote service accepts the connection"
                         :disabled="global.disabled" />
                 </div>
+                <div class="col-md-6">
+                    <BsInputNumber v-model="config.push_resend_time" label="Push minimum resend time" unit="s" min="10" max="1800" step="1"
+                        width="5"
+                        help="The number of seconds before a value can be resent to a push target"
+                        :disabled="global.disabled" />
+                </div>
             </div>
 
             <div class="row gy-2">
@@ -36,10 +42,8 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from "vue";
 import { validateCurrentForm } from "@/modules/utils"
 import { global, config, status } from "@/modules/pinia"
-import { storeToRefs } from 'pinia'
 import { logDebug, logError, logInfo } from '@/modules/logger'
 
 const save = () => {

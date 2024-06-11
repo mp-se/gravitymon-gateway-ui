@@ -28,6 +28,7 @@ export const useConfigStore = defineStore('config', {
             // Push - Generic
             token: "",
             push_timeout: 0,
+            push_resend_time: 300,
             // Push - Http Post 1
             http_post_target: "",
             http_post_header1: "",
@@ -85,6 +86,7 @@ export const useConfigStore = defineStore('config', {
                     // Push - Generic
                     this.token = json.token
                     this.push_timeout = json.push_timeout
+                    this.push_resend_time = json.push_resend_time
                     // Push - Http Post 1
                     this.http_post_target = json.http_post_target
                     this.http_post_header1 = json.http_post_header1

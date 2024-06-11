@@ -41,6 +41,7 @@ configData = {
   // Push - Generic
   token: "mytoken",
   push_timeout: 10,
+  push_resend_time: 300, 
   // Push - Http Post 1–
   http_post_target: "http://192.168.1.10:9090/api/v1/ZYfjlUNeiuyu9N/telemetry",
   http_post_header1: "Auth: Basic T7IF9DD9fF3RDddE=",
