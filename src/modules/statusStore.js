@@ -17,6 +17,8 @@ export const useStatusStore = defineStore('status', {
             free_heap: 0,
             wifi_setup: false,
 
+            gravity_device: [],
+
             // Values that are not updated but needed for format template viewer
             angle: 35,
             gravity: 1.015,
@@ -35,17 +37,19 @@ export const useStatusStore = defineStore('status', {
                 .then(res => res.json())
                 .then(json => {
                     logDebug("statusStore.load()", json)
-                    this.id = json.id,
-                        this.rssi = json.rssi,
-                        this.app_ver = json.app_ver,
-                        this.app_build = json.app_build,
-                        this.mdns = json.mdns,
-                        this.platform = json.platform,
-                        this.wifi_ssid = json.wifi_ssid,
-                        this.ip = json.ip,
-                        this.total_heap = json.total_heap,
-                        this.free_heap = json.free_heap,
-                        this.wifi_setup = json.wifi_setup
+                    this.id = json.id
+                    this.rssi = json.rssi
+                    this.app_ver = json.app_ver
+                    this.app_build = json.app_build
+                    this.mdns = json.mdns
+                    this.platform = json.platform
+                    this.wifi_ssid = json.wifi_ssid
+                    this.ip = json.ip
+                    this.total_heap = json.total_heap
+                    this.free_heap = json.free_heap
+                    this.wifi_setup = json.wifi_setup
+
+                    this.gravity_device = json.gravity_device
 
                     this.total_heap = (Math.round(this.total_heap / 1024)).toFixed(0)
                     this.free_heap = (Math.round(this.free_heap / 1024)).toFixed(0)

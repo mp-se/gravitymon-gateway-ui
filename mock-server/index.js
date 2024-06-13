@@ -65,6 +65,13 @@ statusData = {
   free_heap: 500,
   ip: "192.0.0.1",
   wifi_setup: false,
+  gravity_device: [ 
+    { device: "dev1", gravity: 1.100, temp: 24},  
+    { device: "dev2", gravity: 1.100, temp: 24},
+    { device: "dev3", gravity: 1.100, temp: 24},  
+    { device: "dev4", gravity: 1.100, temp: 24},  
+    { device: "dev5", gravity: 1.100, temp: 24},  
+  ]
 }
 
 app.get('/api/auth', (req, res) => {

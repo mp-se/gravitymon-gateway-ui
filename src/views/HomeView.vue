@@ -4,7 +4,17 @@
 
     <div v-if="status" class="container overflow-hidden text-center">
 
-      <div class="row gy-4">  
+      <div class="row gy-4">
+
+        <template v-for="g in status.gravity_device" :key="g.device">
+          <div class="col-md-4">
+            <BsCard header="Gravity Device" :title="g.device">
+              <p class="text-center">
+                Gravity: {{ g.gravity }} Temperature: {{ g.temp }}
+              </p>
+            </BsCard>
+          </div>
+        </template>
 
         <div class="col-md-4">
           <BsCard header="Measurement" title="WIFI">
@@ -53,6 +63,9 @@
 
 <script setup>
 import { global, status } from "@/modules/pinia"
+import { logDebug } from "@/modules/logger";
+
+// TODO: Fix conversion and formatting for gravity and temperature
 </script>
 
 <style></style>
