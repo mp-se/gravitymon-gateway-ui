@@ -171,7 +171,7 @@ export const useConfigStore = defineStore('config', {
 
             data = data2.http_post_format !== undefined ? { http_post_format: encodeURIComponent(data2.http_post_format) } : {}
             this.sendOneFormat(data, (success) => {
-                if (success) cnt += 1
+                callback(success)
             })
         },
         sendOneFormat(data, callback) {

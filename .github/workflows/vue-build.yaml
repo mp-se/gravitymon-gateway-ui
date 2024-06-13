@@ -1,0 +1,39 @@
+name: PlatformIO CI
+
+on: 
+  pull_request:
+  push:
+    branches: 
+      - main
+
+jobs:
+  vue-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          cache: 'npm'
+      
+      - run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git fetch --tags
+          REV=`git rev-parse HEAD | rev | cut -c 1-6 | rev`
+          TAG=`git tag --sort=creatordate | tail -1`
+          echo "VUE_APP_BUILD=..$REV" >> .env
+          echo "VUE_APP_VERSION=$TAG" >> .env
+          cat .env
+
+      - run: npm install
+      - run: npm run build 
+                
+      - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version. https://github.com/marketplace/actions/add-commit
+        with:
+          add: 'dist'
+          author_name: GitHub Action
+          author_email: mp-se@noreply.github.com
+          default_author: github_actor
+          message: 'GitHub Action Build'
+          pathspec_error_handling: ignore

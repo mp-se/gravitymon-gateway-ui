@@ -8,9 +8,9 @@
 
         <template v-for="g in status.gravity_device" :key="g.device">
           <div class="col-md-4">
-            <BsCard header="Gravity Device" :title="g.device">
+            <BsCard header="Gravity Device" :title="g.device + ' (' + formatTime(g.update_time) + ' / ' + formatTime(g.push_time) + ')'">
               <p class="text-center">
-                Gravity: {{ g.gravity }} Temperature: {{ g.temp }}
+                Gravity: {{ formatGravity(g.gravity) }} {{ config.gravity_format === 'G' ? ' SG' : ' P' }} Temperature: {{ formatTemp(g.temp) }} {{ config.temp_format }}
               </p>
             </BsCard>
           </div>
@@ -62,10 +62,46 @@
 </template>
 
 <script setup>
-import { global, status } from "@/modules/pinia"
+import { global, status, config } from "@/modules/pinia"
 import { logDebug } from "@/modules/logger";
+import { ref, watch, onMounted, onBeforeMount, onBeforeUnmount } from 'vue'
 
-// TODO: Fix conversion and formatting for gravity and temperature
+const polling = ref(null)
+
+function formatTime(t) {
+  if(t<60) // less than 1 min
+    return new Number(t).toFixed(0) + "s"
+
+  if(t<(60*60)) // less than 1 hour
+    return new Number(t/60).toFixed(0) + "m"
+
+  if(t<(60*60*24)) // less than 1 day
+    return new Number(t/(60*60)).toFixed(0) + "h"
+
+  return new Number(t/(60*60*24)).toFixed(0) + "d"
+}
+
+function formatGravity(g) {
+  return config.gravity_format === "G" ? new Number(g).toFixed(3) : new Number(g).toFixed(1)
+}
+
+function formatTemp(t) {
+  return config.temp_format === "C" ? new Number(t).toFixed(2) : new Number(t).toFixed(1)
+}
+
+function refresh() {
+  status.load((success) => {
+  })
+}
+
+onBeforeMount(() => {
+  refresh();
+  polling.value = setInterval(refresh, 4000)
+})
+
+onBeforeUnmount(() => {
+  clearInterval(polling.value)
+})
 </script>
 
 <style></style>

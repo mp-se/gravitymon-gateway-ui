@@ -62,35 +62,27 @@ export function applyTemplate(status, config, template) {
   s = s.replaceAll("${tilt}", status.angle)
   s = s.replaceAll("${app-ver}", status.app_ver)
   s = s.replaceAll("${app-build}", status.app_build)
-  //s = s.replaceAll("${battery-percent}", 100)
   s = s.replaceAll("${rssi}", status.rssi)
-  //s = s.replaceAll("${run-time}", status.runtime_average)
-  //s = s.replaceAll("${corr-gravity}", status.gravity)
   s = s.replaceAll("${battery}", status.battery)
 
   if (config.gravity_format === 'G') {
     var sg = status.gravity
     s = s.replaceAll("${gravity}", sg)
     s = s.replaceAll("${gravity-sg}", sg)
-    //s = s.replaceAll("${corr-gravity-sg}", sg)
     var plato = 259 - (259 - sg);
     s = s.replaceAll("${gravity-plato}", plato)
-    //s = s.replaceAll("${corr-gravity-plato}", plato)
   } else {
     var plato = status.gravity
     s = s.replaceAll("${gravity}", plato)
     s = s.replaceAll("${gravity-plato}", plato)
-    //s = s.replaceAll("${corr-gravity-plato}", plato)
     var sg = 259 / (259 - plato)
     s = s.replaceAll("${gravity-sg}", sg)
-    //s = s.replaceAll("${corr-gravity-sg}", sg)
   }
 
   s = s.replaceAll("${mdns}", config.mdns)
   s = s.replaceAll("${id}", config.id)
   s = s.replaceAll("${sleep-interval}", config.sleep_interval)
   s = s.replaceAll("${token}", config.token)
-  //s = s.replaceAll("${token2}", config.token2)
   s = s.replaceAll("${temp-unit}", config.temp_format)
   s = s.replaceAll("${gravity-unit}", config.gravity_format)
 
