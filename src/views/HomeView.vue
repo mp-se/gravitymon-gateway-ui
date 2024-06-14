@@ -8,7 +8,7 @@
 
         <template v-for="g in status.gravity_device" :key="g.device">
           <div class="col-md-4">
-            <BsCard header="Gravity Device" :title="g.device + ' (' + formatTime(g.update_time) + ' / ' + formatTime(g.push_time) + ')'">
+            <BsCard header="Gravity Device" color="info" :title="g.device + ' (' + formatTime(g.update_time) + ' / ' + formatTime(g.push_time) + ')'">
               <p class="text-center">
                 Gravity: {{ formatGravity(g.gravity) }} {{ config.gravity_format === 'G' ? ' SG' : ' P' }} Temperature: {{ formatTemp(g.temp) }} {{ config.temp_format }}
               </p>
@@ -17,7 +17,7 @@
         </template>
 
         <div class="col-md-4">
-          <BsCard header="Measurement" title="WIFI">
+          <BsCard header="Device" title="WIFI">
             <p class="text-center">
               {{ status.rssi }} dBm - {{ status.wifi_ssid }}
             </p>
