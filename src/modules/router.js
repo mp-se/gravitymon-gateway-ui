@@ -142,7 +142,7 @@ const items = ref([
         path: '/push/settings',
       },
       {
-        label: 'HTTP Post 1',
+        label: 'HTTP Post',
         badge: badge.pushHttpPost1Badge,
         path: '/push/http-post1',
       },
