@@ -66,11 +66,11 @@ statusData = {
   ip: "192.0.0.1",
   wifi_setup: false,
   gravity_device: [ 
-    { device: "dev1", gravity: 1.100, temp: 24},  
-    { device: "dev2", gravity: 1.100, temp: 24},
-    { device: "dev3", gravity: 1.100, temp: 24},  
-    { device: "dev4", gravity: 1.100, temp: 24},  
-    { device: "dev5", gravity: 1.100, temp: 24},  
+    { device: "dev1", gravity: 1.100, temp: 24, update_time: 100, push_time: 10 },  
+    { device: "dev2", gravity: 1.100, temp: 24, update_time: 200, push_time: 10 },
+    { device: "dev3", gravity: 1.100, temp: 24, update_time: 300, push_time: 10 },  
+    { device: "dev4", gravity: 1.100, temp: 24, update_time: 400, push_time: 10 },  
+    { device: "dev5", gravity: 1.100, temp: 24, update_time: 500, push_time: 10 },  
   ]
 }
 
