@@ -7,15 +7,16 @@
         <BsMessage v-if="scanning" :dismissable="false" message="Scanning for wifi networks in range" alert="info">
         </BsMessage>
 
-        <BsMessage v-if="config.wifi_ssid === '' && config.wifi_ssid2 === ''" dismissable="true" message="" alert="warning">
+        <BsMessage v-if="config.wifi_ssid === '' && config.wifi_ssid2 === ''" dismissable="true" message=""
+            alert="warning">
             You need to define at least one wifi network
         </BsMessage>
 
         <form @submit.prevent="save" class="needs-validation" novalidate>
             <div class="row">
                 <div class="col-md-6">
-                    <BsSelect v-model="config.wifi_ssid" label="SSID #1" :options="networks" :badge="badge.deviceWifi1Badge()"
-                        :disabled="global.disabled" />
+                    <BsSelect v-model="config.wifi_ssid" label="SSID #1" :options="networks"
+                        :badge="badge.deviceWifi1Badge()" :disabled="global.disabled" />
                 </div>
                 <div class="col-md-6">
                     <BsInputText v-model="config.wifi_pass" type="password" maxlength="50" label="Password #1"
@@ -23,12 +24,40 @@
                 </div>
 
                 <div class="col-md-6">
-                    <BsSelect v-model="config.wifi_ssid2" label="SSID #2" :options="networks" :badge="badge.deviceWifi2Badge()"
-                        :disabled="global.disabled" />
+                    <BsSelect v-model="config.wifi_ssid2" label="SSID #2" :options="networks"
+                        :badge="badge.deviceWifi2Badge()" :disabled="global.disabled" />
                 </div>
                 <div class="col-md-6">
                     <BsInputText v-model="config.wifi_pass2" type="password" maxlength="50" label="Password #2"
                         help="Enter password for the first wifi network" :disabled="global.disabled"></BsInputText>
+                </div>
+
+                <div class="col-md-12">
+                    <hr>
+                </div>
+
+                <div class="col-md-12">
+                    <p>Wifi Direct allows a device to directly connect with the gateway and bypass the access points.
+                        This allows for direct link between the two. Can be useful to ensure that the closest access
+                        point is used. The gateway will broadcast this SSID for use by other devices.</p>
+                </div>
+
+                <div class="col-md-6">
+                    <BsInputText v-model="config.wifi_direct_ssid" label="Direct SSID"
+                        help="Enter the SSID for the wifi direct functionallity" :disabled="global.disabled" />
+                </div>
+                <div class="col-md-6">
+                    <BsInputText v-model="config.wifi_direct_pass" type="password" maxlength="50"
+                        label="Direct Password" help="Enter password for the wifi direct network"
+                        :disabled="global.disabled"></BsInputText>
+                </div>
+
+                <div class="col-md-3">
+                    <p></p>
+                    <button @click="generate()" type="button" class="btn btn-secondary w-2"
+                        :disabled="global.disabled">
+                        &nbsp;Generate
+                    </button>
                 </div>
 
                 <div class="col-md-12">
@@ -53,7 +82,8 @@
                     <hr>
                 </div>
                 <div class="col-md-3">
-                    <button type="submit" class="btn btn-primary w-2" :disabled="global.disabled || !global.configChanged">
+                    <button type="submit" class="btn btn-primary w-2"
+                        :disabled="global.disabled || !global.configChanged">
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                             :hidden="!global.disabled"></span>
                         &nbsp;Save
@@ -73,7 +103,7 @@
 
 <script setup>
 import { validateCurrentForm, restart } from "@/modules/utils"
-import { global, config } from "@/modules/pinia"
+import { global, config, status } from "@/modules/pinia"
 import * as badge from '@/modules/badge'
 import { onMounted, ref } from "vue";
 import { logDebug, logError, logInfo } from '@/modules/logger'
@@ -116,6 +146,13 @@ onMounted(() => {
         }
     })
 })
+
+function generate() {
+    logDebug("DeviceWifiView:generate()")
+    config.wifi_direct_ssid = "gw-" + status.id
+    let strings = window.crypto.getRandomValues(new BigUint64Array(2));
+    config.wifi_direct_pass = (strings[0].toString(36) + strings[1].toString(36).toUpperCase()).substring(0, 10)
+}
 
 const save = () => {
     if (!validateCurrentForm()) return

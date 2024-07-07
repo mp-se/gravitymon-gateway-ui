@@ -25,6 +25,8 @@ export const useConfigStore = defineStore('config', {
             wifi_ssid2: "",
             wifi_pass: "",
             wifi_pass2: "",
+            wifi_direct_ssid: "",
+            wifi_direct_pass: "",
             // Push - Generic
             token: "",
             push_timeout: 0,
@@ -83,6 +85,8 @@ export const useConfigStore = defineStore('config', {
                     this.wifi_ssid2 = json.wifi_ssid2
                     this.wifi_pass = json.wifi_pass
                     this.wifi_pass2 = json.wifi_pass2
+                    this.wifi_direct_ssid = json.wifi_direct_ssid
+                    this.wifi_direct_pass = json.wifi_direct_pass
                     // Push - Generic
                     this.token = json.token
                     this.push_timeout = json.push_timeout
