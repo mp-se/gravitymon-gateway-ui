@@ -19,6 +19,11 @@ export const useStatusStore = defineStore('status', {
 
             gravity_device: [],
 
+            uptime_seconds: 0,
+            uptime_minutes: 0,
+            uptime_hours: 0,
+            uptime_days: 0,
+
             // Values that are not updated but needed for format template viewer
             angle: 35,
             gravity: 1.015,
@@ -50,6 +55,11 @@ export const useStatusStore = defineStore('status', {
                     this.wifi_setup = json.wifi_setup
 
                     this.gravity_device = json.gravity_device
+
+                    this.uptime_seconds = json.uptime_seconds
+                    this.uptime_minutes = json.uptime_minutes
+                    this.uptime_hours = json.uptime_hours
+                    this.uptime_days = json.uptime_days
 
                     this.total_heap = (Math.round(this.total_heap / 1024)).toFixed(0)
                     this.free_heap = (Math.round(this.free_heap / 1024)).toFixed(0)

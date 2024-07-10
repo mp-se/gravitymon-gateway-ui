@@ -56,6 +56,14 @@
           </BsCard>
         </div>
 
+        <div class="col-md-4">
+          <BsCard header="Device" title="Uptime">
+            <p class="text-center">
+              {{ status.uptime_days }} days {{ status.uptime_hours }} hours {{ status.uptime_minutes }} minutes {{ status.uptime_seconds }} seconds
+            </p>
+          </BsCard>
+        </div>
+
       </div>
     </div>
   </div>
