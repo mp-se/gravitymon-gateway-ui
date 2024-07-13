@@ -3,8 +3,6 @@ import { global, saveConfigState, getConfigChanges } from '@/modules/pinia'
 import { getErrorString } from '@/modules/utils'
 import { logDebug, logError, logInfo } from '@/modules/logger'
 
-// TODO: Add option to do NTP sync (will add a few seconds)
-
 export const useConfigStore = defineStore('config', {
     state: () => {
         return {

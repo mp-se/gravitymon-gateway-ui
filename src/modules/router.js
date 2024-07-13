@@ -18,6 +18,9 @@ import SerialView from '@/views/SerialView.vue'
 import ToolsView from '@/views/ToolsView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 
+// TODO: Add backup and restore view/route
+// TODO: Import gravitymon push format options (http post x 2, http get, influx and mqtt)
+
 const routes = [
   {
     path: '/',
