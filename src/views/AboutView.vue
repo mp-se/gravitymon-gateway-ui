@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <p></p>
-    <p class="h3">About - Gravitymon BLE Gateway</p>
+    <p class="h3">About - Gravitymon Gateway</p>
     <hr>
     
     <p class="fw-normal">This is a software that can be used to relay Gravitymon 2.0 BLE data to a HTTP Post endpoint, this was created
