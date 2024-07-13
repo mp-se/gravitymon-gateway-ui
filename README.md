@@ -1,6 +1,6 @@
-# Gravitymon BLE Gateway User Interface
+# Gravitymon Gateway User Interface
 
-This repository contains the user interface for gravitymon BLE Gateway, see: https://github.com/mp-se/gravitymon-gw or https://www.gravitymon.com for more details.
+This repository contains the user interface for gravitymon Gateway, see: https://github.com/mp-se/gravitymon-gateway or https://www.gravitymon.com for more details.
 
 # Usage
 
@@ -34,4 +34,3 @@ Show the latest tag
 ```
 git tag --sort=creatordate | tail -1
 ```
-
