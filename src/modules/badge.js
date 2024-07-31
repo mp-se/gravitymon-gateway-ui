@@ -45,12 +45,16 @@ export function deviceWifi2Badge() {
  * @returns number of items that needs attention
  */
 export function pushBadge() {
-  return pushSettingBadge() + pushHttpPost1Badge() 
+  return pushSettingBadge() + pushHttpPost1Badge() + pushHttpPost2Badge() + pushHttpGetBadge() + pushHttpInfluxdb2Badge() + pushHttpMqttBadge()
 }
 
 function pushTargetCount() {
   var cnt = 0
   cnt += config.http_post_target === '' ? 0 : 1
+  cnt += config.http_post2_target === '' ? 0 : 1
+  cnt += config.http_get_target === '' ? 0 : 1
+  cnt += config.influxdb2_target === '' ? 0 : 1
+  cnt += config.mqtt_target === '' ? 0 : 1
   return cnt
 }
 
@@ -59,5 +63,25 @@ export function pushSettingBadge() {
 }
 
 export function pushHttpPost1Badge() {
+  return pushTargetCount() === 0 ? 1 : 0
+}
+
+export function pushHttpPost2Badge() {
+  return pushTargetCount() === 0 ? 1 : 0
+}
+
+export function pushHttpGetBadge() {
+  return pushTargetCount() === 0 ? 1 : 0
+}
+
+export function pushHttpInfluxdb2Badge() {
+  return pushTargetCount() === 0 ? 1 : 0
+}
+
+export function pushHttpMqttBadge() {
+  return pushTargetCount() === 0 ? 1 : 0
+}
+
+export function pushHttpBluetoothBadge() {
   return pushTargetCount() === 0 ? 1 : 0
 }

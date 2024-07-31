@@ -4,8 +4,8 @@
     <p class="h3">About - Gravitymon Gateway</p>
     <hr>
     
-    <p class="fw-normal">This is a software that can be used to relay Gravitymon 2.0 BLE data to a HTTP Post endpoint, this was created
-      to handle the new custom formats introduced in GravityMon 2.0 which can send more data than TILT.</p>
+    <p class="fw-normal">This is a software that can be used to relay Gravitymon 2.0 BLE data to one or more endpoints, this was created
+      to handle the new custom formats introduced in GravityMon 2.0 which can send more data than TILT and support the Wifi Direct option.</p>
 
     <p class="h4">MIT License</p>
 

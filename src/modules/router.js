@@ -11,6 +11,10 @@ import DeviceHardwareView from '@/views/DeviceHardwareView.vue'
 import DeviceWifiView from '@/views/DeviceWifiView.vue'
 import PushSettingsView from '@/views/PushSettingsView.vue'
 import PushHttpPost1View from '@/views/PushHttpPost1View.vue'
+import PushHttpPost2View from '@/views/PushHttpPost2View.vue'
+import PushHttpGetView from '@/views/PushHttpGetView.vue'
+import PushInfluxdbView from '@/views/PushInfluxdbView.vue'
+import PushMqttView from '@/views/PushMqttView.vue'
 import AboutView from '@/views/AboutView.vue'
 import FirmwareView from '@/views/FirmwareView.vue'
 import SupportView from '@/views/SupportView.vue'
@@ -56,6 +60,26 @@ const routes = [
     path: '/push/http-post1',
     name: 'push-http-post1',
     component: PushHttpPost1View
+  },
+  {
+    path: '/push/http-post2',
+    name: 'push-http-post2',
+    component: PushHttpPost2View
+  },
+  {
+    path: '/push/http-get',
+    name: 'push-http-get',
+    component: PushHttpGetView
+  },
+  {
+    path: '/push/influxdb',
+    name: 'push-influxdb',
+    component: PushInfluxdbView
+  },
+  {
+    path: '/push/mqtt',
+    name: 'push-Mqtt',
+    component: PushMqttView
   },
   {
     path: '/other/support',
@@ -148,6 +172,26 @@ const items = ref([
         label: 'HTTP Post',
         badge: badge.pushHttpPost1Badge,
         path: '/push/http-post1',
+      },
+      {
+        label: 'HTTP Post 2',
+        badge: badge.pushHttpPost2Badge,
+        path: '/push/http-post2',
+      },
+      {
+        label: 'HTTP Get',
+        badge: badge.pushHttpGetBadge,
+        path: '/push/http-get',
+      },
+      {
+        label: 'Influxdb v2',
+        badge: badge.pushHttpInfluxdb2Badge,
+        path: '/push/influxdb',
+      },
+      {
+        label: 'MQTT',
+        badge: badge.pushHttpMqttBadge,
+        path: '/push/mqtt',
       },
     ]
   },
