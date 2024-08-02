@@ -29,7 +29,7 @@ const contextMenuOptions = ref([
 
   { label: 'Network name, ${mdns}', value: '${mdns}' },
   { label: 'Chip ID, ${id}', value: '${id}' },
-  //{ label: 'Sleep interval, ${sleep-interval}', value: '${sleep-interval}' },
+  { label: 'Sleep interval, ${sleep-interval}', value: '${sleep-interval}' },
   { label: 'Token, ${token}', value: '${token}' },
   //{ label: 'Token 2, ${token2}', value: '${token2}' },
 
@@ -44,10 +44,10 @@ const contextMenuOptions = ref([
   { label: 'Application build, ${app-build}', value: '${app-build}' },
 
   { label: 'Battery (V), ${battery}', value: '${battery}' },
-  //{ label: 'Battery (%), ${battery-percent}', value: '${battery-percent}' },
+  { label: 'Battery (%), ${battery-percent}', value: '${battery-percent}' },
 
-  //{ label: 'Wifi signal strength, ${rssi}', value: '${rssi}' },
-  //{ label: 'Time for measurement, ${run-time}', value: '${run-time}' },
+  { label: 'Wifi signal strength, ${rssi}', value: '${rssi}' },
+  { label: 'Time for measurement, ${run-time}', value: '${run-time}' },
 
   { label: 'Gravity, ${gravity}', value: '${gravity}' },
   { label: 'Gravity (SG), ${gravity-sg}', value: '${gravity-sg}' },
