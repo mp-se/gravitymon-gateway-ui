@@ -24,11 +24,13 @@
                     <p></p>
                     <p>Supporting the following GravityMon BLE transmission options:
                         <li>GravityMon iBeacon (Passive scanning)</li>
+                        <!-- 
                         <li>GravityMon Service (Passive scanning)</li>
+                        -->
                         <li>GravityMon EddyStone (Active scanning, Require BLE 5.0, i.e. ESP32 S3 PRO)</li>
                     </p>
 
-                    <p>If you want to use the Tilt transmission options I recommend TiltBridge!</p>
+                    <p>If you want to use the Tilt options I recommend TiltBridge!</p>
                 </div>
 
             </div>
