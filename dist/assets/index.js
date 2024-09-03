@@ -6651,10 +6651,10 @@ const useGlobalStore = /* @__PURE__ */ defineStore("global", {
       return window.location.href;
     },
     uiVersion() {
-      return void 0;
+      return "0.5.0";
     },
     uiBuild() {
-      return void 0;
+      return "..25db67";
     },
     disabled32() {
       if (this.disabled) return true;
