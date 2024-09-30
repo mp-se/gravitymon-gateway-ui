@@ -6628,7 +6628,8 @@ const useGlobalStore = /* @__PURE__ */ defineStore("global", {
       messageWarning: "",
       messageSuccess: "",
       messageInfo: "",
-      fetchTimout: 8e3
+      fetchTimout: 8e3,
+      url: void 0
     };
   },
   getters: {
@@ -6648,13 +6649,19 @@ const useGlobalStore = /* @__PURE__ */ defineStore("global", {
       return "Bearer " + this.id;
     },
     baseURL() {
-      return window.location.href;
+      if (this.url !== void 0)
+        return this.url;
+      {
+        logInfo("configStore:baseURL()", "Using base URL from env", window.location.href);
+        this.url = window.location.href;
+      }
+      return this.url;
     },
     uiVersion() {
       return "0.5.0";
     },
     uiBuild() {
-      return "..11415a";
+      return "..998ec2";
     },
     disabled32() {
       if (this.disabled) return true;
