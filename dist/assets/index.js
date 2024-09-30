@@ -1842,7 +1842,7 @@ function resolveAsset(type, name, warnMissing = true, maybeSelfReference = false
   const instance = currentRenderingInstance || currentInstance;
   if (instance) {
     const Component = instance.type;
-    if (type === COMPONENTS) {
+    {
       const selfName = getComponentName(
         Component,
         false
@@ -6654,7 +6654,7 @@ const useGlobalStore = /* @__PURE__ */ defineStore("global", {
       return "0.5.0";
     },
     uiBuild() {
-      return "..564484";
+      return "..11415a";
     },
     disabled32() {
       if (this.disabled) return true;
@@ -9687,11 +9687,11 @@ const _sfc_main$L = /* @__PURE__ */ Object.assign({
         badge: badge.value
       }, {
         default: withCtx(() => [
-          withDirectives(createBaseVNode("select", {
+          withDirectives(createBaseVNode("select", mergeProps({
             "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => model.value = $event),
             class: "form-select",
             disabled: disabled.value
-          }, [
+          }, _ctx.$attrs), [
             (openBlock(true), createElementBlock(Fragment, null, renderList(options.value, (o) => {
               return openBlock(), createElementBlock(Fragment, {
                 key: o.value
@@ -9709,7 +9709,7 @@ const _sfc_main$L = /* @__PURE__ */ Object.assign({
                 }, toDisplayString(o.label), 9, _hoisted_3$x))
               ], 64);
             }), 128))
-          ], 8, _hoisted_1$L), [
+          ], 16, _hoisted_1$L), [
             [vModelSelect, model.value]
           ])
         ]),
