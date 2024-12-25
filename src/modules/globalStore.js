@@ -40,7 +40,7 @@ export const useGlobalStore = defineStore('global', {
         return this.url
 
       if (import.meta.env.VITE_APP_HOST === undefined) { 
-        logInfo('configStore:baseURL()', 'Using base URL from env', window.location.href)
+        logInfo('configStore:baseURL()', 'Using base URL from browser', window.location.href, import.meta.env)
         this.url = window.location.href
       } else {
         logInfo('configStore:baseURL()', 'Using base URL from env', import.meta.env.VITE_APP_HOST)
