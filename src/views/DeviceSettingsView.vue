@@ -27,7 +27,7 @@
           <hr />
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-4">
           <BsInputRadio
             v-model="config.temp_format"
             :options="tempOptions"
@@ -36,7 +36,7 @@
             :disabled="global.disabled"
           ></BsInputRadio>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
           <BsInputRadio
             v-model="config.gravity_format"
             :options="gravityOptions"
@@ -46,11 +46,7 @@
           ></BsInputRadio>
         </div>
 
-        <div class="col-md-12">
-          <hr />
-        </div>
-
-        <div class="col-md-6">
+        <div class="col-md-4">
           <BsInputRadio
             v-model="config.dark_mode"
             :options="uiOptions"
@@ -65,7 +61,7 @@
         <div class="col-md-12">
           <hr />
         </div>
-        <div class="col-md-3">
+        <div class="col-md-12">
           <button
             type="submit"
             class="btn btn-primary w-2"
@@ -78,9 +74,8 @@
               :hidden="!global.disabled"
             ></span>
             &nbsp;Save
-          </button>
-        </div>
-        <div class="col-md-3">
+          </button>&nbsp;
+
           <button
             @click="restart()"
             type="button"
@@ -94,9 +89,8 @@
               :hidden="!global.disabled"
             ></span>
             &nbsp;Restart device
-          </button>
-        </div>
-        <div class="col-sm-4">
+          </button>&nbsp;
+
           <button
             @click="factory"
             type="button"

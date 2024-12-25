@@ -50,7 +50,7 @@
     <hr />
 
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-12">
         <button @click="viewLogs" type="button" class="btn btn-primary" :disabled="global.disabled">
           <span
             class="spinner-border spinner-border-sm"
@@ -59,9 +59,8 @@
             :hidden="!global.disabled"
           ></span>
           &nbsp;View device logs
-        </button>
-      </div>
-      <div class="col-md-3">
+        </button>&nbsp;
+
         <button
           @click="removeLogs"
           type="button"
