@@ -35,15 +35,18 @@
         </div>
 
         <div class="col-md-12">
-          <p></p>
+          <p>&nbsp;</p>
+          <p class="fw-normal">
           Supporting the following GravityMon BLE transmission options:
-          <li>GravityMon iBeacon (Passive scanning)</li>
+          <li>GravityMon iBeacon (<b>Passive scanning</b>)</li>
           <!-- 
                         <li>GravityMon Service (Passive scanning)</li>
                         -->
-          <li>GravityMon EddyStone (Active scanning, Require BLE 5.0, i.e. ESP32 S3 PRO)</li>
+          <li>GravityMon EddyStone (<b>Active scanning, Require BLE 5.0, i.e. ESP32 S3</b>)</li>
+          </p>
 
-          <p>If you want to use the Tilt options I recommend TiltBridge!</p>
+          <p class="fw-normal">
+          If you want to use the Tilt options I recommend TiltBridge!</p>
         </div>
       </div>
       <div class="row gy-2">

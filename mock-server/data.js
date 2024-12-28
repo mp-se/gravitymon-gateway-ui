@@ -44,7 +44,7 @@ export var statusData = {
   id: "7376ef",
   angle: 22.4,
   rssi: -56,
-  app_ver: "2.0.0",
+  app_ver: "0.5.0",
   app_build: "gitrev",
   mdns: "gravmon",
   platform: "esp32",
