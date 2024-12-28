@@ -6616,7 +6616,7 @@ function logInfo(...args) {
 function logError(...args) {
   console.log("Error", ...args);
 }
-const __vite_import_meta_env__ = { "BASE_URL": "/", "DEV": false, "MODE": "production", "PROD": true, "SSR": false, "VITE_APP_BUILD": "..df22ea", "VITE_APP_VERSION": "0.5.0" };
+const __vite_import_meta_env__ = { "BASE_URL": "/", "DEV": false, "MODE": "production", "PROD": true, "SSR": false, "VITE_APP_BUILD": "..ae3a4c", "VITE_APP_VERSION": "0.6.0" };
 const useGlobalStore = /* @__PURE__ */ defineStore("global", {
   state: () => {
     return {
@@ -6659,10 +6659,10 @@ const useGlobalStore = /* @__PURE__ */ defineStore("global", {
       return this.url;
     },
     uiVersion() {
-      return "0.5.0";
+      return "0.6.0";
     },
     uiBuild() {
-      return "..df22ea";
+      return "..ae3a4c";
     },
     disabled32() {
       if (this.disabled) return true;
@@ -9296,16 +9296,16 @@ function pushHttpMqttBadge() {
 }
 const _hoisted_1$O = { class: "container" };
 const _hoisted_2$K = /* @__PURE__ */ createBaseVNode("p", null, null, -1);
-const _hoisted_3$A = {
+const _hoisted_3$z = {
   key: 0,
   class: "container overflow-hidden text-center"
 };
-const _hoisted_4$o = { class: "row gy-4" };
-const _hoisted_5$j = { class: "text-center" };
-const _hoisted_6$i = { class: "col-md-4" };
-const _hoisted_7$i = { class: "text-center" };
-const _hoisted_8$j = { class: "col-md-4" };
-const _hoisted_9$h = { class: "text-center" };
+const _hoisted_4$n = { class: "row gy-4" };
+const _hoisted_5$i = { class: "text-center" };
+const _hoisted_6$h = { class: "col-md-4" };
+const _hoisted_7$h = { class: "text-center" };
+const _hoisted_8$i = { class: "col-md-4" };
+const _hoisted_9$i = { class: "text-center" };
 const _hoisted_10$g = { class: "col-md-4" };
 const _hoisted_11$f = { class: "text-center" };
 const _hoisted_12$f = { class: "col-md-4" };
@@ -9348,8 +9348,8 @@ const _sfc_main$O = {
       const _component_BsCard = resolveComponent("BsCard");
       return openBlock(), createElementBlock("div", _hoisted_1$O, [
         _hoisted_2$K,
-        unref(status) ? (openBlock(), createElementBlock("div", _hoisted_3$A, [
-          createBaseVNode("div", _hoisted_4$o, [
+        unref(status) ? (openBlock(), createElementBlock("div", _hoisted_3$z, [
+          createBaseVNode("div", _hoisted_4$n, [
             (openBlock(true), createElementBlock(Fragment, null, renderList(unref(status).gravity_device, (g) => {
               return openBlock(), createElementBlock("div", {
                 key: g.device,
@@ -9361,30 +9361,30 @@ const _sfc_main$O = {
                   title: g.device + " (" + formatTime(g.update_time) + " / " + formatTime(g.push_time) + ")"
                 }, {
                   default: withCtx(() => [
-                    createBaseVNode("p", _hoisted_5$j, " Gravity: " + toDisplayString(formatGravity(g.gravity)) + " " + toDisplayString(unref(config).gravity_format === "G" ? " SG" : " P") + " Temperature: " + toDisplayString(formatTemp(g.temp)) + " " + toDisplayString(unref(config).temp_format), 1)
+                    createBaseVNode("p", _hoisted_5$i, " Gravity: " + toDisplayString(formatGravity(g.gravity)) + " " + toDisplayString(unref(config).gravity_format === "G" ? " SG" : " P") + " Temperature: " + toDisplayString(formatTemp(g.temp)) + " " + toDisplayString(unref(config).temp_format), 1)
                   ]),
                   _: 2
                 }, 1032, ["title"])
               ]);
             }), 128)),
-            createBaseVNode("div", _hoisted_6$i, [
+            createBaseVNode("div", _hoisted_6$h, [
               createVNode(_component_BsCard, {
                 header: "Device",
                 title: "WIFI"
               }, {
                 default: withCtx(() => [
-                  createBaseVNode("p", _hoisted_7$i, toDisplayString(unref(status).rssi) + " dBm - " + toDisplayString(unref(status).wifi_ssid), 1)
+                  createBaseVNode("p", _hoisted_7$h, toDisplayString(unref(status).rssi) + " dBm - " + toDisplayString(unref(status).wifi_ssid), 1)
                 ]),
                 _: 1
               })
             ]),
-            createBaseVNode("div", _hoisted_8$j, [
+            createBaseVNode("div", _hoisted_8$i, [
               createVNode(_component_BsCard, {
                 header: "Device",
                 title: "IP Address"
               }, {
                 default: withCtx(() => [
-                  createBaseVNode("p", _hoisted_9$h, toDisplayString(unref(status).ip), 1)
+                  createBaseVNode("p", _hoisted_9$i, toDisplayString(unref(status).ip), 1)
                 ]),
                 _: 1
               })
@@ -9417,7 +9417,7 @@ const _sfc_main$O = {
                 title: "Platform"
               }, {
                 default: withCtx(() => [
-                  createBaseVNode("p", _hoisted_15$c, toDisplayString(unref(status).platform), 1)
+                  createBaseVNode("p", _hoisted_15$c, toDisplayString(unref(status).platform) + " (id: " + toDisplayString(unref(status).id) + ") ", 1)
                 ]),
                 _: 1
               })
@@ -9441,15 +9441,15 @@ const _sfc_main$O = {
 };
 const _hoisted_1$N = { class: "container" };
 const _hoisted_2$J = /* @__PURE__ */ createBaseVNode("p", null, null, -1);
-const _hoisted_3$z = /* @__PURE__ */ createBaseVNode("p", { class: "h2" }, "Device - Settings", -1);
-const _hoisted_4$n = /* @__PURE__ */ createBaseVNode("hr", null, null, -1);
-const _hoisted_5$i = { class: "row" };
-const _hoisted_6$h = { class: "col-md-12" };
-const _hoisted_7$h = /* @__PURE__ */ createBaseVNode("div", { class: "col-md-12" }, [
+const _hoisted_3$y = /* @__PURE__ */ createBaseVNode("p", { class: "h2" }, "Device - Settings", -1);
+const _hoisted_4$m = /* @__PURE__ */ createBaseVNode("hr", null, null, -1);
+const _hoisted_5$h = { class: "row" };
+const _hoisted_6$g = { class: "col-md-12" };
+const _hoisted_7$g = /* @__PURE__ */ createBaseVNode("div", { class: "col-md-12" }, [
   /* @__PURE__ */ createBaseVNode("hr")
 ], -1);
-const _hoisted_8$i = { class: "col-md-4" };
-const _hoisted_9$g = { class: "col-md-4" };
+const _hoisted_8$h = { class: "col-md-4" };
+const _hoisted_9$h = { class: "col-md-4" };
 const _hoisted_10$f = { class: "col-md-4" };
 const _hoisted_11$e = { class: "row gy-2" };
 const _hoisted_12$e = /* @__PURE__ */ createBaseVNode("div", { class: "col-md-12" }, [
@@ -9510,8 +9510,8 @@ const _sfc_main$N = {
       const _component_BsInputRadio = resolveComponent("BsInputRadio");
       return openBlock(), createElementBlock("div", _hoisted_1$N, [
         _hoisted_2$J,
-        _hoisted_3$z,
-        _hoisted_4$n,
+        _hoisted_3$y,
+        _hoisted_4$m,
         unref(config).mdns === "" ? (openBlock(), createBlock(_component_BsMessage, {
           key: 0,
           dismissable: "true",
@@ -9528,8 +9528,8 @@ const _sfc_main$N = {
           class: "needs-validation",
           novalidate: ""
         }, [
-          createBaseVNode("div", _hoisted_5$i, [
-            createBaseVNode("div", _hoisted_6$h, [
+          createBaseVNode("div", _hoisted_5$h, [
+            createBaseVNode("div", _hoisted_6$g, [
               createVNode(_component_BsInputText, {
                 modelValue: unref(config).mdns,
                 "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => unref(config).mdns = $event),
@@ -9541,8 +9541,8 @@ const _sfc_main$N = {
                 disabled: unref(global$1).disabled
               }, null, 8, ["modelValue", "badge", "disabled"])
             ]),
-            _hoisted_7$h,
-            createBaseVNode("div", _hoisted_8$i, [
+            _hoisted_7$g,
+            createBaseVNode("div", _hoisted_8$h, [
               createVNode(_component_BsInputRadio, {
                 modelValue: unref(config).temp_format,
                 "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => unref(config).temp_format = $event),
@@ -9552,7 +9552,7 @@ const _sfc_main$N = {
                 disabled: unref(global$1).disabled
               }, null, 8, ["modelValue", "options", "disabled"])
             ]),
-            createBaseVNode("div", _hoisted_9$g, [
+            createBaseVNode("div", _hoisted_9$h, [
               createVNode(_component_BsInputRadio, {
                 modelValue: unref(config).gravity_format,
                 "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => unref(config).gravity_format = $event),
@@ -9628,7 +9628,7 @@ const _sfc_main$N = {
 };
 const _hoisted_1$M = /* @__PURE__ */ createBaseVNode("path", { d: "M15.384 6.115a.485.485 0 0 0-.047-.736A12.44 12.44 0 0 0 8 3C5.259 3 2.723 3.882.663 5.379a.485.485 0 0 0-.048.736.52.52 0 0 0 .668.05A11.45 11.45 0 0 1 8 4c2.507 0 4.827.802 6.716 2.164.205.148.49.13.668-.049" }, null, -1);
 const _hoisted_2$I = /* @__PURE__ */ createBaseVNode("path", { d: "M13.229 8.271a.482.482 0 0 0-.063-.745A9.46 9.46 0 0 0 8 6c-1.905 0-3.68.56-5.166 1.526a.48.48 0 0 0-.063.745.525.525 0 0 0 .652.065A8.46 8.46 0 0 1 8 7a8.46 8.46 0 0 1 4.576 1.336c.206.132.48.108.653-.065m-2.183 2.183c.226-.226.185-.605-.1-.75A6.5 6.5 0 0 0 8 9c-1.06 0-2.062.254-2.946.704-.285.145-.326.524-.1.75l.015.015c.16.16.407.19.611.09A5.5 5.5 0 0 1 8 10c.868 0 1.69.201 2.42.56.203.1.45.07.61-.091zM9.06 12.44c.196-.196.198-.52-.04-.66A2 2 0 0 0 8 11.5a2 2 0 0 0-1.02.28c-.238.14-.236.464-.04.66l.706.706a.5.5 0 0 0 .707 0l.707-.707z" }, null, -1);
-const _hoisted_3$y = [
+const _hoisted_3$x = [
   _hoisted_1$M,
   _hoisted_2$I
 ];
@@ -9642,13 +9642,13 @@ const _sfc_main$M = /* @__PURE__ */ Object.assign({
         xmlns: "http://www.w3.org/2000/svg",
         viewBox: "0 0 16 16",
         fill: "currentColor"
-      }), _hoisted_3$y, 16);
+      }), _hoisted_3$x, 16);
     };
   }
 });
 const _hoisted_1$L = ["disabled"];
 const _hoisted_2$H = ["value"];
-const _hoisted_3$x = ["value"];
+const _hoisted_3$w = ["value"];
 const _sfc_main$L = /* @__PURE__ */ Object.assign({
   inheritAttrs: false
 }, {
@@ -9706,7 +9706,7 @@ const _sfc_main$L = /* @__PURE__ */ Object.assign({
                 ], 8, _hoisted_2$H)) : (openBlock(), createElementBlock("option", {
                   key: 1,
                   value: o.value
-                }, toDisplayString(o.label), 9, _hoisted_3$x))
+                }, toDisplayString(o.label), 9, _hoisted_3$w))
               ], 64);
             }), 128))
           ], 16, _hoisted_1$L), [
@@ -9720,18 +9720,28 @@ const _sfc_main$L = /* @__PURE__ */ Object.assign({
 });
 const _hoisted_1$K = { class: "container" };
 const _hoisted_2$G = /* @__PURE__ */ createBaseVNode("p", null, null, -1);
-const _hoisted_3$w = /* @__PURE__ */ createBaseVNode("p", { class: "h3" }, "Device - Hardware", -1);
-const _hoisted_4$m = /* @__PURE__ */ createBaseVNode("hr", null, null, -1);
-const _hoisted_5$h = { class: "row" };
-const _hoisted_6$g = { class: "col-md-4" };
-const _hoisted_7$g = { class: "col-md-4" };
-const _hoisted_8$h = { class: "col-md-4" };
-const _hoisted_9$f = /* @__PURE__ */ createBaseVNode("div", { class: "col-md-12" }, [
-  /* @__PURE__ */ createBaseVNode("p"),
-  /* @__PURE__ */ createTextVNode(" Supporting the following GravityMon BLE transmission options: "),
-  /* @__PURE__ */ createBaseVNode("li", null, "GravityMon iBeacon (Passive scanning)"),
-  /* @__PURE__ */ createBaseVNode("li", null, "GravityMon EddyStone (Active scanning, Require BLE 5.0, i.e. ESP32 S3 PRO)"),
-  /* @__PURE__ */ createBaseVNode("p", null, "If you want to use the Tilt options I recommend TiltBridge!")
+const _hoisted_3$v = /* @__PURE__ */ createBaseVNode("p", { class: "h3" }, "Device - Hardware", -1);
+const _hoisted_4$l = /* @__PURE__ */ createBaseVNode("hr", null, null, -1);
+const _hoisted_5$g = { class: "row" };
+const _hoisted_6$f = { class: "col-md-4" };
+const _hoisted_7$f = { class: "col-md-4" };
+const _hoisted_8$g = { class: "col-md-4" };
+const _hoisted_9$g = /* @__PURE__ */ createBaseVNode("div", { class: "col-md-12" }, [
+  /* @__PURE__ */ createBaseVNode("p", null, " "),
+  /* @__PURE__ */ createBaseVNode("p", { class: "fw-normal" }, [
+    /* @__PURE__ */ createTextVNode(" Supporting the following GravityMon BLE transmission options: "),
+    /* @__PURE__ */ createBaseVNode("li", null, [
+      /* @__PURE__ */ createTextVNode("GravityMon iBeacon ("),
+      /* @__PURE__ */ createBaseVNode("b", null, "Passive scanning"),
+      /* @__PURE__ */ createTextVNode(")")
+    ]),
+    /* @__PURE__ */ createBaseVNode("li", null, [
+      /* @__PURE__ */ createTextVNode("GravityMon EddyStone ("),
+      /* @__PURE__ */ createBaseVNode("b", null, "Active scanning, Require BLE 5.0, i.e. ESP32 S3"),
+      /* @__PURE__ */ createTextVNode(")")
+    ])
+  ]),
+  /* @__PURE__ */ createBaseVNode("p", { class: "fw-normal" }, " If you want to use the Tilt options I recommend TiltBridge!")
 ], -1);
 const _hoisted_10$e = { class: "row gy-2" };
 const _hoisted_11$d = /* @__PURE__ */ createBaseVNode("div", { class: "col-md-12" }, [
@@ -9778,15 +9788,15 @@ const _sfc_main$K = {
       const _component_BsInputNumber = resolveComponent("BsInputNumber");
       return openBlock(), createElementBlock("div", _hoisted_1$K, [
         _hoisted_2$G,
-        _hoisted_3$w,
-        _hoisted_4$m,
+        _hoisted_3$v,
+        _hoisted_4$l,
         createBaseVNode("form", {
           onSubmit: withModifiers(save, ["prevent"]),
           class: "needs-validation",
           novalidate: ""
         }, [
-          createBaseVNode("div", _hoisted_5$h, [
-            createBaseVNode("div", _hoisted_6$g, [
+          createBaseVNode("div", _hoisted_5$g, [
+            createBaseVNode("div", _hoisted_6$f, [
               createVNode(_component_BsInputRadio, {
                 modelValue: unref(config).ble_active_scan,
                 "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => unref(config).ble_active_scan = $event),
@@ -9796,7 +9806,7 @@ const _sfc_main$K = {
                 disabled: unref(global$1).disabled
               }, null, 8, ["modelValue", "options", "disabled"])
             ]),
-            createBaseVNode("div", _hoisted_7$g, [
+            createBaseVNode("div", _hoisted_7$f, [
               createVNode(_component_BsInputNumber, {
                 modelValue: unref(config).ble_scan_time,
                 "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => unref(config).ble_scan_time = $event),
@@ -9806,7 +9816,7 @@ const _sfc_main$K = {
                 disabled: unref(global$1).disabled
               }, null, 8, ["modelValue", "disabled"])
             ]),
-            createBaseVNode("div", _hoisted_8$h, [
+            createBaseVNode("div", _hoisted_8$g, [
               createVNode(_sfc_main$L, {
                 modelValue: unref(config).timezone,
                 "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => unref(config).timezone = $event),
@@ -9816,7 +9826,7 @@ const _sfc_main$K = {
                 disabled: unref(global$1).disabled
               }, null, 8, ["modelValue", "options", "disabled"])
             ]),
-            _hoisted_9$f
+            _hoisted_9$g
           ]),
           createBaseVNode("div", _hoisted_10$e, [
             _hoisted_11$d,
@@ -9858,13 +9868,13 @@ const _sfc_main$K = {
 };
 const _hoisted_1$J = { class: "container" };
 const _hoisted_2$F = /* @__PURE__ */ createBaseVNode("p", null, null, -1);
-const _hoisted_3$v = /* @__PURE__ */ createBaseVNode("p", { class: "h3" }, "Device - WIFI", -1);
-const _hoisted_4$l = /* @__PURE__ */ createBaseVNode("hr", null, null, -1);
-const _hoisted_5$g = { class: "row" };
-const _hoisted_6$f = { class: "col-md-6" };
-const _hoisted_7$f = { class: "col-md-6" };
-const _hoisted_8$g = { class: "col-md-6" };
-const _hoisted_9$e = { class: "col-md-6" };
+const _hoisted_3$u = /* @__PURE__ */ createBaseVNode("p", { class: "h3" }, "Device - WIFI", -1);
+const _hoisted_4$k = /* @__PURE__ */ createBaseVNode("hr", null, null, -1);
+const _hoisted_5$f = { class: "row" };
+const _hoisted_6$e = { class: "col-md-6" };
+const _hoisted_7$e = { class: "col-md-6" };
+const _hoisted_8$f = { class: "col-md-6" };
+const _hoisted_9$f = { class: "col-md-6" };
 const _hoisted_10$d = /* @__PURE__ */ createBaseVNode("div", { class: "col-md-12" }, [
   /* @__PURE__ */ createBaseVNode("hr")
 ], -1);
@@ -9945,8 +9955,8 @@ const _sfc_main$J = {
       const _component_BsInputNumber = resolveComponent("BsInputNumber");
       return openBlock(), createElementBlock("div", _hoisted_1$J, [
         _hoisted_2$F,
-        _hoisted_3$v,
-        _hoisted_4$l,
+        _hoisted_3$u,
+        _hoisted_4$k,
         scanning.value ? (openBlock(), createBlock(_component_BsMessage, {
           key: 0,
           dismissable: false,
@@ -9969,8 +9979,8 @@ const _sfc_main$J = {
           class: "needs-validation",
           novalidate: ""
         }, [
-          createBaseVNode("div", _hoisted_5$g, [
-            createBaseVNode("div", _hoisted_6$f, [
+          createBaseVNode("div", _hoisted_5$f, [
+            createBaseVNode("div", _hoisted_6$e, [
               createVNode(_component_BsSelect, {
                 modelValue: unref(config).wifi_ssid,
                 "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => unref(config).wifi_ssid = $event),
@@ -9980,7 +9990,7 @@ const _sfc_main$J = {
                 disabled: unref(global$1).disabled
               }, null, 8, ["modelValue", "options", "badge", "disabled"])
             ]),
-            createBaseVNode("div", _hoisted_7$f, [
+            createBaseVNode("div", _hoisted_7$e, [
               createVNode(_component_BsInputText, {
                 modelValue: unref(config).wifi_pass,
                 "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => unref(config).wifi_pass = $event),
@@ -9991,7 +10001,7 @@ const _sfc_main$J = {
                 disabled: unref(global$1).disabled
               }, null, 8, ["modelValue", "disabled"])
             ]),
-            createBaseVNode("div", _hoisted_8$g, [
+            createBaseVNode("div", _hoisted_8$f, [
               createVNode(_component_BsSelect, {
                 modelValue: unref(config).wifi_ssid2,
                 "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => unref(config).wifi_ssid2 = $event),
@@ -10001,7 +10011,7 @@ const _sfc_main$J = {
                 disabled: unref(global$1).disabled
               }, null, 8, ["modelValue", "options", "badge", "disabled"])
             ]),
-            createBaseVNode("div", _hoisted_9$e, [
+            createBaseVNode("div", _hoisted_9$f, [
               createVNode(_component_BsInputText, {
                 modelValue: unref(config).wifi_pass2,
                 "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => unref(config).wifi_pass2 = $event),
@@ -10113,13 +10123,13 @@ const _sfc_main$J = {
 };
 const _hoisted_1$I = { class: "container" };
 const _hoisted_2$E = /* @__PURE__ */ createBaseVNode("p", null, null, -1);
-const _hoisted_3$u = /* @__PURE__ */ createBaseVNode("p", { class: "h3" }, "Push - Settings", -1);
-const _hoisted_4$k = /* @__PURE__ */ createBaseVNode("hr", null, null, -1);
-const _hoisted_5$f = { class: "row" };
-const _hoisted_6$e = { class: "col-md-6" };
-const _hoisted_7$e = { class: "col-md-6" };
-const _hoisted_8$f = { class: "col-md-6" };
-const _hoisted_9$d = { class: "row gy-2" };
+const _hoisted_3$t = /* @__PURE__ */ createBaseVNode("p", { class: "h3" }, "Push - Settings", -1);
+const _hoisted_4$j = /* @__PURE__ */ createBaseVNode("hr", null, null, -1);
+const _hoisted_5$e = { class: "row" };
+const _hoisted_6$d = { class: "col-md-6" };
+const _hoisted_7$d = { class: "col-md-6" };
+const _hoisted_8$e = { class: "col-md-6" };
+const _hoisted_9$e = { class: "row gy-2" };
 const _hoisted_10$c = /* @__PURE__ */ createBaseVNode("div", { class: "col-md-12" }, [
   /* @__PURE__ */ createBaseVNode("hr")
 ], -1);
@@ -10138,15 +10148,15 @@ const _sfc_main$I = {
       const _component_BsInputNumber = resolveComponent("BsInputNumber");
       return openBlock(), createElementBlock("div", _hoisted_1$I, [
         _hoisted_2$E,
-        _hoisted_3$u,
-        _hoisted_4$k,
+        _hoisted_3$t,
+        _hoisted_4$j,
         createBaseVNode("form", {
           onSubmit: withModifiers(save, ["prevent"]),
           class: "needs-validation",
           novalidate: ""
         }, [
-          createBaseVNode("div", _hoisted_5$f, [
-            createBaseVNode("div", _hoisted_6$e, [
+          createBaseVNode("div", _hoisted_5$e, [
+            createBaseVNode("div", _hoisted_6$d, [
               createVNode(_component_BsInputText, {
                 modelValue: unref(config).token,
                 "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => unref(config).token = $event),
@@ -10156,7 +10166,7 @@ const _sfc_main$I = {
                 disabled: unref(global$1).disabled
               }, null, 8, ["modelValue", "disabled"])
             ]),
-            createBaseVNode("div", _hoisted_7$e, [
+            createBaseVNode("div", _hoisted_7$d, [
               createVNode(_component_BsInputNumber, {
                 modelValue: unref(config).push_timeout,
                 "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => unref(config).push_timeout = $event),
@@ -10170,7 +10180,7 @@ const _sfc_main$I = {
                 disabled: unref(global$1).disabled
               }, null, 8, ["modelValue", "disabled"])
             ]),
-            createBaseVNode("div", _hoisted_8$f, [
+            createBaseVNode("div", _hoisted_8$e, [
               createVNode(_component_BsInputNumber, {
                 modelValue: unref(config).push_resend_time,
                 "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => unref(config).push_resend_time = $event),
@@ -10185,7 +10195,7 @@ const _sfc_main$I = {
               }, null, 8, ["modelValue", "disabled"])
             ])
           ]),
-          createBaseVNode("div", _hoisted_9$d, [
+          createBaseVNode("div", _hoisted_9$e, [
             _hoisted_10$c,
             createBaseVNode("div", _hoisted_11$b, [
               createBaseVNode("button", {
@@ -10210,13 +10220,13 @@ const _sfc_main$I = {
 };
 const _hoisted_1$H = { class: "container" };
 const _hoisted_2$D = /* @__PURE__ */ createBaseVNode("p", null, null, -1);
-const _hoisted_3$t = /* @__PURE__ */ createBaseVNode("p", { class: "h3" }, "Push - HTTP Post", -1);
-const _hoisted_4$j = /* @__PURE__ */ createBaseVNode("hr", null, null, -1);
-const _hoisted_5$e = { class: "row" };
-const _hoisted_6$d = { class: "col-md-9" };
-const _hoisted_7$d = { class: "col-md-3" };
-const _hoisted_8$e = { class: "col-md-9" };
-const _hoisted_9$c = { class: "col-md-3" };
+const _hoisted_3$s = /* @__PURE__ */ createBaseVNode("p", { class: "h3" }, "Push - HTTP Post", -1);
+const _hoisted_4$i = /* @__PURE__ */ createBaseVNode("hr", null, null, -1);
+const _hoisted_5$d = { class: "row" };
+const _hoisted_6$c = { class: "col-md-9" };
+const _hoisted_7$c = { class: "col-md-3" };
+const _hoisted_8$d = { class: "col-md-9" };
+const _hoisted_9$d = { class: "col-md-3" };
 const _hoisted_10$b = { class: "col-md-9" };
 const _hoisted_11$a = { class: "col-md-3" };
 const _hoisted_12$a = { class: "col-md-9" };
@@ -10268,15 +10278,15 @@ const _sfc_main$H = {
       const _component_BsModal = resolveComponent("BsModal");
       return openBlock(), createElementBlock("div", _hoisted_1$H, [
         _hoisted_2$D,
-        _hoisted_3$t,
-        _hoisted_4$j,
+        _hoisted_3$s,
+        _hoisted_4$i,
         createBaseVNode("form", {
           onSubmit: withModifiers(save, ["prevent"]),
           class: "needs-validation",
           novalidate: ""
         }, [
-          createBaseVNode("div", _hoisted_5$e, [
-            createBaseVNode("div", _hoisted_6$d, [
+          createBaseVNode("div", _hoisted_5$d, [
+            createBaseVNode("div", _hoisted_6$c, [
               createVNode(_component_BsInputText, {
                 modelValue: unref(config).http_post_target,
                 "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => unref(config).http_post_target = $event),
@@ -10287,7 +10297,7 @@ const _sfc_main$H = {
                 disabled: unref(global$1).disabled
               }, null, 8, ["modelValue", "disabled"])
             ]),
-            createBaseVNode("div", _hoisted_7$d, [
+            createBaseVNode("div", _hoisted_7$c, [
               createVNode(_component_BsDropdown, {
                 label: "Predefined URLs",
                 button: "URL",
@@ -10296,7 +10306,7 @@ const _sfc_main$H = {
                 disabled: unref(global$1).disabled
               }, null, 8, ["options", "disabled"])
             ]),
-            createBaseVNode("div", _hoisted_8$e, [
+            createBaseVNode("div", _hoisted_8$d, [
               createVNode(_component_BsInputText, {
                 modelValue: unref(config).http_post_header1,
                 "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => unref(config).http_post_header1 = $event),
@@ -10307,7 +10317,7 @@ const _sfc_main$H = {
                 disabled: unref(global$1).disabled
               }, null, 8, ["modelValue", "disabled"])
             ]),
-            createBaseVNode("div", _hoisted_9$c, [
+            createBaseVNode("div", _hoisted_9$d, [
               createVNode(_component_BsDropdown, {
                 label: "Predefined headers",
                 button: "Header",
@@ -10405,13 +10415,13 @@ const _sfc_main$H = {
 };
 const _hoisted_1$G = { class: "container" };
 const _hoisted_2$C = /* @__PURE__ */ createBaseVNode("p", null, null, -1);
-const _hoisted_3$s = /* @__PURE__ */ createBaseVNode("p", { class: "h3" }, "Push - HTTP Post #2", -1);
-const _hoisted_4$i = /* @__PURE__ */ createBaseVNode("hr", null, null, -1);
-const _hoisted_5$d = ["disabled"];
-const _hoisted_6$c = { class: "row" };
-const _hoisted_7$c = { class: "col-md-9" };
-const _hoisted_8$d = { class: "col-md-3" };
-const _hoisted_9$b = { class: "col-md-9" };
+const _hoisted_3$r = /* @__PURE__ */ createBaseVNode("p", { class: "h3" }, "Push - HTTP Post #2", -1);
+const _hoisted_4$h = /* @__PURE__ */ createBaseVNode("hr", null, null, -1);
+const _hoisted_5$c = ["disabled"];
+const _hoisted_6$b = { class: "row" };
+const _hoisted_7$b = { class: "col-md-9" };
+const _hoisted_8$c = { class: "col-md-3" };
+const _hoisted_9$c = { class: "col-md-9" };
 const _hoisted_10$a = { class: "col-md-3" };
 const _hoisted_11$9 = { class: "col-md-9" };
 const _hoisted_12$9 = { class: "col-md-3" };
@@ -10468,16 +10478,16 @@ const _sfc_main$G = {
       const _component_BsModal = resolveComponent("BsModal");
       return openBlock(), createElementBlock("div", _hoisted_1$G, [
         _hoisted_2$C,
-        _hoisted_3$s,
-        _hoisted_4$i,
+        _hoisted_3$r,
+        _hoisted_4$h,
         createBaseVNode("form", {
           onSubmit: withModifiers(save, ["prevent"]),
           class: "needs-validation",
           novalidate: "",
           disabled: unref(config).use_wifi_direct
         }, [
-          createBaseVNode("div", _hoisted_6$c, [
-            createBaseVNode("div", _hoisted_7$c, [
+          createBaseVNode("div", _hoisted_6$b, [
+            createBaseVNode("div", _hoisted_7$b, [
               createVNode(_component_BsInputText, {
                 modelValue: unref(config).http_post2_target,
                 "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => unref(config).http_post2_target = $event),
@@ -10488,7 +10498,7 @@ const _sfc_main$G = {
                 disabled: pushDisabled.value
               }, null, 8, ["modelValue", "disabled"])
             ]),
-            createBaseVNode("div", _hoisted_8$d, [
+            createBaseVNode("div", _hoisted_8$c, [
               createVNode(_component_BsDropdown, {
                 label: "Predefined URLs",
                 button: "URL",
@@ -10497,7 +10507,7 @@ const _sfc_main$G = {
                 disabled: pushDisabled.value
               }, null, 8, ["options", "disabled"])
             ]),
-            createBaseVNode("div", _hoisted_9$b, [
+            createBaseVNode("div", _hoisted_9$c, [
               createVNode(_component_BsInputText, {
                 modelValue: unref(config).http_post2_header1,
                 "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => unref(config).http_post2_header1 = $event),
@@ -10601,20 +10611,20 @@ const _sfc_main$G = {
               ], 8, _hoisted_21$2)
             ])
           ])
-        ], 40, _hoisted_5$d)
+        ], 40, _hoisted_5$c)
       ]);
     };
   }
 };
 const _hoisted_1$F = { class: "container" };
 const _hoisted_2$B = /* @__PURE__ */ createBaseVNode("p", null, null, -1);
-const _hoisted_3$r = /* @__PURE__ */ createBaseVNode("p", { class: "h3" }, "Push - HTTP Get", -1);
-const _hoisted_4$h = /* @__PURE__ */ createBaseVNode("hr", null, null, -1);
-const _hoisted_5$c = { class: "row" };
-const _hoisted_6$b = { class: "col-md-9" };
-const _hoisted_7$b = { class: "col-md-3" };
-const _hoisted_8$c = { class: "col-md-9" };
-const _hoisted_9$a = { class: "col-md-3" };
+const _hoisted_3$q = /* @__PURE__ */ createBaseVNode("p", { class: "h3" }, "Push - HTTP Get", -1);
+const _hoisted_4$g = /* @__PURE__ */ createBaseVNode("hr", null, null, -1);
+const _hoisted_5$b = { class: "row" };
+const _hoisted_6$a = { class: "col-md-9" };
+const _hoisted_7$a = { class: "col-md-3" };
+const _hoisted_8$b = { class: "col-md-9" };
+const _hoisted_9$b = { class: "col-md-3" };
 const _hoisted_10$9 = { class: "col-md-9" };
 const _hoisted_11$8 = { class: "col-md-3" };
 const _hoisted_12$8 = { class: "col-md-9" };
@@ -10670,15 +10680,15 @@ const _sfc_main$F = {
       const _component_BsModal = resolveComponent("BsModal");
       return openBlock(), createElementBlock("div", _hoisted_1$F, [
         _hoisted_2$B,
-        _hoisted_3$r,
-        _hoisted_4$h,
+        _hoisted_3$q,
+        _hoisted_4$g,
         createBaseVNode("form", {
           onSubmit: withModifiers(save, ["prevent"]),
           class: "needs-validation",
           novalidate: ""
         }, [
-          createBaseVNode("div", _hoisted_5$c, [
-            createBaseVNode("div", _hoisted_6$b, [
+          createBaseVNode("div", _hoisted_5$b, [
+            createBaseVNode("div", _hoisted_6$a, [
               createVNode(_component_BsInputText, {
                 modelValue: unref(config).http_get_target,
                 "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => unref(config).http_get_target = $event),
@@ -10689,7 +10699,7 @@ const _sfc_main$F = {
                 disabled: pushDisabled.value
               }, null, 8, ["modelValue", "disabled"])
             ]),
-            createBaseVNode("div", _hoisted_7$b, [
+            createBaseVNode("div", _hoisted_7$a, [
               createVNode(_component_BsDropdown, {
                 label: "Predefined URLs",
                 button: "URL",
@@ -10698,7 +10708,7 @@ const _sfc_main$F = {
                 disabled: pushDisabled.value
               }, null, 8, ["options", "disabled"])
             ]),
-            createBaseVNode("div", _hoisted_8$c, [
+            createBaseVNode("div", _hoisted_8$b, [
               createVNode(_component_BsInputText, {
                 modelValue: unref(config).http_get_header1,
                 "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => unref(config).http_get_header1 = $event),
@@ -10709,7 +10719,7 @@ const _sfc_main$F = {
                 disabled: pushDisabled.value
               }, null, 8, ["modelValue", "disabled"])
             ]),
-            createBaseVNode("div", _hoisted_9$a, [
+            createBaseVNode("div", _hoisted_9$b, [
               createVNode(_component_BsDropdown, {
                 label: "Predefined headers",
                 button: "Header",
@@ -10807,13 +10817,13 @@ const _sfc_main$F = {
 };
 const _hoisted_1$E = { class: "container" };
 const _hoisted_2$A = /* @__PURE__ */ createBaseVNode("p", null, null, -1);
-const _hoisted_3$q = /* @__PURE__ */ createBaseVNode("p", { class: "h3" }, "Push - Influxdb v2", -1);
-const _hoisted_4$g = /* @__PURE__ */ createBaseVNode("hr", null, null, -1);
-const _hoisted_5$b = ["disabled"];
-const _hoisted_6$a = { class: "row" };
-const _hoisted_7$a = { class: "col-md-12" };
-const _hoisted_8$b = { class: "col-md-6" };
-const _hoisted_9$9 = { class: "col-md-6" };
+const _hoisted_3$p = /* @__PURE__ */ createBaseVNode("p", { class: "h3" }, "Push - Influxdb v2", -1);
+const _hoisted_4$f = /* @__PURE__ */ createBaseVNode("hr", null, null, -1);
+const _hoisted_5$a = ["disabled"];
+const _hoisted_6$9 = { class: "row" };
+const _hoisted_7$9 = { class: "col-md-12" };
+const _hoisted_8$a = { class: "col-md-6" };
+const _hoisted_9$a = { class: "col-md-6" };
 const _hoisted_10$8 = { class: "col-md-6" };
 const _hoisted_11$7 = { class: "col-md-9" };
 const _hoisted_12$7 = { class: "col-md-3 gy-2" };
@@ -10858,16 +10868,16 @@ const _sfc_main$E = {
       const _component_BsModal = resolveComponent("BsModal");
       return openBlock(), createElementBlock("div", _hoisted_1$E, [
         _hoisted_2$A,
-        _hoisted_3$q,
-        _hoisted_4$g,
+        _hoisted_3$p,
+        _hoisted_4$f,
         createBaseVNode("form", {
           onSubmit: withModifiers(save, ["prevent"]),
           class: "needs-validation",
           novalidate: "",
           disabled: unref(config).use_wifi_direct
         }, [
-          createBaseVNode("div", _hoisted_6$a, [
-            createBaseVNode("div", _hoisted_7$a, [
+          createBaseVNode("div", _hoisted_6$9, [
+            createBaseVNode("div", _hoisted_7$9, [
               createVNode(_component_BsInputText, {
                 modelValue: unref(config).influxdb2_target,
                 "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => unref(config).influxdb2_target = $event),
@@ -10878,7 +10888,7 @@ const _sfc_main$E = {
                 disabled: pushDisabled.value
               }, null, 8, ["modelValue", "disabled"])
             ]),
-            createBaseVNode("div", _hoisted_8$b, [
+            createBaseVNode("div", _hoisted_8$a, [
               createVNode(_component_BsInputText, {
                 modelValue: unref(config).influxdb2_org,
                 "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => unref(config).influxdb2_org = $event),
@@ -10888,7 +10898,7 @@ const _sfc_main$E = {
                 disabled: pushDisabled.value
               }, null, 8, ["modelValue", "disabled"])
             ]),
-            createBaseVNode("div", _hoisted_9$9, [
+            createBaseVNode("div", _hoisted_9$a, [
               createVNode(_component_BsInputText, {
                 modelValue: unref(config).influxdb2_bucket,
                 "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => unref(config).influxdb2_bucket = $event),
@@ -10971,20 +10981,20 @@ const _sfc_main$E = {
               ], 8, _hoisted_18$4)
             ])
           ])
-        ], 40, _hoisted_5$b)
+        ], 40, _hoisted_5$a)
       ]);
     };
   }
 };
 const _hoisted_1$D = { class: "container" };
 const _hoisted_2$z = /* @__PURE__ */ createBaseVNode("p", null, null, -1);
-const _hoisted_3$p = /* @__PURE__ */ createBaseVNode("p", { class: "h3" }, "Push - MQTT", -1);
-const _hoisted_4$f = /* @__PURE__ */ createBaseVNode("hr", null, null, -1);
-const _hoisted_5$a = ["disabled"];
-const _hoisted_6$9 = { class: "row" };
-const _hoisted_7$9 = { class: "col-md-9" };
-const _hoisted_8$a = { class: "col-md-3" };
-const _hoisted_9$8 = { class: "col-md-6" };
+const _hoisted_3$o = /* @__PURE__ */ createBaseVNode("p", { class: "h3" }, "Push - MQTT", -1);
+const _hoisted_4$e = /* @__PURE__ */ createBaseVNode("hr", null, null, -1);
+const _hoisted_5$9 = ["disabled"];
+const _hoisted_6$8 = { class: "row" };
+const _hoisted_7$8 = { class: "col-md-9" };
+const _hoisted_8$9 = { class: "col-md-3" };
+const _hoisted_9$9 = { class: "col-md-6" };
 const _hoisted_10$7 = { class: "col-md-6" };
 const _hoisted_11$6 = { class: "col-md-9" };
 const _hoisted_12$6 = { class: "col-md-3" };
@@ -11031,16 +11041,16 @@ const _sfc_main$D = {
       const _component_BsModal = resolveComponent("BsModal");
       return openBlock(), createElementBlock("div", _hoisted_1$D, [
         _hoisted_2$z,
-        _hoisted_3$p,
-        _hoisted_4$f,
+        _hoisted_3$o,
+        _hoisted_4$e,
         createBaseVNode("form", {
           onSubmit: withModifiers(save, ["prevent"]),
           class: "needs-validation",
           novalidate: "",
           disabled: unref(config).use_wifi_direct
         }, [
-          createBaseVNode("div", _hoisted_6$9, [
-            createBaseVNode("div", _hoisted_7$9, [
+          createBaseVNode("div", _hoisted_6$8, [
+            createBaseVNode("div", _hoisted_7$8, [
               createVNode(_component_BsInputText, {
                 modelValue: unref(config).mqtt_target,
                 "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => unref(config).mqtt_target = $event),
@@ -11050,7 +11060,7 @@ const _sfc_main$D = {
                 disabled: pushDisabled.value
               }, null, 8, ["modelValue", "disabled"])
             ]),
-            createBaseVNode("div", _hoisted_8$a, [
+            createBaseVNode("div", _hoisted_8$9, [
               createVNode(_component_BsInputNumber, {
                 modelValue: unref(config).mqtt_port,
                 "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => unref(config).mqtt_port = $event),
@@ -11061,7 +11071,7 @@ const _sfc_main$D = {
                 disabled: pushDisabled.value
               }, null, 8, ["modelValue", "disabled"])
             ]),
-            createBaseVNode("div", _hoisted_9$8, [
+            createBaseVNode("div", _hoisted_9$9, [
               createVNode(_component_BsInputText, {
                 modelValue: unref(config).mqtt_user,
                 "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => unref(config).mqtt_user = $event),
@@ -11144,7 +11154,7 @@ const _sfc_main$D = {
               ], 8, _hoisted_18$3)
             ])
           ])
-        ], 40, _hoisted_5$a)
+        ], 40, _hoisted_5$9)
       ]);
     };
   }
@@ -11158,22 +11168,12 @@ const _export_sfc = (sfc, props) => {
 };
 const _sfc_main$C = {};
 const _hoisted_1$C = { class: "container" };
-const _hoisted_2$y = /* @__PURE__ */ createBaseVNode("p", null, null, -1);
-const _hoisted_3$o = /* @__PURE__ */ createBaseVNode("p", { class: "h3" }, "About - Gravitymon Gateway", -1);
-const _hoisted_4$e = /* @__PURE__ */ createBaseVNode("hr", null, null, -1);
-const _hoisted_5$9 = /* @__PURE__ */ createBaseVNode("p", { class: "fw-normal" }, " This is a software that can be used to relay Gravitymon 2.0 BLE data to one or more endpoints, this was created to handle the new custom formats introduced in GravityMon 2.0 which can send more data than TILT and support the Wifi Direct option. ", -1);
-const _hoisted_6$8 = /* @__PURE__ */ createBaseVNode("p", { class: "h4" }, "MIT License", -1);
-const _hoisted_7$8 = /* @__PURE__ */ createBaseVNode("p", { class: "fw-normal" }, ' Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. ', -1);
-const _hoisted_8$9 = [
-  _hoisted_2$y,
-  _hoisted_3$o,
-  _hoisted_4$e,
-  _hoisted_5$9,
-  _hoisted_6$8,
-  _hoisted_7$8
+const _hoisted_2$y = /* @__PURE__ */ createStaticVNode('<p></p><p class="h3">About - Gravitymon Gateway</p><hr><p class="fw-normal"> This is a software that can be used to relay Gravitymon 2.0 BLE data to one or more endpoints, this was created to handle the new custom formats introduced in GravityMon 2.0 which can send more data than TILT. </p><p class="fw-normal"> It also supports the Wifi Direct option so it can act as a relay to ensure the gravity device always have good wifi connection. </p><p class="h4">MIT License</p><p class="fw-normal"> Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </p>', 7);
+const _hoisted_9$8 = [
+  _hoisted_2$y
 ];
 function _sfc_render$1(_ctx, _cache) {
-  return openBlock(), createElementBlock("div", _hoisted_1$C, _hoisted_8$9);
+  return openBlock(), createElementBlock("div", _hoisted_1$C, _hoisted_9$8);
 }
 const AboutView = /* @__PURE__ */ _export_sfc(_sfc_main$C, [["render", _sfc_render$1]]);
 const _hoisted_1$B = { class: "container" };
