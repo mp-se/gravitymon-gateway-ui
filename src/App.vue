@@ -61,10 +61,14 @@
       <router-link class="alert-link" to="/device/wifi">wifi settings</router-link> meny and select
       wifi. Restart device after settings are selected.
     </BsMessage>
+
+    <BsMessage v-if="!config.ble_active_scan" :dismissable="true" alert="warning">
+      Running BLE scanner in Passive mode will not detect Eddy Stone Beacons.
+    </BsMessage>
   </div>
 
   <router-view v-if="global.initialized" />
-  <BsFooter v-if="global.initialized" text="(c) 2024 Magnus Persson" />
+  <BsFooter v-if="global.initialized" text="(c) 2024-2025 Magnus Persson" />
 </template>
 
 <script setup>

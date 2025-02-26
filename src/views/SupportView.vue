@@ -58,8 +58,8 @@
             aria-hidden="true"
             :hidden="!global.disabled"
           ></span>
-          &nbsp;View device logs
-        </button>&nbsp;
+          &nbsp;View device logs</button
+        >&nbsp;
 
         <button
           @click="removeLogs"

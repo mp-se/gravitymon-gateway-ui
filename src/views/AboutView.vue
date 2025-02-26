@@ -7,11 +7,11 @@
     <p class="fw-normal">
       This is a software that can be used to relay Gravitymon 2.0 BLE data to one or more endpoints,
       this was created to handle the new custom formats introduced in GravityMon 2.0 which can send
-      more data than TILT. 
+      more data than TILT.
     </p>
-      
+
     <p class="fw-normal">
-      It also supports the Wifi Direct option so it can act as a relay to ensure the gravity device 
+      It also supports the Wifi Direct option so it can act as a relay to ensure the gravity device
       always have good wifi connection.
     </p>
 
