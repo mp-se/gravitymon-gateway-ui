@@ -162,7 +162,7 @@ export function applyTemplate(status, config, template) {
 
   try {
     return JSON.stringify(JSON.parse(s), null, 2)
-  } catch (e) {
+  } catch {
     logError('utils.applyTemplate()', 'Not a valid json document, returning string')
   }
 
@@ -173,7 +173,7 @@ export function isValidJson(s) {
   try {
     JSON.stringify(JSON.parse(s))
     return true
-  } catch (e) {
+  } catch {
     logDebug('utils.isValidJson()')
   }
 

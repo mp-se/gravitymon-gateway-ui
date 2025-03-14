@@ -5,7 +5,7 @@
  */
 import { createRequire } from "module";
 import { registerEspFwk } from './espfwk.js'
-import { configData, statusData, formatData } from './data.js'
+import { formatData } from './data.js'
 
 const require = createRequire(import.meta.url);
 const express = require('express')
