@@ -106,13 +106,13 @@ const timezoneOptions = ref([
   { label: 'Europe/London', value: 'GMT0BST,M3.5.0/1,M10.5.0' },
   { label: 'Europe/Stockholm', value: 'CET-1CEST,M3.5.0,M10.5.0/3' },
   { label: 'Europe/Helsinki', value: 'EET-2EEST,M3.5.0/3,M10.5.0/4' },
+  { label: 'Africa/Johannesburg', value: "SAST-2" },
   { label: 'Asia/Singapore', value: '<+08>-8' },
   { label: 'Asia/Tokyo', value: 'JST-9' },
   { label: 'Australia/Perth', value: 'AWST-8' },
   { label: 'Australia/Sydney', value: 'AEST-10AEDT,M10.1.0,M4.1.0/3' },
   { label: 'Pacific/Auckland', value: 'NZST-12NZDT,M9.5.0,M4.1.0/3' },
   { label: 'Pacific/Honolulu', value: 'HST10' }
-  //{ label: '', value: "" },
   //{ label: '', value: "" },
   //{ label: '', value: "" },
 ])
