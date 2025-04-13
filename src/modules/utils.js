@@ -29,7 +29,9 @@ export const httpPostUrlOptions = ref([
   { label: 'Bierdot bricks', value: 'https://brewbricks.com/api/iot/v1' }
 ])
 
-export const httpPostFormatOptions = ref([
+export const httpGetUrlOptions = ref([{ label: '-blank-', value: '' }])
+
+export const gravityHttpPostFormatOptions = ref([
   {
     label: 'GravityMon',
     value:
@@ -52,7 +54,7 @@ export const httpPostFormatOptions = ref([
   }
 ])
 
-export const httpGetFormatOptions = ref([
+export const gravityHttpGetFormatOptions = ref([
   {
     label: 'GravityMon',
     value:
@@ -60,7 +62,7 @@ export const httpGetFormatOptions = ref([
   }
 ])
 
-export const influxdb2FormatOptions = ref([
+export const gravityInfluxdb2FormatOptions = ref([
   {
     label: 'GravityMon',
     value:
@@ -68,7 +70,7 @@ export const influxdb2FormatOptions = ref([
   }
 ])
 
-export const mqttFormatOptions = ref([
+export const gravityMqttFormatOptions = ref([
   {
     label: 'iSpindle',
     value:
@@ -91,7 +93,33 @@ export const mqttFormatOptions = ref([
   }
 ])
 
-export const httpGetUrlOptions = ref([{ label: '-blank-', value: '' }])
+export const pressureHttpPostFormatOptions = ref([
+  {
+    label: '--blank-',
+    value: ''
+  }
+])
+
+export const pressureHttpGetFormatOptions = ref([
+  {
+    label: '--blank-',
+    value: ''
+  }
+])
+
+export const pressureInfluxdb2FormatOptions = ref([
+  {
+    label: '--blank-',
+    value: ''
+  }
+])
+
+export const pressureMqttFormatOptions = ref([
+  {
+    label: '--blank-',
+    value: ''
+  }
+])
 
 export function validateCurrentForm() {
   let valid = true
@@ -143,13 +171,19 @@ export function applyTemplate(status, config, template) {
     var sg = status.gravity
     s = s.replaceAll('${gravity}', sg)
     s = s.replaceAll('${gravity-sg}', sg)
+    s = s.replaceAll('${corr-gravity}', sg)
+    s = s.replaceAll('${corr-gravity-sg}', sg)
     var plato = 259 - (259 - sg)
     s = s.replaceAll('${gravity-plato}', plato)
+    s = s.replaceAll('${corr-gravity-plato}', sg)
   } else {
     plato = status.gravity
     s = s.replaceAll('${gravity}', plato)
+    s = s.replaceAll('${corr-gravity}', plato)
+    s = s.replaceAll('${corr-gravity-plato}', plato)
     s = s.replaceAll('${gravity-plato}', plato)
     sg = 259 / (259 - plato)
+    s = s.replaceAll('${corr-gravity-sg}', plato)
     s = s.replaceAll('${gravity-sg}', sg)
   }
 
@@ -159,6 +193,8 @@ export function applyTemplate(status, config, template) {
   s = s.replaceAll('${token}', config.token)
   s = s.replaceAll('${temp-unit}', config.temp_format)
   s = s.replaceAll('${gravity-unit}', config.gravity_format)
+
+  s = s.replaceAll('${run-time}', 1)
 
   try {
     return JSON.stringify(JSON.parse(s), null, 2)

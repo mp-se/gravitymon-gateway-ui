@@ -65,28 +65,65 @@
         </div>
         <div class="col-md-9">
           <BsInputTextAreaFormat
-            v-model="config.http_get_format"
+            v-model="config.http_get_format_gravity"
             rows="6"
-            label="Data format"
+            label="Gravity Data format"
             help="Format template used to create the data sent to the remote service"
-            :disabled="pushDisabled"
+            :disabled="pushDisabled || !config.http_get_gravity"
           />
         </div>
         <div class="col-md-3">
+          <BsInputSwitch
+            v-model="config.http_get_gravity"
+            label="Enable gravity"
+            :disabled="global.disabled"
+          />
           <BsDropdown
             label="Predefined formats"
             button="Formats"
-            :options="httpGetFormatOptions"
-            :callback="httpFormatCallback"
-            :disabled="pushDisabled"
+            :options="gravityHttpGetFormatOptions"
+            :callback="gravityHttpFormatCallback"
+            :disabled="pushDisabled || !config.http_get_gravity"
           />
           <BsModal
-            @click="renderFormat"
+            @click="gravityRenderFormat"
             v-model="render"
             :code="true"
             title="Format preview"
             button="Preview format"
-            :disabled="pushDisabled"
+            :disabled="pushDisabled || !config.http_get_gravity"
+          />
+        </div>
+
+        <div class="col-md-9">
+          <BsInputTextAreaFormat
+            v-model="config.http_get_format_pressure"
+            rows="6"
+            label="Pressure Data format"
+            help="Format template used to create the data sent to the remote service"
+            :disabled="pushDisabled || !config.http_get_pressure"
+          />
+        </div>
+        <div class="col-md-3">
+          <BsInputSwitch
+            v-model="config.http_get_pressure"
+            label="Enable pressure"
+            :disabled="global.disabled"
+          />
+          <BsDropdown
+            label="Predefined formats"
+            button="Formats"
+            :options="pressureHttpGetFormatOptions"
+            :callback="pressureHttpFormatCallback"
+            :disabled="pushDisabled || !config.http_get_pressure"
+          />
+          <BsModal
+            @click="pressureRenderFormat"
+            v-model="render"
+            :code="true"
+            title="Format preview"
+            button="Preview format"
+            :disabled="pushDisabled || !config.http_get_pressure"
           />
         </div>
       </div>
@@ -130,7 +167,8 @@ import {
   validateCurrentForm,
   httpHeaderOptions,
   httpGetUrlOptions,
-  httpGetFormatOptions,
+  gravityHttpGetFormatOptions,
+  pressureHttpGetFormatOptions,
   applyTemplate
 } from '@/modules/utils'
 import { global, status, config } from '@/modules/pinia'
@@ -162,12 +200,21 @@ const httpHeaderH2Callback = (opt) => {
   config.http_get_header2 = opt
 }
 
-const httpFormatCallback = (opt) => {
-  config.http_get_format = decodeURIComponent(opt)
+const gravityHttpFormatCallback = (opt) => {
+  config.http_get_format_gravity = decodeURIComponent(opt)
 }
 
-const renderFormat = () => {
-  var s = applyTemplate(status, config, config.http_get_format)
+const pressureHttpFormatCallback = (opt) => {
+  config.http_get_format_pressure = decodeURIComponent(opt)
+}
+
+const gravityRenderFormat = () => {
+  var s = applyTemplate(status, config, config.http_get_format_gravity)
+  render.value = s.replaceAll('&', '&')
+}
+
+const pressureRenderFormat = () => {
+  var s = applyTemplate(status, config, config.http_get_format_pressure)
   render.value = s.replaceAll('&', '&')
 }
 

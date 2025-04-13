@@ -56,13 +56,17 @@
       alert="info"
     />
 
-    <BsMessage v-if="status.wifi_setup" :dismissable="false" alert="info">
+    <BsMessage v-if="status.wifi_setup && global.initialized" :dismissable="false" alert="info">
       Running in WIFI setup mode. Go to the
       <router-link class="alert-link" to="/device/wifi">wifi settings</router-link> meny and select
       wifi. Restart device after settings are selected.
     </BsMessage>
 
-    <BsMessage v-if="!config.ble_active_scan" :dismissable="true" alert="warning">
+    <BsMessage
+      v-if="!config.ble_active_scan && global.initialized"
+      :dismissable="true"
+      alert="warning"
+    >
       Running BLE scanner in Passive mode will not detect Eddy Stone Beacons.
     </BsMessage>
   </div>

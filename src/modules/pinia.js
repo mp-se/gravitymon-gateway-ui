@@ -49,7 +49,7 @@ const getConfigChanges = () => {
     return changes
   }
 
-  for (var key in configCompare.value) {
+  /*for (var key in configCompare.value) {
     if (key === 'gyro_calibration_data') {
       // Skip this, read only on UI
     } else if (key === 'formula_calculation_data') {
@@ -66,7 +66,7 @@ const getConfigChanges = () => {
         changes[key] = config[key]
       }
     }
-  }
+  }*/
 
   return changes
 }

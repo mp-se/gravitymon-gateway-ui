@@ -20,7 +20,7 @@
             v-model="config.ble_scan_time"
             unit="s"
             label="Scanning Time"
-            width="3"
+            width="4"
             :disabled="global.disabled"
           ></BsInputNumber>
         </div>

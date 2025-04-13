@@ -33,30 +33,45 @@ export const useConfigStore = defineStore('config', {
       http_post_target: '',
       http_post_header1: '',
       http_post_header2: '',
-      http_post_format: '',
+      http_post_format_gravity: '',
+      http_post_format_pressure: '',
       // Push - Http Post 2
       http_post2_target: '',
       http_post2_header1: '',
       http_post2_header2: '',
-      http_post2_format: '',
+      http_post2_format_gravity: '',
+      http_post2_format_pressure: '',
       // Push - Http Get
       http_get_target: '',
       http_get_header1: '',
       http_get_header2: '',
-      http_get_format: '',
+      http_get_format_gravity: '',
+      http_get_format_pressure: '',
       // Push - Influx
       influxdb2_target: '',
       influxdb2_org: '',
       influxdb2_bucket: '',
       influxdb2_token: '',
-      influxdb2_format: '',
+      influxdb2_format_gravity: '',
+      influxdb2_format_pressure: '',
       // Push - MQTT
       mqtt_target: '',
       mqtt_port: '',
       mqtt_user: '',
       mqtt_pass: '',
       mqtt_format: '',
-
+      // Push 
+      http_post_gravity: true,
+      http_post_pressure: true,
+      http_post2_gravity: true,
+      http_post2_pressure: true,
+      http_get_gravity: true,
+      http_get_pressure: true,
+      influxdb2_gravity: true,
+      influxdb2_pressure: true,
+      mqtt_gravity: true,
+      mqtt_pressure: true,
+    
       // Values that are not updated but needed for format template viewer
       sleep_interval: 900
     }
@@ -115,29 +130,46 @@ export const useConfigStore = defineStore('config', {
           this.http_post_target = json.http_post_target
           this.http_post_header1 = json.http_post_header1
           this.http_post_header2 = json.http_post_header2
-          this.http_post_format = json.http_post_format
+          this.http_post_format_gravity = json.http_post_format_gravity
+          this.http_post_format_pressure = json.http_post_format_pressure
           // Push - Http Post 2
           this.http_post2_target = json.http_post2_target
           this.http_post2_header1 = json.http_post2_header1
           this.http_post2_header2 = json.http_post2_header2
-          this.http_post2_format = json.http_post2_format
+          this.http_post2_format_gravity = json.http_post2_format_gravity
+          this.http_post2_format_pressure = json.http_post2_format_pressure
           // Push - Http Get
           this.http_get_target = json.http_get_target
           this.http_get_header1 = json.http_get_header1
           this.http_get_header2 = json.http_get_header2
-          this.http_get_format = json.http_get_format
+          this.http_get_format_gravity = json.http_get_format_gravity
+          this.http_get_format_pressure = json.http_get_format_pressure
           // Push - Influx
           this.influxdb2_target = json.influxdb2_target
           this.influxdb2_org = json.influxdb2_org
           this.influxdb2_bucket = json.influxdb2_bucket
           this.influxdb2_token = json.influxdb2_token
-          this.influxdb2_format = json.influxdb2_format
+          this.influxdb2_format_gravity = json.influxdb2_format_gravity
+          this.influxdb2_format_pressure = json.influxdb2_format_pressure
           // Push - MQTT
           this.mqtt_target = json.mqtt_target
           this.mqtt_port = json.mqtt_port
           this.mqtt_user = json.mqtt_user
           this.mqtt_pass = json.mqtt_pass
-          this.mqtt_format = json.mqtt_format
+          this.mqtt_format_gravity = json.mqtt_format_gravity
+          this.mqtt_format_pressure = json.mqtt_format_pressure
+          // Push - flags
+          this.http_post_gravity = json.http_post_gravity
+          this.http_post_pressure = json.http_post_pressure
+          this.ttp_post2_gravity = json.http_post2_gravity
+          this.http_post2_pressure = json.http_post2_pressure
+          this.http_get_gravity = json.http_get_gravity
+          this.http_get_pressure = json.http_get_pressure
+          this.influxdb2_gravity =  json.influxdb2_gravity
+          this.influxdb2_pressure = json.influxdb2_pressure
+          this.mqtt_gravity = json.mqtt_gravity
+          this.mqtt_pressure = json.mqtt_pressure
+    
           callback(true)
         })
         .catch((err) => {
@@ -158,11 +190,17 @@ export const useConfigStore = defineStore('config', {
         .then((json) => {
           logDebug('configStore.loadFormat()', json)
           global.disabled = false
-          this.http_post_format = decodeURIComponent(json.http_post_format)
-          this.http_post2_format = decodeURIComponent(json.http_post2_format)
-          this.http_get_format = decodeURIComponent(json.http_get_format)
-          this.influxdb2_format = decodeURIComponent(json.influxdb2_format)
-          this.mqtt_format = decodeURIComponent(json.mqtt_format)
+          this.http_post_format_gravity = decodeURIComponent(json.http_post_format_gravity)
+          this.http_post2_format_gravity = decodeURIComponent(json.http_post2_format_gravity)
+          this.http_get_format_gravity = decodeURIComponent(json.http_get_format_gravity)
+          this.influxdb2_format_gravity = decodeURIComponent(json.influxdb2_format_gravity)
+          this.mqtt_format_gravity = decodeURIComponent(json.mqtt_format_gravity)
+
+          this.http_post_format_pressure = decodeURIComponent(json.http_post_format_pressure)
+          this.http_post2_format_pressure = decodeURIComponent(json.http_post2_format_pressure)
+          this.http_get_format_pressure = decodeURIComponent(json.http_get_format_pressure)
+          this.influxdb2_format_pressure = decodeURIComponent(json.influxdb2_format_pressure)
+          this.mqtt_format_pressure = decodeURIComponent(json.mqtt_format_pressure)
           callback(true)
         })
         .catch((err) => {
@@ -176,11 +214,17 @@ export const useConfigStore = defineStore('config', {
       logInfo('configStore.sendConfig()', 'Sending /api/config')
 
       var data = getConfigChanges()
-      delete data.http_post_format
-      delete data.http_post2_format
-      delete data.http_get_format
-      delete data.influxdb2_format
-      delete data.mqtt_format
+      delete data.http_post_format_gravity
+      delete data.http_post2_format_gravity
+      delete data.http_get_format_gravity
+      delete data.influxdb2_format_gravity
+      delete data.mqtt_format_gravity
+
+      delete data.http_post_format_pressure
+      delete data.http_post2_format_pressure
+      delete data.http_get_format_pressure
+      delete data.influxdb2_format_pressure
+      delete data.mqtt_format_pressure
       logDebug('configStore.sendConfig()', data)
 
       if (JSON.stringify(data).length == 2) {
@@ -221,46 +265,107 @@ export const useConfigStore = defineStore('config', {
       var cnt = 0
 
       logDebug('configStore.sendFormat()', data)
-
       data =
-        data2.http_post_format !== undefined
-          ? { http_post_format: encodeURIComponent(data2.http_post_format) }
+        data2.http_post_format_gravity !== undefined
+          ? { http_post_format_gravity: encodeURIComponent(data2.http_post_format_gravity) }
           : {}
       this.sendOneFormat(data, (success) => {
         if (success) cnt += 1
         data =
-          data2.http_post2_format !== undefined
-            ? { http_post2_format: encodeURIComponent(data2.http_post2_format) }
+          data2.http_post2_format_gravity !== undefined
+            ? { http_post2_format_gravity: encodeURIComponent(data2.http_post2_format_gravity) }
             : {}
         this.sendOneFormat(data, (success) => {
           if (success) cnt += 1
           data =
-            data2.http_get_format !== undefined
-              ? { http_get_format: encodeURIComponent(data2.http_get_format) }
+            data2.http_get_format_gravity !== undefined
+              ? { http_get_format_gravity: encodeURIComponent(data2.http_get_format_gravity) }
               : {}
           this.sendOneFormat(data, (success) => {
             if (success) cnt += 1
             data =
-              data2.influxdb2_format !== undefined
-                ? { influxdb2_format: encodeURIComponent(data2.influxdb2_format) }
+              data2.influxdb2_format_gravity !== undefined
+                ? { influxdb2_format_gravity: encodeURIComponent(data2.influxdb2_format_gravity) }
                 : {}
             this.sendOneFormat(data, (success) => {
               if (success) cnt += 1
 
-              if (data2.mqtt_format !== undefined) {
-                data2.mqtt_format = data2.mqtt_format.replaceAll('\n', '')
-                data2.mqtt_format = data2.mqtt_format.replaceAll('\r', '')
+              if (data2.mqtt_format_gravity !== undefined) {
+                data2.mqtt_format_gravity = data2.mqtt_format_gravity.replaceAll('\n', '')
+                data2.mqtt_format_gravity = data2.mqtt_format_gravity.replaceAll('\r', '')
               }
 
               data =
-                data2.mqtt_format !== undefined
-                  ? { mqtt_format: encodeURIComponent(data2.mqtt_format) }
+                data2.mqtt_format_gravity !== undefined
+                  ? { mqtt_format_gravity: encodeURIComponent(data2.mqtt_format_gravity) }
                   : {}
               this.sendOneFormat(data, (success) => {
                 if (success) cnt += 1
-
-                if (cnt == 5) callback(true)
-                else callback(false)
+                data =
+                  data2.http_post_format_pressure !== undefined
+                    ? {
+                        http_post_format_pressure: encodeURIComponent(
+                          data2.http_post_format_pressure
+                        )
+                      }
+                    : {}
+                this.sendOneFormat(data, (success) => {
+                  if (success) cnt += 1
+                  data =
+                    data2.http_post2_format_pressure !== undefined
+                      ? {
+                          http_post2_format_pressure: encodeURIComponent(
+                            data2.http_post2_format_pressure
+                          )
+                        }
+                      : {}
+                  this.sendOneFormat(data, (success) => {
+                    if (success) cnt += 1
+                    data =
+                      data2.http_get_format_pressure !== undefined
+                        ? {
+                            http_get_format_pressure: encodeURIComponent(
+                              data2.http_get_format_pressure
+                            )
+                          }
+                        : {}
+                    this.sendOneFormat(data, (success) => {
+                      if (success) cnt += 1
+                      data =
+                        data2.influxdb2_format_pressure !== undefined
+                          ? {
+                              influxdb2_format_pressure: encodeURIComponent(
+                                data2.influxdb2_format_pressure
+                              )
+                            }
+                          : {}
+                      this.sendOneFormat(data, (success) => {
+                        if (success) cnt += 1
+                        if (data2.mqtt_format_pressure !== undefined) {
+                          data2.mqtt_format_pressure = data2.mqtt_format_pressure.replaceAll(
+                            '\n',
+                            ''
+                          )
+                          data2.mqtt_format_pressure = data2.mqtt_format_pressure.replaceAll(
+                            '\r',
+                            ''
+                          )
+                        }
+                        data =
+                          data2.mqtt_format_pressure !== undefined
+                            ? {
+                                mqtt_format_pressure: encodeURIComponent(data2.mqtt_format_pressure)
+                              }
+                            : {}
+                        this.sendOneFormat(data, (success) => {
+                          if (success) cnt += 1
+                          if (cnt == 10) callback(true)
+                          else callback(false)
+                        })
+                      })
+                    })
+                  })
+                })
               })
             })
           })

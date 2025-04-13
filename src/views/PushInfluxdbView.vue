@@ -51,28 +51,64 @@
         </div>
         <div class="col-md-9">
           <BsInputTextAreaFormat
-            v-model="config.influxdb2_format"
+            v-model="config.influxdb2_format_gravity"
             rows="6"
-            label="Data format"
+            label="Gravity Data format"
             help="Format template used to create the data sent to the remote service"
-            :disabled="pushDisabled"
+            :disabled="pushDisabled || !config.influxdb2_gravity"
           />
         </div>
         <div class="col-md-3 gy-2">
+          <BsInputSwitch
+            v-model="config.influxdb2_gravity"
+            label="Enable gravity"
+            :disabled="global.disabled"
+          />
           <BsDropdown
             label="Predefined formats"
             button="Formats"
-            :options="influxdb2FormatOptions"
-            :callback="influxdb2FormatCallback"
-            :disabled="pushDisabled"
+            :options="gravityInfluxdb2FormatOptions"
+            :callback="gravityInfluxdb2FormatCallback"
+            :disabled="pushDisabled ||! config.influxdb2_gravity"
           />
           <BsModal
-            @click="renderFormat"
+            @click="gravityRenderFormat"
             v-model="render"
             :code="true"
             title="Format preview"
             button="Preview format"
-            :disabled="pushDisabled"
+            :disabled="pushDisabled || !config.influxdb2_gravity"
+          />
+        </div>
+        <div class="col-md-9">
+          <BsInputTextAreaFormat
+            v-model="config.influxdb2_format_pressure"
+            rows="6"
+            label="Pressure Data format"
+            help="Format template used to create the data sent to the remote service"
+            :disabled="pushDisabled || !config.influxdb2_pressure"
+          />
+        </div>
+        <div class="col-md-3 gy-2">
+          <BsInputSwitch
+            v-model="config.influxdb2_pressure"
+            label="Enable pressure"
+            :disabled="global.disabled"
+          />
+          <BsDropdown
+            label="Predefined formats"
+            button="Formats"
+            :options="pressureInfluxdb2FormatOptions"
+            :callback="pressureInfluxdb2FormatCallback"
+            :disabled="pushDisabled || !config.influxdb2_pressure"
+          />
+          <BsModal
+            @click="pressureRenderFormat"
+            v-model="render"
+            :code="true"
+            title="Format preview"
+            button="Preview format"
+            :disabled="pushDisabled || !config.influxdb2_pressure"
           />
         </div>
       </div>
@@ -112,7 +148,12 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { validateCurrentForm, applyTemplate, influxdb2FormatOptions } from '@/modules/utils'
+import {
+  validateCurrentForm,
+  applyTemplate,
+  gravityInfluxdb2FormatOptions,
+  pressureInfluxdb2FormatOptions
+} from '@/modules/utils'
 import { global, status, config } from '@/modules/pinia'
 
 const render = ref('')
@@ -130,12 +171,20 @@ const runTest = () => {
   config.runPushTest(data, () => {})
 }
 
-const influxdb2FormatCallback = (opt) => {
-  config.influxdb2_format = decodeURIComponent(opt)
+const gravityInfluxdb2FormatCallback = (opt) => {
+  config.influxdb2_format_gravity = decodeURIComponent(opt)
 }
 
-const renderFormat = () => {
-  render.value = applyTemplate(status, config, config.influxdb2_format)
+const pressureInfluxdb2FormatCallback = (opt) => {
+  config.influxdb2_format_pressure = decodeURIComponent(opt)
+}
+
+const gravityRenderFormat = () => {
+  render.value = applyTemplate(status, config, config.influxdb2_format_gravity)
+}
+
+const pressureRenderFormat = () => {
+  render.value = applyTemplate(status, config, config.influxdb2_format_pressure)
 }
 
 const save = () => {
