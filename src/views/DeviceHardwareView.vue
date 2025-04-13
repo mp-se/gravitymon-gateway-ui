@@ -38,10 +38,11 @@
           <p>&nbsp;</p>
           <p class="fw-normal">
             Supporting the following GravityMon BLE transmission options:
-            <li>GravityMon iBeacon (<b>Passive scanning</b>)</li>
-            <li>GravityMon EddyStone (<b>Active scanning, Require BLE 5.0, i.e. ESP32 S3</b>)</li>
+            <lu>
+              <li>GravityMon iBeacon (<b>Passive scanning</b>)</li>
+              <li>GravityMon EddyStone (<b>Active scanning, Require BLE 5.0, i.e. ESP32 S3</b>)</li>
+            </lu>
           </p>
-
           <p class="fw-normal">If you want to use the Tilt options I recommend TiltBridge!</p>
         </div>
       </div>
@@ -106,7 +107,7 @@ const timezoneOptions = ref([
   { label: 'Europe/London', value: 'GMT0BST,M3.5.0/1,M10.5.0' },
   { label: 'Europe/Stockholm', value: 'CET-1CEST,M3.5.0,M10.5.0/3' },
   { label: 'Europe/Helsinki', value: 'EET-2EEST,M3.5.0/3,M10.5.0/4' },
-  { label: 'Africa/Johannesburg', value: "SAST-2" },
+  { label: 'Africa/Johannesburg', value: 'SAST-2' },
   { label: 'Asia/Singapore', value: '<+08>-8' },
   { label: 'Asia/Tokyo', value: 'JST-9' },
   { label: 'Australia/Perth', value: 'AWST-8' },
