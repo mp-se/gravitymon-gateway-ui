@@ -69,7 +69,7 @@
             button="Formats"
             :options="gravityInfluxdb2FormatOptions"
             :callback="gravityInfluxdb2FormatCallback"
-            :disabled="pushDisabled ||! config.influxdb2_gravity"
+            :disabled="pushDisabled || !config.influxdb2_gravity"
           />
           <BsModal
             @click="gravityRenderFormat"

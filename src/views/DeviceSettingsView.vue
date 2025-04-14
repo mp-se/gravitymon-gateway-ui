@@ -27,18 +27,18 @@
           <hr />
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
           <BsInputRadio
-            v-model="config.temp_format"
+            v-model="config.temp_unit"
             :options="tempOptions"
             label="Temperature Format"
             width=""
             :disabled="global.disabled"
           ></BsInputRadio>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <BsInputRadio
-            v-model="config.gravity_format"
+            v-model="config.gravity_unit"
             :options="gravityOptions"
             label="Gravity Format"
             width=""
@@ -46,7 +46,17 @@
           ></BsInputRadio>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
+          <BsInputRadio
+            v-model="config.pressure_unit"
+            :options="pressureOptions"
+            label="Pressure Units"
+            width=""
+            :disabled="global.disabled"
+          ></BsInputRadio>
+        </div>
+
+        <div class="col-md-3">
           <BsInputRadio
             v-model="config.dark_mode"
             :options="uiOptions"
@@ -131,6 +141,12 @@ const gravityOptions = ref([
 const uiOptions = ref([
   { label: 'Day mode', value: false },
   { label: 'Dark mode', value: true }
+])
+
+const pressureOptions = ref([
+  { label: 'PSI', value: 'PSI' },
+  { label: 'kPA', value: 'kPa' },
+  { label: 'Bar', value: 'Bar' }
 ])
 
 const factory = () => {

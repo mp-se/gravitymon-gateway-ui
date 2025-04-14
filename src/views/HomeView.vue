@@ -15,8 +15,32 @@
             >
               <p class="text-center">
                 Gravity: {{ formatGravity(g.gravity) }}
-                {{ config.gravity_format === 'G' ? ' SG' : ' P' }} Temperature:
-                {{ formatTemp(g.temp) }} {{ config.temp_format }}
+                {{ config.gravity_unit === 'G' ? ' SG' : ' P' }} Temperature:
+                {{ formatTemp(g.temp) }} {{ config.temp_unit }}
+              </p>
+            </BsCard>
+          </div>
+        </template>
+
+        <template v-for="p in status.pressure_device" :key="p.device">
+          <div class="col-md-4">
+            <BsCard
+              header="Pressure Device"
+              color="info"
+              :title="
+                p.device + ' (' + formatTime(p.update_time) + ' / ' + formatTime(p.push_time) + ')'
+              "
+            >
+              <p class="text-center">
+                Pressure: {{ formatPressure(p.pressure) }}
+                {{
+                  config.pressure_unit === 'PSI'
+                    ? ' psi'
+                    : config.pressure_unit === 'kPa'
+                      ? ' kPa'
+                      : ' Bar'
+                }}
+                Temperature: {{ formatTemp(p.temp) }} {{ config.temp_unit }}
               </p>
             </BsCard>
           </div>
@@ -76,6 +100,7 @@
 <script setup>
 import { global, status, config } from '@/modules/pinia'
 import { ref, onBeforeMount, onBeforeUnmount } from 'vue'
+import { psiToBar, psiToKPa } from '@/modules/utils'
 
 const polling = ref(null)
 
@@ -96,11 +121,19 @@ function formatTime(t) {
 }
 
 function formatGravity(g) {
-  return config.gravity_format === 'G' ? new Number(g).toFixed(3) : new Number(g).toFixed(1)
+  return config.gravity_unit === 'G' ? new Number(g).toFixed(3) : new Number(g).toFixed(1)
+}
+
+function formatPressure(p) {
+  return config.pressure_unit === 'PSI'
+    ? new Number(p).toFixed(3)
+    : config.pressure_unit === 'kPa'
+      ? new Number(psiToKPa(p)).toFixed(2)
+      : new Number(psiToBar(p)).toFixed(2)
 }
 
 function formatTemp(t) {
-  return config.temp_format === 'C' ? new Number(t).toFixed(2) : new Number(t).toFixed(1)
+  return config.temp_unit === 'C' ? new Number(t).toFixed(2) : new Number(t).toFixed(1)
 }
 
 function refresh() {

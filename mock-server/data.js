@@ -8,8 +8,9 @@ export var configData = {
   // Device configuration
   id: "7376ef",
   mdns: "gravmon3",
-  temp_format: "C",
-  gravity_format: "G",
+  temp_unit: "C",
+  gravity_unit: "G",
+  pressure_unit: "PSI",
   dark_mode: false, 
   // Hardware
   ble_active_scan: false,
@@ -88,12 +89,22 @@ export var statusData = {
   free_heap: 500,
   ip: "192.0.0.1",
   wifi_setup: false,
+  uptime_seconds: 1,
+  uptime_minutes: 2,
+  uptime_hours: 3,
+  uptime_days: 4,
+
   gravity_device: [ 
     { device: "dev1", gravity: 1.100, temp: 24, update_time: 100, push_time: 10 },  
     { device: "dev2", gravity: 1.100, temp: 24, update_time: 200, push_time: 10 },
     { device: "dev3", gravity: 1.100, temp: 24, update_time: 300, push_time: 10 },  
     { device: "dev4", gravity: 1.100, temp: 24, update_time: 400, push_time: 10 },  
     { device: "dev5", gravity: 1.100, temp: 24, update_time: 500, push_time: 10 },  
+  ],
+  pressure_device: [ 
+    { device: "dev6", pressure: 1.23, temp: 24, update_time: 100, push_time: 10 },  
+    { device: "dev7", pressure: 0.95, temp: 24, update_time: 200, push_time: 10 },
+    { device: "dev8", pressure: 2.23, temp: 24, update_time: 300, push_time: 10 },  
   ]
 }
 

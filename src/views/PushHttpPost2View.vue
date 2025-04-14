@@ -90,7 +90,7 @@
             button="Formats"
             :options="gravityHttpPostFormatOptions"
             :callback="gravityHttpFormatCallback"
-            :disabled="pushDisabled|| !config.http_post2_gravity"
+            :disabled="pushDisabled || !config.http_post2_gravity"
           />
           <BsModal
             @click="gravityRenderFormat"
@@ -98,7 +98,7 @@
             :code="true"
             title="Format preview"
             button="Preview format"
-            :disabled="pushDisabled|| !config.http_post2_gravity"
+            :disabled="pushDisabled || !config.http_post2_gravity"
           />
         </div>
       </div>

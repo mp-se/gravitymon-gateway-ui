@@ -142,6 +142,22 @@ export function tempToC(f) {
   return (f - 32.0) / 1.8
 }
 
+export function psiToBar(p) {
+  return p * 0.0689475729
+}
+
+export function psiToKPa(p) {
+  return p * 68.947572932 * 1000
+}
+
+export function barToPsi(p) {
+  return p
+}
+
+export function kpaToPsi(p) {
+  return p
+}
+
 export function applyTemplate(status, config, template) {
   var s = template
 
@@ -150,7 +166,7 @@ export function applyTemplate(status, config, template) {
   var c = status.temp
   var f = status.temp
 
-  if (config.temp_format === 'C') {
+  if (config.temp_unit === 'C') {
     f = tempToF(status.temp)
   } else {
     c = tempToC(status.temp)
@@ -167,7 +183,7 @@ export function applyTemplate(status, config, template) {
   s = s.replaceAll('${rssi}', status.rssi)
   s = s.replaceAll('${battery}', status.battery)
 
-  if (config.gravity_format === 'G') {
+  if (config.gravity_unit === 'G') {
     var sg = status.gravity
     s = s.replaceAll('${gravity}', sg)
     s = s.replaceAll('${gravity-sg}', sg)
@@ -191,10 +207,39 @@ export function applyTemplate(status, config, template) {
   s = s.replaceAll('${id}', config.id)
   s = s.replaceAll('${sleep-interval}', config.sleep_interval)
   s = s.replaceAll('${token}', config.token)
-  s = s.replaceAll('${temp-unit}', config.temp_format)
-  s = s.replaceAll('${gravity-unit}', config.gravity_format)
+  s = s.replaceAll('${temp-unit}', config.temp_unit)
+  s = s.replaceAll('${gravity-unit}', config.gravity_unit)
 
   s = s.replaceAll('${run-time}', 1)
+
+  var p = status.pressure
+
+  if (status.isKPa) {
+    p = kpaToPsi(p)
+  } else if (status.isBar) {
+    p = barToPsi(p)
+  }
+
+  s = s.replaceAll('${pressure}', p)
+  s = s.replaceAll('${pressure-psi}', p)
+  s = s.replaceAll('${pressure-bar}', psiToBar(p))
+  s = s.replaceAll('${pressure-kpa}', psiToKPa(p))
+
+  s = s.replaceAll('${app-ver}', status.app_ver)
+  s = s.replaceAll('${app-build}', status.app_build)
+  s = s.replaceAll('${battery-percent}', 100)
+  s = s.replaceAll('${rssi}', status.rssi)
+  s = s.replaceAll('${run-time}', status.runtime_average)
+  s = s.replaceAll('${corr-gravity}', status.gravity)
+  s = s.replaceAll('${battery}', status.battery)
+
+  s = s.replaceAll('${mdns}', config.mdns)
+  s = s.replaceAll('${id}', config.id)
+  s = s.replaceAll('${sleep-interval}', config.sleep_interval)
+  s = s.replaceAll('${token}', config.token)
+  s = s.replaceAll('${token2}', config.token2)
+  s = s.replaceAll('${temp-unit}', config.temp_unit)
+  s = s.replaceAll('${pressure-unit}', config.pressure_unit)
 
   try {
     return JSON.stringify(JSON.parse(s), null, 2)

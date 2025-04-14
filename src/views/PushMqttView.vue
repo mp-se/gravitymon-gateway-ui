@@ -148,7 +148,12 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { validateCurrentForm, applyTemplate, gravityMqttFormatOptions, pressureMqttFormatOptions } from '@/modules/utils'
+import {
+  validateCurrentForm,
+  applyTemplate,
+  gravityMqttFormatOptions,
+  pressureMqttFormatOptions
+} from '@/modules/utils'
 import { global, status, config } from '@/modules/pinia'
 
 const render = ref('')

@@ -9,13 +9,14 @@ export const useConfigStore = defineStore('config', {
       // Device
       id: '',
       mdns: '',
-      temp_format: '',
-      gravity_format: '',
+      temp_unit: '',
+      gravity_unit: '',
+      pressure_unit: '',
       dark_mode: false,
       // Hardware
       ble_active_scan: false,
       ble_scan_time: 5,
-      timezone: 'CET-1CEST,M3.5.0,M10.5.0/3',
+      timezone: '',
       // Wifi
       wifi_portal_timeout: 0,
       wifi_connect_timeout: 0,
@@ -60,7 +61,7 @@ export const useConfigStore = defineStore('config', {
       mqtt_user: '',
       mqtt_pass: '',
       mqtt_format: '',
-      // Push 
+      // Push
       http_post_gravity: true,
       http_post_pressure: true,
       http_post2_gravity: true,
@@ -71,7 +72,7 @@ export const useConfigStore = defineStore('config', {
       influxdb2_pressure: true,
       mqtt_gravity: true,
       mqtt_pressure: true,
-    
+
       // Values that are not updated but needed for format template viewer
       sleep_interval: 900
     }
@@ -106,8 +107,9 @@ export const useConfigStore = defineStore('config', {
           this.id = json.id
           // Device
           this.mdns = json.mdns
-          this.temp_format = json.temp_format
-          this.gravity_format = json.gravity_format
+          this.temp_unit = json.temp_unit
+          this.gravity_unit = json.gravity_unit
+          this.pressure_unit = json.pressure_unit
           this.dark_mode = json.dark_mode
           // Hardware
           this.ble_active_scan = json.ble_active_scan
@@ -165,11 +167,11 @@ export const useConfigStore = defineStore('config', {
           this.http_post2_pressure = json.http_post2_pressure
           this.http_get_gravity = json.http_get_gravity
           this.http_get_pressure = json.http_get_pressure
-          this.influxdb2_gravity =  json.influxdb2_gravity
+          this.influxdb2_gravity = json.influxdb2_gravity
           this.influxdb2_pressure = json.influxdb2_pressure
           this.mqtt_gravity = json.mqtt_gravity
           this.mqtt_pressure = json.mqtt_pressure
-    
+
           callback(true)
         })
         .catch((err) => {
