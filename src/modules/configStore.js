@@ -60,7 +60,8 @@ export const useConfigStore = defineStore('config', {
       mqtt_port: '',
       mqtt_user: '',
       mqtt_pass: '',
-      mqtt_format: '',
+      mqtt_format_gravity: '',
+      mqtt_format_pressure: '',
       // Push
       http_post_gravity: true,
       http_post_pressure: true,
@@ -132,34 +133,34 @@ export const useConfigStore = defineStore('config', {
           this.http_post_target = json.http_post_target
           this.http_post_header1 = json.http_post_header1
           this.http_post_header2 = json.http_post_header2
-          this.http_post_format_gravity = json.http_post_format_gravity
-          this.http_post_format_pressure = json.http_post_format_pressure
+          // this.http_post_format_gravity = json.http_post_format_gravity
+          // this.http_post_format_pressure = json.http_post_format_pressure
           // Push - Http Post 2
           this.http_post2_target = json.http_post2_target
           this.http_post2_header1 = json.http_post2_header1
           this.http_post2_header2 = json.http_post2_header2
-          this.http_post2_format_gravity = json.http_post2_format_gravity
-          this.http_post2_format_pressure = json.http_post2_format_pressure
+          // this.http_post2_format_gravity = json.http_post2_format_gravity
+          // this.http_post2_format_pressure = json.http_post2_format_pressure
           // Push - Http Get
           this.http_get_target = json.http_get_target
           this.http_get_header1 = json.http_get_header1
           this.http_get_header2 = json.http_get_header2
-          this.http_get_format_gravity = json.http_get_format_gravity
-          this.http_get_format_pressure = json.http_get_format_pressure
+          // this.http_get_format_gravity = json.http_get_format_gravity
+          // this.http_get_format_pressure = json.http_get_format_pressure
           // Push - Influx
           this.influxdb2_target = json.influxdb2_target
           this.influxdb2_org = json.influxdb2_org
           this.influxdb2_bucket = json.influxdb2_bucket
           this.influxdb2_token = json.influxdb2_token
-          this.influxdb2_format_gravity = json.influxdb2_format_gravity
-          this.influxdb2_format_pressure = json.influxdb2_format_pressure
+          // this.influxdb2_format_gravity = json.influxdb2_format_gravity
+          // this.influxdb2_format_pressure = json.influxdb2_format_pressure
           // Push - MQTT
           this.mqtt_target = json.mqtt_target
           this.mqtt_port = json.mqtt_port
           this.mqtt_user = json.mqtt_user
           this.mqtt_pass = json.mqtt_pass
-          this.mqtt_format_gravity = json.mqtt_format_gravity
-          this.mqtt_format_pressure = json.mqtt_format_pressure
+          // this.mqtt_format_gravity = json.mqtt_format_gravity
+          // this.mqtt_format_pressure = json.mqtt_format_pressure
           // Push - flags
           this.http_post_gravity = json.http_post_gravity
           this.http_post_pressure = json.http_post_pressure
@@ -375,7 +376,7 @@ export const useConfigStore = defineStore('config', {
       })
     },
     sendOneFormat(data, callback) {
-      logInfo('configStore.sendOneFormat()', 'Sending /api/format')
+      logInfo('configStore.sendOneFormat()', 'Sending /api/format', data)
 
       if (JSON.stringify(data).length == 2) {
         logInfo('configStore.sendOneFormat()', 'No format data to store, skipping step')

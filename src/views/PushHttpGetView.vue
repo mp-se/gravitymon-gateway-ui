@@ -146,15 +146,24 @@
             &nbsp;Save</button
           >&nbsp;
 
-          <button @click="runTest" type="button" class="btn btn-secondary" :disabled="pushDisabled">
+          <!-- <button @click="runTestGravity" type="button" class="btn btn-secondary" :disabled="pushDisabled">
             <span
               class="spinner-border spinner-border-sm"
               role="status"
               aria-hidden="true"
               :hidden="!global.disabled"
             ></span>
-            &nbsp;Run push test
-          </button>
+            &nbsp;Run push gravity test
+          </button>&nbsp;
+          <button @click="runTestPressure" type="button" class="btn btn-secondary" :disabled="pushDisabled">
+            <span
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+              :hidden="!global.disabled"
+            ></span>
+            &nbsp;Run push pressure test
+          </button> -->
         </div>
       </div>
     </form>
@@ -179,9 +188,20 @@ const pushDisabled = computed(() => {
   return global.disabled || config.use_wifi_direct
 })
 
-const runTest = () => {
+const runTestGravity = () => {
   const data = {
-    push_format: 'http_get_format'
+    push_format: 'http_get',
+    target: 'gravity'
+  }
+
+  global.clearMessages()
+  config.runPushTest(data, () => {})
+}
+
+const runTestPressure = () => {
+  const data = {
+    push_format: 'http_get',
+    target: 'pressure'
   }
 
   global.clearMessages()
