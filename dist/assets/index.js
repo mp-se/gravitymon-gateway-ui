@@ -7044,7 +7044,7 @@ function logInfo(...args) {
 function logError(...args) {
   console.log("Error", ...args);
 }
-const __vite_import_meta_env__ = { "BASE_URL": "/", "DEV": false, "MODE": "production", "PROD": true, "SSR": false, "VITE_APP_BUILD": "..581ef1", "VITE_APP_VERSION": "0.6.0" };
+const __vite_import_meta_env__ = { "BASE_URL": "/", "DEV": false, "MODE": "production", "PROD": true, "SSR": false, "VITE_APP_BUILD": "..3b932d", "VITE_APP_VERSION": "0.6.0" };
 const useGlobalStore = /* @__PURE__ */ defineStore("global", {
   state: () => {
     return {
@@ -7094,7 +7094,7 @@ const useGlobalStore = /* @__PURE__ */ defineStore("global", {
       return "0.6.0";
     },
     uiBuild() {
-      return "..581ef1";
+      return "..3b932d";
     },
     disabled32() {
       if (this.disabled) return true;
@@ -7126,6 +7126,7 @@ const useStatusStore = /* @__PURE__ */ defineStore("status", {
       free_heap: 0,
       wifi_setup: false,
       gravity_device: [],
+      pressure_device: [],
       uptime_seconds: 0,
       uptime_minutes: 0,
       uptime_hours: 0,
@@ -7156,6 +7157,7 @@ const useStatusStore = /* @__PURE__ */ defineStore("status", {
         this.free_heap = json.free_heap;
         this.wifi_setup = json.wifi_setup;
         this.gravity_device = json.gravity_device;
+        this.pressure_device = json.pressure_device;
         this.uptime_seconds = json.uptime_seconds;
         this.uptime_minutes = json.uptime_minutes;
         this.uptime_hours = json.uptime_hours;
@@ -7211,7 +7213,8 @@ const httpPostUrlOptions = ref([
   { label: "Blynk", value: "http://blynk.cloud/external/api/batch/update" },
   { label: "Bierdot bricks", value: "https://brewbricks.com/api/iot/v1" }
 ]);
-const httpPostFormatOptions = ref([
+const httpGetUrlOptions = ref([{ label: "-blank-", value: "" }]);
+const gravityHttpPostFormatOptions = ref([
   {
     label: "GravityMon",
     value: "%7B%20%22name%22%20%3A%20%22%24%7Bmdns%7D%22%2C%20%22ID%22%3A%20%22%24%7Bid%7D%22%2C%20%22token%22%20%3A%20%22%24%7Btoken%7D%22%2C%20%22interval%22%3A%20%24%7Bsleep-interval%7D%2C%20%22temperature%22%3A%20%24%7Btemp%7D%2C%20%22temp_units%22%3A%20%22%24%7Btemp-unit%7D%22%2C%20%22gravity%22%3A%20%24%7Bgravity%7D%2C%20%22angle%22%3A%20%24%7Bangle%7D%2C%20%22battery%22%3A%20%24%7Bbattery%7D%2C%20%22RSSI%22%3A%20%24%7Brssi%7D%2C%20%22corr-gravity%22%3A%20%24%7Bcorr-gravity%7D%2C%20%22gravity-unit%22%3A%20%22%24%7Bgravity-unit%7D%22%2C%20%22run-time%22%3A%20%24%7Brun-time%7D%7D"
@@ -7229,19 +7232,19 @@ const httpPostFormatOptions = ref([
     value: "%7B%20%20%20%22temperature%22%3A%20%24%7Btemp%7D%2C%20%20%20%22gravity%22%3A%20%24%7Bgravity%7D%2C%20%20%20%22angle%22%3A%20%24%7Bangle%7D%2C%20%20%20%22battery%22%3A%20%24%7Bbattery%7D%2C%20%20%20%22rssi%22%3A%20%24%7Brssi%7D%7D"
   }
 ]);
-const httpGetFormatOptions = ref([
+const gravityHttpGetFormatOptions = ref([
   {
     label: "GravityMon",
     value: "%3Fname%3D%24%7Bmdns%7D%26id%3D%24%7Bid%7D%26token%3D%24%7Btoken2%7D%26interval%3D%24%7Bsleep-interval%7D%26temperature%3D%24%7Btemp%7D%26temp-units%3D%24%7Btemp-unit%7D%26gravity%3D%24%7Bgravity%7D%26angle%3D%24%7Bangle%7D%26battery%3D%24%7Bbattery%7D%26rssi%3D%24%7Brssi%7D%26corr-gravity%3D%24%7Bcorr-gravity%7D%26gravity-unit%3D%24%7Bgravity-unit%7D%26run-time%3D%24%7Brun-time%7D"
   }
 ]);
-const influxdb2FormatOptions = ref([
+const gravityInfluxdb2FormatOptions = ref([
   {
     label: "GravityMon",
     value: "measurement%2Chost%3D%24%7Bmdns%7D%2Cdevice%3D%24%7Bid%7D%2Ctemp%2Dformat%3D%24%7Btemp%2Dunit%7D%2Cgravity%2Dformat%3D%24%7Bgravity%2Dunit%7D%20gravity%3D%24%7Bgravity%7D%2Ccorr%2Dgravity%3D%24%7Bcorr%2Dgravity%7D%2Cangle%3D%24%7Bangle%7D%2Ctemp%3D%24%7Btemp%7D%2Cbattery%3D%24%7Bbattery%7D%2Crssi%3D%24%7Brssi%7D%0A"
   }
 ]);
-const mqttFormatOptions = ref([
+const gravityMqttFormatOptions = ref([
   {
     label: "iSpindle",
     value: "ispindel%2F%24%7Bmdns%7D%2Ftilt%3A%24%7Bangle%7D%7Cispindel%2F%24%7Bmdns%7D%2Ftemperature%3A%24%7Btemp%7D%7Cispindel%2F%24%7Bmdns%7D%2Ftemp_units%3A%24%7Btemp-unit%7D%7Cispindel%2F%24%7Bmdns%7D%2Fbattery%3A%24%7Bbattery%7D%7Cispindel%2F%24%7Bmdns%7D%2Fgravity%3A%24%7Bgravity%7D%7Cispindel%2F%24%7Bmdns%7D%2Finterval%3A%24%7Bsleep-interval%7D%7Cispindel%2F%24%7Bmdns%7D%2FRSSI%3A%24%7Brssi%7D%7C"
@@ -7259,7 +7262,30 @@ const mqttFormatOptions = ref([
     value: "brewcast%2Fhistory%3A%7B%22key%22%3A%22%24%7Bmdns%7D%22%2C%22data%22%3A%7B%22Temperature%5BdegC%5D%22%3A%20%24%7Btemp-c%7D%2C%22Temperature%5BdegF%5D%22%3A%20%24%7Btemp-f%7D%2C%22Battery%5BV%5D%22%3A%24%7Bbattery%7D%2C%22Tilt%5Bdeg%5D%22%3A%24%7Bangle%7D%2C%22Rssi%5BdBm%5D%22%3A%24%7Brssi%7D%2C%22SG%22%3A%24%7Bgravity-sg%7D%2C%22Plato%22%3A%24%7Bgravity-plato%7D%7D%7D%7C"
   }
 ]);
-const httpGetUrlOptions = ref([{ label: "-blank-", value: "" }]);
+const pressureHttpPostFormatOptions = ref([
+  {
+    label: "--blank-",
+    value: ""
+  }
+]);
+const pressureHttpGetFormatOptions = ref([
+  {
+    label: "--blank-",
+    value: ""
+  }
+]);
+const pressureInfluxdb2FormatOptions = ref([
+  {
+    label: "--blank-",
+    value: ""
+  }
+]);
+const pressureMqttFormatOptions = ref([
+  {
+    label: "--blank-",
+    value: ""
+  }
+]);
 function validateCurrentForm() {
   let valid = true;
   const forms = document.querySelectorAll(".needs-validation");
@@ -7275,12 +7301,24 @@ function tempToF(c) {
 function tempToC(f) {
   return (f - 32) / 1.8;
 }
+function psiToBar(p2) {
+  return p2 * 0.0689475729;
+}
+function psiToKPa(p2) {
+  return p2 * 68.947572932 * 1e3;
+}
+function barToPsi(p2) {
+  return p2;
+}
+function kpaToPsi(p2) {
+  return p2;
+}
 function applyTemplate(status2, config2, template) {
   var s = template;
   s = s.replaceAll("${temp}", status2.temp);
   var c = status2.temp;
   var f = status2.temp;
-  if (config2.temp_format === "C") {
+  if (config2.temp_unit === "C") {
     f = tempToF(status2.temp);
   } else {
     c = tempToC(status2.temp);
@@ -7293,25 +7331,56 @@ function applyTemplate(status2, config2, template) {
   s = s.replaceAll("${app-build}", status2.app_build);
   s = s.replaceAll("${rssi}", status2.rssi);
   s = s.replaceAll("${battery}", status2.battery);
-  if (config2.gravity_format === "G") {
+  if (config2.gravity_unit === "G") {
     var sg = status2.gravity;
     s = s.replaceAll("${gravity}", sg);
     s = s.replaceAll("${gravity-sg}", sg);
+    s = s.replaceAll("${corr-gravity}", sg);
+    s = s.replaceAll("${corr-gravity-sg}", sg);
     var plato = 259 - (259 - sg);
     s = s.replaceAll("${gravity-plato}", plato);
+    s = s.replaceAll("${corr-gravity-plato}", sg);
   } else {
     plato = status2.gravity;
     s = s.replaceAll("${gravity}", plato);
+    s = s.replaceAll("${corr-gravity}", plato);
+    s = s.replaceAll("${corr-gravity-plato}", plato);
     s = s.replaceAll("${gravity-plato}", plato);
     sg = 259 / (259 - plato);
+    s = s.replaceAll("${corr-gravity-sg}", plato);
     s = s.replaceAll("${gravity-sg}", sg);
   }
   s = s.replaceAll("${mdns}", config2.mdns);
   s = s.replaceAll("${id}", config2.id);
   s = s.replaceAll("${sleep-interval}", config2.sleep_interval);
   s = s.replaceAll("${token}", config2.token);
-  s = s.replaceAll("${temp-unit}", config2.temp_format);
-  s = s.replaceAll("${gravity-unit}", config2.gravity_format);
+  s = s.replaceAll("${temp-unit}", config2.temp_unit);
+  s = s.replaceAll("${gravity-unit}", config2.gravity_unit);
+  s = s.replaceAll("${run-time}", 1);
+  var p2 = status2.pressure;
+  if (status2.isKPa) {
+    p2 = kpaToPsi(p2);
+  } else if (status2.isBar) {
+    p2 = barToPsi(p2);
+  }
+  s = s.replaceAll("${pressure}", p2);
+  s = s.replaceAll("${pressure-psi}", p2);
+  s = s.replaceAll("${pressure-bar}", psiToBar(p2));
+  s = s.replaceAll("${pressure-kpa}", psiToKPa(p2));
+  s = s.replaceAll("${app-ver}", status2.app_ver);
+  s = s.replaceAll("${app-build}", status2.app_build);
+  s = s.replaceAll("${battery-percent}", 100);
+  s = s.replaceAll("${rssi}", status2.rssi);
+  s = s.replaceAll("${run-time}", status2.runtime_average);
+  s = s.replaceAll("${corr-gravity}", status2.gravity);
+  s = s.replaceAll("${battery}", status2.battery);
+  s = s.replaceAll("${mdns}", config2.mdns);
+  s = s.replaceAll("${id}", config2.id);
+  s = s.replaceAll("${sleep-interval}", config2.sleep_interval);
+  s = s.replaceAll("${token}", config2.token);
+  s = s.replaceAll("${token2}", config2.token2);
+  s = s.replaceAll("${temp-unit}", config2.temp_unit);
+  s = s.replaceAll("${pressure-unit}", config2.pressure_unit);
   try {
     return JSON.stringify(JSON.parse(s), null, 2);
   } catch {
@@ -7377,13 +7446,14 @@ const useConfigStore = /* @__PURE__ */ defineStore("config", {
       // Device
       id: "",
       mdns: "",
-      temp_format: "",
-      gravity_format: "",
+      temp_unit: "",
+      gravity_unit: "",
+      pressure_unit: "",
       dark_mode: false,
       // Hardware
       ble_active_scan: false,
       ble_scan_time: 5,
-      timezone: "CET-1CEST,M3.5.0,M10.5.0/3",
+      timezone: "",
       // Wifi
       wifi_portal_timeout: 0,
       wifi_connect_timeout: 0,
@@ -7401,29 +7471,45 @@ const useConfigStore = /* @__PURE__ */ defineStore("config", {
       http_post_target: "",
       http_post_header1: "",
       http_post_header2: "",
-      http_post_format: "",
+      http_post_format_gravity: "",
+      http_post_format_pressure: "",
       // Push - Http Post 2
       http_post2_target: "",
       http_post2_header1: "",
       http_post2_header2: "",
-      http_post2_format: "",
+      http_post2_format_gravity: "",
+      http_post2_format_pressure: "",
       // Push - Http Get
       http_get_target: "",
       http_get_header1: "",
       http_get_header2: "",
-      http_get_format: "",
+      http_get_format_gravity: "",
+      http_get_format_pressure: "",
       // Push - Influx
       influxdb2_target: "",
       influxdb2_org: "",
       influxdb2_bucket: "",
       influxdb2_token: "",
-      influxdb2_format: "",
+      influxdb2_format_gravity: "",
+      influxdb2_format_pressure: "",
       // Push - MQTT
       mqtt_target: "",
       mqtt_port: "",
       mqtt_user: "",
       mqtt_pass: "",
-      mqtt_format: "",
+      mqtt_format_gravity: "",
+      mqtt_format_pressure: "",
+      // Push
+      http_post_gravity: true,
+      http_post_pressure: true,
+      http_post2_gravity: true,
+      http_post2_pressure: true,
+      http_get_gravity: true,
+      http_get_pressure: true,
+      influxdb2_gravity: true,
+      influxdb2_pressure: true,
+      mqtt_gravity: true,
+      mqtt_pressure: true,
       // Values that are not updated but needed for format template viewer
       sleep_interval: 900
     };
@@ -7451,8 +7537,9 @@ const useConfigStore = /* @__PURE__ */ defineStore("config", {
         global$1.disabled = false;
         this.id = json.id;
         this.mdns = json.mdns;
-        this.temp_format = json.temp_format;
-        this.gravity_format = json.gravity_format;
+        this.temp_unit = json.temp_unit;
+        this.gravity_unit = json.gravity_unit;
+        this.pressure_unit = json.pressure_unit;
         this.dark_mode = json.dark_mode;
         this.ble_active_scan = json.ble_active_scan;
         this.ble_scan_time = json.ble_scan_time;
@@ -7471,25 +7558,30 @@ const useConfigStore = /* @__PURE__ */ defineStore("config", {
         this.http_post_target = json.http_post_target;
         this.http_post_header1 = json.http_post_header1;
         this.http_post_header2 = json.http_post_header2;
-        this.http_post_format = json.http_post_format;
         this.http_post2_target = json.http_post2_target;
         this.http_post2_header1 = json.http_post2_header1;
         this.http_post2_header2 = json.http_post2_header2;
-        this.http_post2_format = json.http_post2_format;
         this.http_get_target = json.http_get_target;
         this.http_get_header1 = json.http_get_header1;
         this.http_get_header2 = json.http_get_header2;
-        this.http_get_format = json.http_get_format;
         this.influxdb2_target = json.influxdb2_target;
         this.influxdb2_org = json.influxdb2_org;
         this.influxdb2_bucket = json.influxdb2_bucket;
         this.influxdb2_token = json.influxdb2_token;
-        this.influxdb2_format = json.influxdb2_format;
         this.mqtt_target = json.mqtt_target;
         this.mqtt_port = json.mqtt_port;
         this.mqtt_user = json.mqtt_user;
         this.mqtt_pass = json.mqtt_pass;
-        this.mqtt_format = json.mqtt_format;
+        this.http_post_gravity = json.http_post_gravity;
+        this.http_post_pressure = json.http_post_pressure;
+        this.ttp_post2_gravity = json.http_post2_gravity;
+        this.http_post2_pressure = json.http_post2_pressure;
+        this.http_get_gravity = json.http_get_gravity;
+        this.http_get_pressure = json.http_get_pressure;
+        this.influxdb2_gravity = json.influxdb2_gravity;
+        this.influxdb2_pressure = json.influxdb2_pressure;
+        this.mqtt_gravity = json.mqtt_gravity;
+        this.mqtt_pressure = json.mqtt_pressure;
         callback(true);
       }).catch((err) => {
         global$1.disabled = false;
@@ -7506,11 +7598,16 @@ const useConfigStore = /* @__PURE__ */ defineStore("config", {
         signal: AbortSignal.timeout(global$1.fetchTimout)
       }).then((res) => res.json()).then((json) => {
         global$1.disabled = false;
-        this.http_post_format = decodeURIComponent(json.http_post_format);
-        this.http_post2_format = decodeURIComponent(json.http_post2_format);
-        this.http_get_format = decodeURIComponent(json.http_get_format);
-        this.influxdb2_format = decodeURIComponent(json.influxdb2_format);
-        this.mqtt_format = decodeURIComponent(json.mqtt_format);
+        this.http_post_format_gravity = decodeURIComponent(json.http_post_format_gravity);
+        this.http_post2_format_gravity = decodeURIComponent(json.http_post2_format_gravity);
+        this.http_get_format_gravity = decodeURIComponent(json.http_get_format_gravity);
+        this.influxdb2_format_gravity = decodeURIComponent(json.influxdb2_format_gravity);
+        this.mqtt_format_gravity = decodeURIComponent(json.mqtt_format_gravity);
+        this.http_post_format_pressure = decodeURIComponent(json.http_post_format_pressure);
+        this.http_post2_format_pressure = decodeURIComponent(json.http_post2_format_pressure);
+        this.http_get_format_pressure = decodeURIComponent(json.http_get_format_pressure);
+        this.influxdb2_format_pressure = decodeURIComponent(json.influxdb2_format_pressure);
+        this.mqtt_format_pressure = decodeURIComponent(json.mqtt_format_pressure);
         callback(true);
       }).catch((err) => {
         global$1.disabled = false;
@@ -7522,11 +7619,16 @@ const useConfigStore = /* @__PURE__ */ defineStore("config", {
       global$1.disabled = true;
       logInfo("configStore.sendConfig()", "Sending /api/config");
       var data = getConfigChanges();
-      delete data.http_post_format;
-      delete data.http_post2_format;
-      delete data.http_get_format;
-      delete data.influxdb2_format;
-      delete data.mqtt_format;
+      delete data.http_post_format_gravity;
+      delete data.http_post2_format_gravity;
+      delete data.http_get_format_gravity;
+      delete data.influxdb2_format_gravity;
+      delete data.mqtt_format_gravity;
+      delete data.http_post_format_pressure;
+      delete data.http_post2_format_pressure;
+      delete data.http_get_format_pressure;
+      delete data.influxdb2_format_pressure;
+      delete data.mqtt_format_pressure;
       if (JSON.stringify(data).length == 2) {
         logInfo("configStore.sendConfig()", "No config data to store, skipping step");
         global$1.disabled = false;
@@ -7559,27 +7661,75 @@ const useConfigStore = /* @__PURE__ */ defineStore("config", {
       var data2 = getConfigChanges();
       var data = {};
       var cnt = 0;
-      data = data2.http_post_format !== void 0 ? { http_post_format: encodeURIComponent(data2.http_post_format) } : {};
+      data = data2.http_post_format_gravity !== void 0 ? { http_post_format_gravity: encodeURIComponent(data2.http_post_format_gravity) } : {};
       this.sendOneFormat(data, (success) => {
         if (success) cnt += 1;
-        data = data2.http_post2_format !== void 0 ? { http_post2_format: encodeURIComponent(data2.http_post2_format) } : {};
+        data = data2.http_post2_format_gravity !== void 0 ? { http_post2_format_gravity: encodeURIComponent(data2.http_post2_format_gravity) } : {};
         this.sendOneFormat(data, (success2) => {
           if (success2) cnt += 1;
-          data = data2.http_get_format !== void 0 ? { http_get_format: encodeURIComponent(data2.http_get_format) } : {};
+          data = data2.http_get_format_gravity !== void 0 ? { http_get_format_gravity: encodeURIComponent(data2.http_get_format_gravity) } : {};
           this.sendOneFormat(data, (success3) => {
             if (success3) cnt += 1;
-            data = data2.influxdb2_format !== void 0 ? { influxdb2_format: encodeURIComponent(data2.influxdb2_format) } : {};
+            data = data2.influxdb2_format_gravity !== void 0 ? { influxdb2_format_gravity: encodeURIComponent(data2.influxdb2_format_gravity) } : {};
             this.sendOneFormat(data, (success4) => {
               if (success4) cnt += 1;
-              if (data2.mqtt_format !== void 0) {
-                data2.mqtt_format = data2.mqtt_format.replaceAll("\n", "");
-                data2.mqtt_format = data2.mqtt_format.replaceAll("\r", "");
+              if (data2.mqtt_format_gravity !== void 0) {
+                data2.mqtt_format_gravity = data2.mqtt_format_gravity.replaceAll("\n", "");
+                data2.mqtt_format_gravity = data2.mqtt_format_gravity.replaceAll("\r", "");
               }
-              data = data2.mqtt_format !== void 0 ? { mqtt_format: encodeURIComponent(data2.mqtt_format) } : {};
+              data = data2.mqtt_format_gravity !== void 0 ? { mqtt_format_gravity: encodeURIComponent(data2.mqtt_format_gravity) } : {};
               this.sendOneFormat(data, (success5) => {
                 if (success5) cnt += 1;
-                if (cnt == 5) callback(true);
-                else callback(false);
+                data = data2.http_post_format_pressure !== void 0 ? {
+                  http_post_format_pressure: encodeURIComponent(
+                    data2.http_post_format_pressure
+                  )
+                } : {};
+                this.sendOneFormat(data, (success6) => {
+                  if (success6) cnt += 1;
+                  data = data2.http_post2_format_pressure !== void 0 ? {
+                    http_post2_format_pressure: encodeURIComponent(
+                      data2.http_post2_format_pressure
+                    )
+                  } : {};
+                  this.sendOneFormat(data, (success7) => {
+                    if (success7) cnt += 1;
+                    data = data2.http_get_format_pressure !== void 0 ? {
+                      http_get_format_pressure: encodeURIComponent(
+                        data2.http_get_format_pressure
+                      )
+                    } : {};
+                    this.sendOneFormat(data, (success8) => {
+                      if (success8) cnt += 1;
+                      data = data2.influxdb2_format_pressure !== void 0 ? {
+                        influxdb2_format_pressure: encodeURIComponent(
+                          data2.influxdb2_format_pressure
+                        )
+                      } : {};
+                      this.sendOneFormat(data, (success9) => {
+                        if (success9) cnt += 1;
+                        if (data2.mqtt_format_pressure !== void 0) {
+                          data2.mqtt_format_pressure = data2.mqtt_format_pressure.replaceAll(
+                            "\n",
+                            ""
+                          );
+                          data2.mqtt_format_pressure = data2.mqtt_format_pressure.replaceAll(
+                            "\r",
+                            ""
+                          );
+                        }
+                        data = data2.mqtt_format_pressure !== void 0 ? {
+                          mqtt_format_pressure: encodeURIComponent(data2.mqtt_format_pressure)
+                        } : {};
+                        this.sendOneFormat(data, (success10) => {
+                          if (success10) cnt += 1;
+                          if (cnt == 10) callback(true);
+                          else callback(false);
+                        });
+                      });
+                    });
+                  });
+                });
               });
             });
           });
@@ -7587,7 +7737,7 @@ const useConfigStore = /* @__PURE__ */ defineStore("config", {
       });
     },
     sendOneFormat(data, callback) {
-      logInfo("configStore.sendOneFormat()", "Sending /api/format");
+      logInfo("configStore.sendOneFormat()", "Sending /api/format", data);
       if (JSON.stringify(data).length == 2) {
         logInfo("configStore.sendOneFormat()", "No format data to store, skipping step");
         callback(true);
@@ -7788,16 +7938,7 @@ const saveConfigState = () => {
   configCompare.value = {};
   for (var key in config) {
     if (typeof config[key] !== "function" && key !== "$id") {
-      if (key === "gyro_calibration_data") ;
-      else if (key === "formula_calculation_data") {
-        configCompare.value[key] = [];
-        for (var i in config[key]) {
-          var o = { a: config[key][i].a, g: config[key][i].g };
-          configCompare.value[key].push(o);
-        }
-      } else {
-        configCompare.value[key] = config[key];
-      }
+      configCompare.value[key] = config[key];
     }
   }
   logInfo("pinia.saveConfigState()", "Saved state: ", configCompare.value);
@@ -7810,20 +7951,8 @@ const getConfigChanges = () => {
     return changes;
   }
   for (var key in configCompare.value) {
-    if (key === "gyro_calibration_data") ;
-    else if (key === "formula_calculation_data") {
-      for (var i in configCompare.value[key]) {
-        if (configCompare.value[key][i].a != config[key][i].a) {
-          changes.formula_calculation_data = config.formula_calculation_data;
-        }
-        if (configCompare.value[key][i].g != config[key][i].g) {
-          changes.formula_calculation_data = config.formula_calculation_data;
-        }
-      }
-    } else {
-      if (configCompare.value[key] != config[key]) {
-        changes[key] = config[key];
-      }
+    if (configCompare.value[key] != config[key]) {
+      changes[key] = config[key];
     }
   }
   return changes;
@@ -9754,18 +9883,19 @@ const _hoisted_2$w = {
 };
 const _hoisted_3$q = { class: "row gy-4" };
 const _hoisted_4$m = { class: "text-center" };
-const _hoisted_5$i = { class: "col-md-4" };
-const _hoisted_6$i = { class: "text-center" };
-const _hoisted_7$g = { class: "col-md-4" };
-const _hoisted_8$g = { class: "text-center" };
-const _hoisted_9$e = { class: "col-md-4" };
-const _hoisted_10$d = { class: "text-center" };
-const _hoisted_11$b = { class: "col-md-4" };
-const _hoisted_12$a = { class: "text-center" };
-const _hoisted_13$a = { class: "col-md-4" };
-const _hoisted_14$9 = { class: "text-center" };
-const _hoisted_15$7 = { class: "col-md-4" };
-const _hoisted_16$5 = { class: "text-center" };
+const _hoisted_5$i = { class: "text-center" };
+const _hoisted_6$i = { class: "col-md-4" };
+const _hoisted_7$g = { class: "text-center" };
+const _hoisted_8$g = { class: "col-md-4" };
+const _hoisted_9$e = { class: "text-center" };
+const _hoisted_10$d = { class: "col-md-4" };
+const _hoisted_11$b = { class: "text-center" };
+const _hoisted_12$b = { class: "col-md-4" };
+const _hoisted_13$b = { class: "text-center" };
+const _hoisted_14$9 = { class: "col-md-4" };
+const _hoisted_15$8 = { class: "text-center" };
+const _hoisted_16$5 = { class: "col-md-4" };
+const _hoisted_17$3 = { class: "text-center" };
 const _sfc_main$O = {
   __name: "HomeView",
   setup(__props) {
@@ -9780,10 +9910,13 @@ const _sfc_main$O = {
       return new Number(t / (60 * 60 * 24)).toFixed(0) + "d";
     }
     function formatGravity(g) {
-      return config.gravity_format === "G" ? new Number(g).toFixed(3) : new Number(g).toFixed(1);
+      return config.gravity_unit === "G" ? new Number(g).toFixed(3) : new Number(g).toFixed(1);
+    }
+    function formatPressure(p2) {
+      return config.pressure_unit === "PSI" ? new Number(p2).toFixed(3) : config.pressure_unit === "kPa" ? new Number(psiToKPa(p2)).toFixed(2) : new Number(psiToBar(p2)).toFixed(2);
     }
     function formatTemp(t) {
-      return config.temp_format === "C" ? new Number(t).toFixed(2) : new Number(t).toFixed(1);
+      return config.temp_unit === "C" ? new Number(t).toFixed(2) : new Number(t).toFixed(1);
     }
     function refresh() {
       status.load(() => {
@@ -9813,74 +9946,91 @@ const _sfc_main$O = {
                   title: g.device + " (" + formatTime(g.update_time) + " / " + formatTime(g.push_time) + ")"
                 }, {
                   default: withCtx(() => [
-                    createBaseVNode("p", _hoisted_4$m, " Gravity: " + toDisplayString(formatGravity(g.gravity)) + " " + toDisplayString(unref(config).gravity_format === "G" ? " SG" : " P") + " Temperature: " + toDisplayString(formatTemp(g.temp)) + " " + toDisplayString(unref(config).temp_format), 1)
+                    createBaseVNode("p", _hoisted_4$m, " Gravity: " + toDisplayString(formatGravity(g.gravity)) + " " + toDisplayString(unref(config).gravity_unit === "G" ? " SG" : " P") + " Temperature: " + toDisplayString(formatTemp(g.temp)) + " " + toDisplayString(unref(config).temp_unit), 1)
                   ]),
                   _: 2
                 }, 1032, ["title"])
               ]);
             }), 128)),
-            createBaseVNode("div", _hoisted_5$i, [
+            (openBlock(true), createElementBlock(Fragment, null, renderList(unref(status).pressure_device, (p2) => {
+              return openBlock(), createElementBlock("div", {
+                key: p2.device,
+                class: "col-md-4"
+              }, [
+                createVNode(_component_BsCard, {
+                  header: "Pressure Device",
+                  color: "info",
+                  title: p2.device + " (" + formatTime(p2.update_time) + " / " + formatTime(p2.push_time) + ")"
+                }, {
+                  default: withCtx(() => [
+                    createBaseVNode("p", _hoisted_5$i, " Pressure: " + toDisplayString(formatPressure(p2.pressure)) + " " + toDisplayString(unref(config).pressure_unit === "PSI" ? " psi" : unref(config).pressure_unit === "kPa" ? " kPa" : " Bar") + " Temperature: " + toDisplayString(formatTemp(p2.temp)) + " " + toDisplayString(unref(config).temp_unit), 1)
+                  ]),
+                  _: 2
+                }, 1032, ["title"])
+              ]);
+            }), 128)),
+            createBaseVNode("div", _hoisted_6$i, [
               createVNode(_component_BsCard, {
                 header: "Device",
                 title: "WIFI"
               }, {
                 default: withCtx(() => [
-                  createBaseVNode("p", _hoisted_6$i, toDisplayString(unref(status).rssi) + " dBm - " + toDisplayString(unref(status).wifi_ssid), 1)
+                  createBaseVNode("p", _hoisted_7$g, toDisplayString(unref(status).rssi) + " dBm - " + toDisplayString(unref(status).wifi_ssid), 1)
                 ]),
                 _: 1
               })
             ]),
-            createBaseVNode("div", _hoisted_7$g, [
+            createBaseVNode("div", _hoisted_8$g, [
               createVNode(_component_BsCard, {
                 header: "Device",
                 title: "IP Address"
               }, {
                 default: withCtx(() => [
-                  createBaseVNode("p", _hoisted_8$g, toDisplayString(unref(status).ip), 1)
+                  createBaseVNode("p", _hoisted_9$e, toDisplayString(unref(status).ip), 1)
                 ]),
                 _: 1
               })
             ]),
-            createBaseVNode("div", _hoisted_9$e, [
+            createBaseVNode("div", _hoisted_10$d, [
               createVNode(_component_BsCard, {
                 header: "Device",
                 title: "Memory"
               }, {
                 default: withCtx(() => [
-                  createBaseVNode("p", _hoisted_10$d, " Free: " + toDisplayString(unref(status).free_heap) + " kb, Total: " + toDisplayString(unref(status).total_heap) + " kb ", 1)
+                  createBaseVNode("p", _hoisted_11$b, " Free: " + toDisplayString(unref(status).free_heap) + " kb, Total: " + toDisplayString(unref(status).total_heap) + " kb ", 1)
                 ]),
                 _: 1
               })
             ]),
-            createBaseVNode("div", _hoisted_11$b, [
+            createBaseVNode("div", _hoisted_12$b, [
               createVNode(_component_BsCard, {
                 header: "Device",
                 title: "Software version"
               }, {
                 default: withCtx(() => [
-                  createBaseVNode("p", _hoisted_12$a, " Firmware: " + toDisplayString(unref(status).app_ver) + " (" + toDisplayString(unref(status).app_build) + ") UI: " + toDisplayString(unref(global$1).uiVersion) + " (" + toDisplayString(unref(global$1).uiBuild) + ") ", 1)
+                  createBaseVNode("p", _hoisted_13$b, " Firmware: " + toDisplayString(unref(status).app_ver) + " (" + toDisplayString(unref(status).app_build) + ") UI: " + toDisplayString(unref(global$1).uiVersion) + " (" + toDisplayString(unref(global$1).uiBuild) + ") ", 1)
                 ]),
                 _: 1
               })
             ]),
-            createBaseVNode("div", _hoisted_13$a, [
+            createBaseVNode("div", _hoisted_14$9, [
               createVNode(_component_BsCard, {
                 header: "Device",
                 title: "Platform"
               }, {
                 default: withCtx(() => [
-                  createBaseVNode("p", _hoisted_14$9, toDisplayString(unref(status).platform) + " (id: " + toDisplayString(unref(status).id) + ")", 1)
+                  createBaseVNode("p", _hoisted_15$8, toDisplayString(unref(status).platform) + " (id: " + toDisplayString(unref(status).id) + ")", 1)
                 ]),
                 _: 1
               })
             ]),
-            createBaseVNode("div", _hoisted_15$7, [
+            createBaseVNode("div", _hoisted_16$5, [
               createVNode(_component_BsCard, {
                 header: "Device",
                 title: "Uptime"
               }, {
                 default: withCtx(() => [
-                  createBaseVNode("p", _hoisted_16$5, toDisplayString(unref(status).uptime_days) + " days " + toDisplayString(unref(status).uptime_hours) + " hours " + toDisplayString(unref(status).uptime_minutes) + " minutes " + toDisplayString(unref(status).uptime_seconds) + " seconds ", 1)
+                  createBaseVNode("p", _hoisted_17$3, toDisplayString(unref(status).uptime_days) + " days " + toDisplayString(unref(status).uptime_hours) + " hours " + toDisplayString(unref(status).uptime_minutes) + " minutes " + toDisplayString(unref(status).uptime_seconds) + " seconds ", 1)
                 ]),
                 _: 1
               })
@@ -9894,17 +10044,18 @@ const _sfc_main$O = {
 const _hoisted_1$A = { class: "container" };
 const _hoisted_2$v = { class: "row" };
 const _hoisted_3$p = { class: "col-md-12" };
-const _hoisted_4$l = { class: "col-md-4" };
-const _hoisted_5$h = { class: "col-md-4" };
-const _hoisted_6$h = { class: "col-md-4" };
-const _hoisted_7$f = { class: "row gy-2" };
-const _hoisted_8$f = { class: "col-md-12" };
-const _hoisted_9$d = ["disabled"];
-const _hoisted_10$c = ["hidden"];
-const _hoisted_11$a = ["disabled"];
-const _hoisted_12$9 = ["hidden"];
-const _hoisted_13$9 = ["disabled"];
-const _hoisted_14$8 = ["hidden"];
+const _hoisted_4$l = { class: "col-md-3" };
+const _hoisted_5$h = { class: "col-md-3" };
+const _hoisted_6$h = { class: "col-md-3" };
+const _hoisted_7$f = { class: "col-md-3" };
+const _hoisted_8$f = { class: "row gy-2" };
+const _hoisted_9$d = { class: "col-md-12" };
+const _hoisted_10$c = ["disabled"];
+const _hoisted_11$a = ["hidden"];
+const _hoisted_12$a = ["disabled"];
+const _hoisted_13$a = ["hidden"];
+const _hoisted_14$8 = ["disabled"];
+const _hoisted_15$7 = ["hidden"];
 const _sfc_main$N = {
   __name: "DeviceSettingsView",
   setup(__props) {
@@ -9919,6 +10070,11 @@ const _sfc_main$N = {
     const uiOptions = ref([
       { label: "Day mode", value: false },
       { label: "Dark mode", value: true }
+    ]);
+    const pressureOptions = ref([
+      { label: "PSI", value: "PSI" },
+      { label: "kPA", value: "kPa" },
+      { label: "Bar", value: "Bar" }
     ]);
     const factory = () => {
       global$1.clearMessages();
@@ -9952,16 +10108,16 @@ const _sfc_main$N = {
       const _component_BsInputText = resolveComponent("BsInputText");
       const _component_BsInputRadio = resolveComponent("BsInputRadio");
       return openBlock(), createElementBlock("div", _hoisted_1$A, [
-        _cache[13] || (_cache[13] = createBaseVNode("p", null, null, -1)),
-        _cache[14] || (_cache[14] = createBaseVNode("p", { class: "h2" }, "Device - Settings", -1)),
-        _cache[15] || (_cache[15] = createBaseVNode("hr", null, null, -1)),
+        _cache[14] || (_cache[14] = createBaseVNode("p", null, null, -1)),
+        _cache[15] || (_cache[15] = createBaseVNode("p", { class: "h2" }, "Device - Settings", -1)),
+        _cache[16] || (_cache[16] = createBaseVNode("hr", null, null, -1)),
         unref(config).mdns === "" ? (openBlock(), createBlock(_component_BsMessage, {
           key: 0,
           dismissable: "true",
           message: "",
           alert: "warning"
         }, {
-          default: withCtx(() => _cache[5] || (_cache[5] = [
+          default: withCtx(() => _cache[6] || (_cache[6] = [
             createTextVNode(" You need to define a mdns name for the device ")
           ])),
           _: 1
@@ -9984,13 +10140,13 @@ const _sfc_main$N = {
                 disabled: unref(global$1).disabled
               }, null, 8, ["modelValue", "badge", "disabled"])
             ]),
-            _cache[6] || (_cache[6] = createBaseVNode("div", { class: "col-md-12" }, [
+            _cache[7] || (_cache[7] = createBaseVNode("div", { class: "col-md-12" }, [
               createBaseVNode("hr")
             ], -1)),
             createBaseVNode("div", _hoisted_4$l, [
               createVNode(_component_BsInputRadio, {
-                modelValue: unref(config).temp_format,
-                "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => unref(config).temp_format = $event),
+                modelValue: unref(config).temp_unit,
+                "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => unref(config).temp_unit = $event),
                 options: tempOptions.value,
                 label: "Temperature Format",
                 width: "",
@@ -9999,8 +10155,8 @@ const _sfc_main$N = {
             ]),
             createBaseVNode("div", _hoisted_5$h, [
               createVNode(_component_BsInputRadio, {
-                modelValue: unref(config).gravity_format,
-                "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => unref(config).gravity_format = $event),
+                modelValue: unref(config).gravity_unit,
+                "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => unref(config).gravity_unit = $event),
                 options: gravityOptions.value,
                 label: "Gravity Format",
                 width: "",
@@ -10009,8 +10165,18 @@ const _sfc_main$N = {
             ]),
             createBaseVNode("div", _hoisted_6$h, [
               createVNode(_component_BsInputRadio, {
+                modelValue: unref(config).pressure_unit,
+                "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => unref(config).pressure_unit = $event),
+                options: pressureOptions.value,
+                label: "Pressure Units",
+                width: "",
+                disabled: unref(global$1).disabled
+              }, null, 8, ["modelValue", "options", "disabled"])
+            ]),
+            createBaseVNode("div", _hoisted_7$f, [
+              createVNode(_component_BsInputRadio, {
                 modelValue: unref(config).dark_mode,
-                "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => unref(config).dark_mode = $event),
+                "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => unref(config).dark_mode = $event),
                 options: uiOptions.value,
                 label: "User Interface",
                 width: "",
@@ -10018,11 +10184,11 @@ const _sfc_main$N = {
               }, null, 8, ["modelValue", "options", "disabled"])
             ])
           ]),
-          createBaseVNode("div", _hoisted_7$f, [
-            _cache[12] || (_cache[12] = createBaseVNode("div", { class: "col-md-12" }, [
+          createBaseVNode("div", _hoisted_8$f, [
+            _cache[13] || (_cache[13] = createBaseVNode("div", { class: "col-md-12" }, [
               createBaseVNode("hr")
             ], -1)),
-            createBaseVNode("div", _hoisted_8$f, [
+            createBaseVNode("div", _hoisted_9$d, [
               createBaseVNode("button", {
                 type: "submit",
                 class: "btn btn-primary w-2",
@@ -10033,12 +10199,12 @@ const _sfc_main$N = {
                   role: "status",
                   "aria-hidden": "true",
                   hidden: !unref(global$1).disabled
-                }, null, 8, _hoisted_10$c),
-                _cache[7] || (_cache[7] = createTextVNode("  Save"))
-              ], 8, _hoisted_9$d),
-              _cache[10] || (_cache[10] = createTextVNode("  ")),
+                }, null, 8, _hoisted_11$a),
+                _cache[8] || (_cache[8] = createTextVNode("  Save"))
+              ], 8, _hoisted_10$c),
+              _cache[11] || (_cache[11] = createTextVNode("  ")),
               createBaseVNode("button", {
-                onClick: _cache[4] || (_cache[4] = ($event) => unref(restart)()),
+                onClick: _cache[5] || (_cache[5] = ($event) => unref(restart)()),
                 type: "button",
                 class: "btn btn-secondary",
                 disabled: unref(global$1).disabled
@@ -10048,10 +10214,10 @@ const _sfc_main$N = {
                   role: "status",
                   "aria-hidden": "true",
                   hidden: !unref(global$1).disabled
-                }, null, 8, _hoisted_12$9),
-                _cache[8] || (_cache[8] = createTextVNode("  Restart device"))
-              ], 8, _hoisted_11$a),
-              _cache[11] || (_cache[11] = createTextVNode("  ")),
+                }, null, 8, _hoisted_13$a),
+                _cache[9] || (_cache[9] = createTextVNode("  Restart device"))
+              ], 8, _hoisted_12$a),
+              _cache[12] || (_cache[12] = createTextVNode("  ")),
               createBaseVNode("button", {
                 onClick: factory,
                 type: "button",
@@ -10063,9 +10229,9 @@ const _sfc_main$N = {
                   role: "status",
                   "aria-hidden": "true",
                   hidden: !unref(global$1).disabled
-                }, null, 8, _hoisted_14$8),
-                _cache[9] || (_cache[9] = createTextVNode("  Restore factory defaults "))
-              ], 8, _hoisted_13$9)
+                }, null, 8, _hoisted_15$7),
+                _cache[10] || (_cache[10] = createTextVNode("  Restore factory defaults "))
+              ], 8, _hoisted_14$8)
             ])
           ])
         ], 32)
@@ -10167,12 +10333,14 @@ const _hoisted_2$t = { class: "row" };
 const _hoisted_3$n = { class: "col-md-4" };
 const _hoisted_4$k = { class: "col-md-4" };
 const _hoisted_5$g = { class: "col-md-4" };
-const _hoisted_6$g = { class: "row gy-2" };
-const _hoisted_7$e = { class: "col-md-12" };
-const _hoisted_8$e = ["disabled"];
-const _hoisted_9$c = ["hidden"];
+const _hoisted_6$g = { class: "col-md-12" };
+const _hoisted_7$e = { class: "fw-normal" };
+const _hoisted_8$e = { class: "row gy-2" };
+const _hoisted_9$c = { class: "col-md-12" };
 const _hoisted_10$b = ["disabled"];
 const _hoisted_11$9 = ["hidden"];
+const _hoisted_12$9 = ["disabled"];
+const _hoisted_13$9 = ["hidden"];
 const _sfc_main$K = {
   __name: "DeviceHardwareView",
   setup(__props) {
@@ -10207,10 +10375,11 @@ const _sfc_main$K = {
     return (_ctx, _cache) => {
       const _component_BsInputRadio = resolveComponent("BsInputRadio");
       const _component_BsInputNumber = resolveComponent("BsInputNumber");
+      const _component_lu = resolveComponent("lu");
       return openBlock(), createElementBlock("div", _hoisted_1$y, [
-        _cache[9] || (_cache[9] = createBaseVNode("p", null, null, -1)),
-        _cache[10] || (_cache[10] = createBaseVNode("p", { class: "h3" }, "Device - Hardware", -1)),
-        _cache[11] || (_cache[11] = createBaseVNode("hr", null, null, -1)),
+        _cache[12] || (_cache[12] = createBaseVNode("p", null, null, -1)),
+        _cache[13] || (_cache[13] = createBaseVNode("p", { class: "h3" }, "Device - Hardware", -1)),
+        _cache[14] || (_cache[14] = createBaseVNode("hr", null, null, -1)),
         createBaseVNode("form", {
           onSubmit: withModifiers(save, ["prevent"]),
           class: "needs-validation",
@@ -10233,7 +10402,7 @@ const _sfc_main$K = {
                 "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => unref(config).ble_scan_time = $event),
                 unit: "s",
                 label: "Scanning Time",
-                width: "3",
+                width: "4",
                 disabled: unref(global$1).disabled
               }, null, 8, ["modelValue", "disabled"])
             ]),
@@ -10247,29 +10416,34 @@ const _sfc_main$K = {
                 disabled: unref(global$1).disabled
               }, null, 8, ["modelValue", "options", "disabled"])
             ]),
-            _cache[4] || (_cache[4] = createBaseVNode("div", { class: "col-md-12" }, [
-              createBaseVNode("p", null, " "),
-              createBaseVNode("p", { class: "fw-normal" }, [
-                createTextVNode(" Supporting the following GravityMon BLE transmission options: "),
-                createBaseVNode("li", null, [
-                  createTextVNode("GravityMon iBeacon ("),
-                  createBaseVNode("b", null, "Passive scanning"),
-                  createTextVNode(")")
-                ]),
-                createBaseVNode("li", null, [
-                  createTextVNode("GravityMon EddyStone ("),
-                  createBaseVNode("b", null, "Active scanning, Require BLE 5.0, i.e. ESP32 S3"),
-                  createTextVNode(")")
-                ])
+            createBaseVNode("div", _hoisted_6$g, [
+              _cache[6] || (_cache[6] = createBaseVNode("p", null, " ", -1)),
+              createBaseVNode("p", _hoisted_7$e, [
+                _cache[5] || (_cache[5] = createTextVNode(" Supporting the following GravityMon BLE transmission options: ")),
+                createVNode(_component_lu, null, {
+                  default: withCtx(() => _cache[4] || (_cache[4] = [
+                    createBaseVNode("li", null, [
+                      createTextVNode("GravityMon iBeacon ("),
+                      createBaseVNode("b", null, "Passive scanning"),
+                      createTextVNode(")")
+                    ], -1),
+                    createBaseVNode("li", null, [
+                      createTextVNode("GravityMon EddyStone ("),
+                      createBaseVNode("b", null, "Active scanning, Require BLE 5.0, i.e. ESP32 S3"),
+                      createTextVNode(")")
+                    ], -1)
+                  ])),
+                  _: 1
+                })
               ]),
-              createBaseVNode("p", { class: "fw-normal" }, "If you want to use the Tilt options I recommend TiltBridge!")
-            ], -1))
+              _cache[7] || (_cache[7] = createBaseVNode("p", { class: "fw-normal" }, "If you want to use the Tilt options I recommend TiltBridge!", -1))
+            ])
           ]),
-          createBaseVNode("div", _hoisted_6$g, [
-            _cache[8] || (_cache[8] = createBaseVNode("div", { class: "col-md-12" }, [
+          createBaseVNode("div", _hoisted_8$e, [
+            _cache[11] || (_cache[11] = createBaseVNode("div", { class: "col-md-12" }, [
               createBaseVNode("hr")
             ], -1)),
-            createBaseVNode("div", _hoisted_7$e, [
+            createBaseVNode("div", _hoisted_9$c, [
               createBaseVNode("button", {
                 type: "submit",
                 class: "btn btn-primary w-2",
@@ -10280,10 +10454,10 @@ const _sfc_main$K = {
                   role: "status",
                   "aria-hidden": "true",
                   hidden: !unref(global$1).disabled
-                }, null, 8, _hoisted_9$c),
-                _cache[5] || (_cache[5] = createTextVNode("  Save"))
-              ], 8, _hoisted_8$e),
-              _cache[7] || (_cache[7] = createTextVNode("  ")),
+                }, null, 8, _hoisted_11$9),
+                _cache[8] || (_cache[8] = createTextVNode("  Save"))
+              ], 8, _hoisted_10$b),
+              _cache[10] || (_cache[10] = createTextVNode("  ")),
               createBaseVNode("button", {
                 onClick: _cache[3] || (_cache[3] = ($event) => unref(restart)()),
                 type: "button",
@@ -10295,9 +10469,9 @@ const _sfc_main$K = {
                   role: "status",
                   "aria-hidden": "true",
                   hidden: !unref(global$1).disabled
-                }, null, 8, _hoisted_11$9),
-                _cache[6] || (_cache[6] = createTextVNode("  Restart device "))
-              ], 8, _hoisted_10$b)
+                }, null, 8, _hoisted_13$9),
+                _cache[9] || (_cache[9] = createTextVNode("  Restart device "))
+              ], 8, _hoisted_12$9)
             ])
           ])
         ], 32)
@@ -10655,24 +10829,16 @@ const _hoisted_7$b = { class: "col-md-9" };
 const _hoisted_8$b = { class: "col-md-3" };
 const _hoisted_9$9 = { class: "col-md-9" };
 const _hoisted_10$9 = { class: "col-md-3" };
-const _hoisted_11$7 = { class: "row gy-2" };
-const _hoisted_12$7 = { class: "col-md-12" };
-const _hoisted_13$7 = ["disabled"];
-const _hoisted_14$6 = ["hidden"];
+const _hoisted_11$7 = { class: "col-md-9" };
+const _hoisted_12$7 = { class: "col-md-3" };
+const _hoisted_13$7 = { class: "row gy-2" };
+const _hoisted_14$6 = { class: "col-md-12" };
 const _hoisted_15$5 = ["disabled"];
 const _hoisted_16$3 = ["hidden"];
 const _sfc_main$H = {
   __name: "PushHttpPost1View",
   setup(__props) {
     const render = ref("");
-    const runTest = () => {
-      const data = {
-        push_format: "http_post_format"
-      };
-      global$1.clearMessages();
-      config.runPushTest(data, () => {
-      });
-    };
     const httpUrlCallback = (opt) => {
       config.http_post_target = opt;
     };
@@ -10682,11 +10848,17 @@ const _sfc_main$H = {
     const httpHeaderH2Callback = (opt) => {
       config.http_post_header2 = opt;
     };
-    const httpFormatCallback = (opt) => {
-      config.http_post_format = decodeURIComponent(opt);
+    const gravityHttpFormatCallback = (opt) => {
+      config.http_post_format_gravity = decodeURIComponent(opt);
     };
-    const renderFormat = () => {
-      render.value = applyTemplate(status, config, config.http_post_format);
+    const pressureHttpFormatCallback = (opt) => {
+      config.http_post_format_pressure = decodeURIComponent(opt);
+    };
+    const gravityRenderFormat = () => {
+      render.value = applyTemplate(status, config, config.http_post_format_gravity);
+    };
+    const pressureRenderFormat = () => {
+      render.value = applyTemplate(status, config, config.http_post_format_pressure);
     };
     const save = () => {
       if (!validateCurrentForm()) return;
@@ -10696,11 +10868,12 @@ const _sfc_main$H = {
       const _component_BsInputText = resolveComponent("BsInputText");
       const _component_BsDropdown = resolveComponent("BsDropdown");
       const _component_BsInputTextAreaFormat = resolveComponent("BsInputTextAreaFormat");
+      const _component_BsInputSwitch = resolveComponent("BsInputSwitch");
       const _component_BsModal = resolveComponent("BsModal");
       return openBlock(), createElementBlock("div", _hoisted_1$v, [
-        _cache[9] || (_cache[9] = createBaseVNode("p", null, null, -1)),
-        _cache[10] || (_cache[10] = createBaseVNode("p", { class: "h3" }, "Push - HTTP Post", -1)),
-        _cache[11] || (_cache[11] = createBaseVNode("hr", null, null, -1)),
+        _cache[12] || (_cache[12] = createBaseVNode("p", null, null, -1)),
+        _cache[13] || (_cache[13] = createBaseVNode("p", { class: "h3" }, "Push - HTTP Post", -1)),
+        _cache[14] || (_cache[14] = createBaseVNode("hr", null, null, -1)),
         createBaseVNode("form", {
           onSubmit: withModifiers(save, ["prevent"]),
           class: "needs-validation",
@@ -10769,38 +10942,78 @@ const _sfc_main$H = {
             ]),
             createBaseVNode("div", _hoisted_9$9, [
               createVNode(_component_BsInputTextAreaFormat, {
-                modelValue: unref(config).http_post_format,
-                "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => unref(config).http_post_format = $event),
+                modelValue: unref(config).http_post_format_gravity,
+                "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => unref(config).http_post_format_gravity = $event),
                 rows: "6",
-                label: "Data format",
+                label: "Gravity Data format",
                 help: "Format template used to create the data sent to the remote service",
-                disabled: unref(global$1).disabled
+                disabled: unref(global$1).disabled || !unref(config).http_post_gravity
               }, null, 8, ["modelValue", "disabled"])
             ]),
             createBaseVNode("div", _hoisted_10$9, [
+              createVNode(_component_BsInputSwitch, {
+                modelValue: unref(config).http_post_gravity,
+                "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => unref(config).http_post_gravity = $event),
+                label: "Enable gravity",
+                disabled: unref(global$1).disabled
+              }, null, 8, ["modelValue", "disabled"]),
               createVNode(_component_BsDropdown, {
                 label: "Predefined formats",
                 button: "Formats",
-                options: unref(httpPostFormatOptions),
-                callback: httpFormatCallback,
-                disabled: unref(global$1).disabled
+                options: unref(gravityHttpPostFormatOptions),
+                callback: gravityHttpFormatCallback,
+                disabled: unref(global$1).disabled || !unref(config).http_post_gravity
               }, null, 8, ["options", "disabled"]),
               createVNode(_component_BsModal, {
-                onClick: renderFormat,
+                onClick: gravityRenderFormat,
                 modelValue: render.value,
-                "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => render.value = $event),
+                "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => render.value = $event),
                 code: true,
                 title: "Format preview",
                 button: "Preview format",
+                disabled: unref(global$1).disabled || !unref(config).http_post_gravity
+              }, null, 8, ["modelValue", "disabled"])
+            ]),
+            createBaseVNode("div", _hoisted_11$7, [
+              createVNode(_component_BsInputTextAreaFormat, {
+                modelValue: unref(config).http_post_format_pressure,
+                "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => unref(config).http_post_format_pressure = $event),
+                rows: "6",
+                label: "Pressure Data format",
+                help: "Format template used to create the data sent to the remote service",
+                disabled: unref(global$1).disabled || !unref(config).http_post_pressure
+              }, null, 8, ["modelValue", "disabled"])
+            ]),
+            createBaseVNode("div", _hoisted_12$7, [
+              createVNode(_component_BsInputSwitch, {
+                modelValue: unref(config).http_post_pressure,
+                "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => unref(config).http_post_pressure = $event),
+                label: "Enable pressure",
                 disabled: unref(global$1).disabled
+              }, null, 8, ["modelValue", "disabled"]),
+              createVNode(_component_BsDropdown, {
+                label: "Predefined formats",
+                button: "Formats",
+                options: unref(pressureHttpPostFormatOptions),
+                callback: pressureHttpFormatCallback,
+                disabled: unref(global$1).disabled || !unref(config).http_post_pressure
+              }, null, 8, ["options", "disabled"]),
+              createVNode(_component_BsModal, {
+                onClick: pressureRenderFormat,
+                modelValue: render.value,
+                "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => render.value = $event),
+                code: true,
+                title: "Format preview",
+                button: "Preview format",
+                disabled: unref(global$1).disabled || !unref(config).http_post_pressure
               }, null, 8, ["modelValue", "disabled"])
             ])
           ]),
-          createBaseVNode("div", _hoisted_11$7, [
-            _cache[8] || (_cache[8] = createBaseVNode("div", { class: "col-md-12" }, [
+          createBaseVNode("div", _hoisted_13$7, [
+            _cache[11] || (_cache[11] = createBaseVNode("div", { class: "col-md-12" }, [
               createBaseVNode("hr")
             ], -1)),
-            createBaseVNode("div", _hoisted_12$7, [
+            createBaseVNode("div", _hoisted_14$6, [
               createBaseVNode("button", {
                 type: "submit",
                 class: "btn btn-primary w-2",
@@ -10811,24 +11024,10 @@ const _sfc_main$H = {
                   role: "status",
                   "aria-hidden": "true",
                   hidden: !unref(global$1).disabled
-                }, null, 8, _hoisted_14$6),
-                _cache[5] || (_cache[5] = createTextVNode("  Save"))
-              ], 8, _hoisted_13$7),
-              _cache[7] || (_cache[7] = createTextVNode("  ")),
-              createBaseVNode("button", {
-                onClick: runTest,
-                type: "button",
-                class: "btn btn-secondary",
-                disabled: unref(global$1).disabled
-              }, [
-                createBaseVNode("span", {
-                  class: "spinner-border spinner-border-sm",
-                  role: "status",
-                  "aria-hidden": "true",
-                  hidden: !unref(global$1).disabled
                 }, null, 8, _hoisted_16$3),
-                _cache[6] || (_cache[6] = createTextVNode("  Run push test "))
-              ], 8, _hoisted_15$5)
+                _cache[9] || (_cache[9] = createTextVNode("  Save"))
+              ], 8, _hoisted_15$5),
+              _cache[10] || (_cache[10] = createTextVNode("  "))
             ])
           ])
         ], 32)
@@ -10848,12 +11047,13 @@ const _hoisted_9$8 = { class: "col-md-3" };
 const _hoisted_10$8 = { class: "row" };
 const _hoisted_11$6 = { class: "col-md-9" };
 const _hoisted_12$6 = { class: "col-md-3" };
-const _hoisted_13$6 = { class: "row gy-2" };
-const _hoisted_14$5 = { class: "col-md-12" };
-const _hoisted_15$4 = ["disabled"];
-const _hoisted_16$2 = ["hidden"];
-const _hoisted_17$1 = ["disabled"];
-const _hoisted_18$1 = ["hidden"];
+const _hoisted_13$6 = { class: "row" };
+const _hoisted_14$5 = { class: "col-md-9" };
+const _hoisted_15$4 = { class: "col-md-3" };
+const _hoisted_16$2 = { class: "row gy-2" };
+const _hoisted_17$1 = { class: "col-md-12" };
+const _hoisted_18$1 = ["disabled"];
+const _hoisted_19 = ["hidden"];
 const _sfc_main$G = {
   __name: "PushHttpPost2View",
   setup(__props) {
@@ -10861,14 +11061,6 @@ const _sfc_main$G = {
     const pushDisabled = computed(() => {
       return global$1.disabled || config.use_wifi_direct;
     });
-    const runTest = () => {
-      const data = {
-        push_format: "http_post2_format"
-      };
-      global$1.clearMessages();
-      config.runPushTest(data, () => {
-      });
-    };
     const httpUrlCallback = (opt) => {
       config.http_post2_target = opt;
     };
@@ -10878,11 +11070,17 @@ const _sfc_main$G = {
     const httpHeaderH2Callback = (opt) => {
       config.http_post2_header2 = opt;
     };
-    const httpFormatCallback = (opt) => {
-      config.http_post2_format = decodeURIComponent(opt);
+    const gravityHttpFormatCallback = (opt) => {
+      config.http_post2_format_gravity = decodeURIComponent(opt);
     };
-    const renderFormat = () => {
-      render.value = applyTemplate(status, config, config.http_post2_format);
+    const pressureHttpFormatCallback = (opt) => {
+      config.http_post2_format_pressure = decodeURIComponent(opt);
+    };
+    const gravityRenderFormat = () => {
+      render.value = applyTemplate(status, config, config.http_post2_format_gravity);
+    };
+    const pressureRenderFormat = () => {
+      render.value = applyTemplate(status, config, config.http_post2_format_pressure);
     };
     const save = () => {
       if (!validateCurrentForm()) return;
@@ -10892,11 +11090,12 @@ const _sfc_main$G = {
       const _component_BsInputText = resolveComponent("BsInputText");
       const _component_BsDropdown = resolveComponent("BsDropdown");
       const _component_BsInputTextAreaFormat = resolveComponent("BsInputTextAreaFormat");
+      const _component_BsInputSwitch = resolveComponent("BsInputSwitch");
       const _component_BsModal = resolveComponent("BsModal");
       return openBlock(), createElementBlock("div", _hoisted_1$u, [
-        _cache[9] || (_cache[9] = createBaseVNode("p", null, null, -1)),
-        _cache[10] || (_cache[10] = createBaseVNode("p", { class: "h3" }, "Push - HTTP Post #2", -1)),
-        _cache[11] || (_cache[11] = createBaseVNode("hr", null, null, -1)),
+        _cache[12] || (_cache[12] = createBaseVNode("p", null, null, -1)),
+        _cache[13] || (_cache[13] = createBaseVNode("p", { class: "h3" }, "Push - HTTP Post #2", -1)),
+        _cache[14] || (_cache[14] = createBaseVNode("hr", null, null, -1)),
         createBaseVNode("form", {
           onSubmit: withModifiers(save, ["prevent"]),
           class: "needs-validation",
@@ -10968,38 +11167,80 @@ const _sfc_main$G = {
           createBaseVNode("div", _hoisted_10$8, [
             createBaseVNode("div", _hoisted_11$6, [
               createVNode(_component_BsInputTextAreaFormat, {
-                modelValue: unref(config).http_post2_format,
-                "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => unref(config).http_post2_format = $event),
+                modelValue: unref(config).http_post2_format_gravity,
+                "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => unref(config).http_post2_format_gravity = $event),
                 rows: "6",
-                label: "Data format",
+                label: "Gravity Data format",
                 help: "Format template used to create the data sent to the remote service",
-                disabled: pushDisabled.value
+                disabled: pushDisabled.value || !unref(config).http_post_gravity
               }, null, 8, ["modelValue", "disabled"])
             ]),
             createBaseVNode("div", _hoisted_12$6, [
+              createVNode(_component_BsInputSwitch, {
+                modelValue: unref(config).http_post2_gravity,
+                "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => unref(config).http_post2_gravity = $event),
+                label: "Enable gravity",
+                disabled: unref(global$1).disabled
+              }, null, 8, ["modelValue", "disabled"]),
               createVNode(_component_BsDropdown, {
                 label: "Predefined formats",
                 button: "Formats",
-                options: unref(httpPostFormatOptions),
-                callback: httpFormatCallback,
-                disabled: pushDisabled.value
+                options: unref(gravityHttpPostFormatOptions),
+                callback: gravityHttpFormatCallback,
+                disabled: pushDisabled.value || !unref(config).http_post2_gravity
               }, null, 8, ["options", "disabled"]),
               createVNode(_component_BsModal, {
-                onClick: renderFormat,
+                onClick: gravityRenderFormat,
                 modelValue: render.value,
-                "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => render.value = $event),
+                "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => render.value = $event),
                 code: true,
                 title: "Format preview",
                 button: "Preview format",
-                disabled: pushDisabled.value
+                disabled: pushDisabled.value || !unref(config).http_post2_gravity
               }, null, 8, ["modelValue", "disabled"])
             ])
           ]),
           createBaseVNode("div", _hoisted_13$6, [
-            _cache[8] || (_cache[8] = createBaseVNode("div", { class: "col-md-12" }, [
+            createBaseVNode("div", _hoisted_14$5, [
+              createVNode(_component_BsInputTextAreaFormat, {
+                modelValue: unref(config).http_post2_format_pressure,
+                "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => unref(config).http_post2_format_pressure = $event),
+                rows: "6",
+                label: "Pressure Data format",
+                help: "Format template used to create the data sent to the remote service",
+                disabled: pushDisabled.value || !unref(config).http_post2_pressure
+              }, null, 8, ["modelValue", "disabled"])
+            ]),
+            createBaseVNode("div", _hoisted_15$4, [
+              createVNode(_component_BsInputSwitch, {
+                modelValue: unref(config).http_post2_pressure,
+                "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => unref(config).http_post2_pressure = $event),
+                label: "Enable pressure",
+                disabled: unref(global$1).disabled
+              }, null, 8, ["modelValue", "disabled"]),
+              createVNode(_component_BsDropdown, {
+                label: "Predefined formats",
+                button: "Formats",
+                options: unref(pressureHttpPostFormatOptions),
+                callback: pressureHttpFormatCallback,
+                disabled: pushDisabled.value || !unref(config).http_post2_pressure
+              }, null, 8, ["options", "disabled"]),
+              createVNode(_component_BsModal, {
+                onClick: pressureRenderFormat,
+                modelValue: render.value,
+                "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => render.value = $event),
+                code: true,
+                title: "Format preview",
+                button: "Preview format",
+                disabled: pushDisabled.value || !unref(config).http_post2_pressure
+              }, null, 8, ["modelValue", "disabled"])
+            ])
+          ]),
+          createBaseVNode("div", _hoisted_16$2, [
+            _cache[11] || (_cache[11] = createBaseVNode("div", { class: "col-md-12" }, [
               createBaseVNode("hr")
             ], -1)),
-            createBaseVNode("div", _hoisted_14$5, [
+            createBaseVNode("div", _hoisted_17$1, [
               createBaseVNode("button", {
                 type: "submit",
                 class: "btn btn-primary w-2",
@@ -11010,24 +11251,10 @@ const _sfc_main$G = {
                   role: "status",
                   "aria-hidden": "true",
                   hidden: !unref(global$1).disabled
-                }, null, 8, _hoisted_16$2),
-                _cache[5] || (_cache[5] = createTextVNode("  Save"))
-              ], 8, _hoisted_15$4),
-              _cache[7] || (_cache[7] = createTextVNode("  ")),
-              createBaseVNode("button", {
-                onClick: runTest,
-                type: "button",
-                class: "btn btn-secondary",
-                disabled: pushDisabled.value
-              }, [
-                createBaseVNode("span", {
-                  class: "spinner-border spinner-border-sm",
-                  role: "status",
-                  "aria-hidden": "true",
-                  hidden: !unref(global$1).disabled
-                }, null, 8, _hoisted_18$1),
-                _cache[6] || (_cache[6] = createTextVNode("  Run push test "))
-              ], 8, _hoisted_17$1)
+                }, null, 8, _hoisted_19),
+                _cache[9] || (_cache[9] = createTextVNode("  Save"))
+              ], 8, _hoisted_18$1),
+              _cache[10] || (_cache[10] = createTextVNode("  "))
             ])
           ])
         ], 40, _hoisted_2$p)
@@ -11045,10 +11272,10 @@ const _hoisted_7$9 = { class: "col-md-9" };
 const _hoisted_8$9 = { class: "col-md-3" };
 const _hoisted_9$7 = { class: "col-md-9" };
 const _hoisted_10$7 = { class: "col-md-3" };
-const _hoisted_11$5 = { class: "row gy-2" };
-const _hoisted_12$5 = { class: "col-md-12" };
-const _hoisted_13$5 = ["disabled"];
-const _hoisted_14$4 = ["hidden"];
+const _hoisted_11$5 = { class: "col-md-9" };
+const _hoisted_12$5 = { class: "col-md-3" };
+const _hoisted_13$5 = { class: "row gy-2" };
+const _hoisted_14$4 = { class: "col-md-12" };
 const _hoisted_15$3 = ["disabled"];
 const _hoisted_16$1 = ["hidden"];
 const _sfc_main$F = {
@@ -11058,14 +11285,6 @@ const _sfc_main$F = {
     const pushDisabled = computed(() => {
       return global$1.disabled || config.use_wifi_direct;
     });
-    const runTest = () => {
-      const data = {
-        push_format: "http_get_format"
-      };
-      global$1.clearMessages();
-      config.runPushTest(data, () => {
-      });
-    };
     const httpUrlCallback = (opt) => {
       config.http_get_target = opt;
     };
@@ -11075,11 +11294,18 @@ const _sfc_main$F = {
     const httpHeaderH2Callback = (opt) => {
       config.http_get_header2 = opt;
     };
-    const httpFormatCallback = (opt) => {
-      config.http_get_format = decodeURIComponent(opt);
+    const gravityHttpFormatCallback = (opt) => {
+      config.http_get_format_gravity = decodeURIComponent(opt);
     };
-    const renderFormat = () => {
-      var s = applyTemplate(status, config, config.http_get_format);
+    const pressureHttpFormatCallback = (opt) => {
+      config.http_get_format_pressure = decodeURIComponent(opt);
+    };
+    const gravityRenderFormat = () => {
+      var s = applyTemplate(status, config, config.http_get_format_gravity);
+      render.value = s.replaceAll("&", "&");
+    };
+    const pressureRenderFormat = () => {
+      var s = applyTemplate(status, config, config.http_get_format_pressure);
       render.value = s.replaceAll("&", "&");
     };
     const save = () => {
@@ -11090,11 +11316,12 @@ const _sfc_main$F = {
       const _component_BsInputText = resolveComponent("BsInputText");
       const _component_BsDropdown = resolveComponent("BsDropdown");
       const _component_BsInputTextAreaFormat = resolveComponent("BsInputTextAreaFormat");
+      const _component_BsInputSwitch = resolveComponent("BsInputSwitch");
       const _component_BsModal = resolveComponent("BsModal");
       return openBlock(), createElementBlock("div", _hoisted_1$t, [
-        _cache[9] || (_cache[9] = createBaseVNode("p", null, null, -1)),
-        _cache[10] || (_cache[10] = createBaseVNode("p", { class: "h3" }, "Push - HTTP Get", -1)),
-        _cache[11] || (_cache[11] = createBaseVNode("hr", null, null, -1)),
+        _cache[12] || (_cache[12] = createBaseVNode("p", null, null, -1)),
+        _cache[13] || (_cache[13] = createBaseVNode("p", { class: "h3" }, "Push - HTTP Get", -1)),
+        _cache[14] || (_cache[14] = createBaseVNode("hr", null, null, -1)),
         createBaseVNode("form", {
           onSubmit: withModifiers(save, ["prevent"]),
           class: "needs-validation",
@@ -11163,38 +11390,78 @@ const _sfc_main$F = {
             ]),
             createBaseVNode("div", _hoisted_9$7, [
               createVNode(_component_BsInputTextAreaFormat, {
-                modelValue: unref(config).http_get_format,
-                "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => unref(config).http_get_format = $event),
+                modelValue: unref(config).http_get_format_gravity,
+                "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => unref(config).http_get_format_gravity = $event),
                 rows: "6",
-                label: "Data format",
+                label: "Gravity Data format",
                 help: "Format template used to create the data sent to the remote service",
-                disabled: pushDisabled.value
+                disabled: pushDisabled.value || !unref(config).http_get_gravity
               }, null, 8, ["modelValue", "disabled"])
             ]),
             createBaseVNode("div", _hoisted_10$7, [
+              createVNode(_component_BsInputSwitch, {
+                modelValue: unref(config).http_get_gravity,
+                "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => unref(config).http_get_gravity = $event),
+                label: "Enable gravity",
+                disabled: unref(global$1).disabled
+              }, null, 8, ["modelValue", "disabled"]),
               createVNode(_component_BsDropdown, {
                 label: "Predefined formats",
                 button: "Formats",
-                options: unref(httpGetFormatOptions),
-                callback: httpFormatCallback,
-                disabled: pushDisabled.value
+                options: unref(gravityHttpGetFormatOptions),
+                callback: gravityHttpFormatCallback,
+                disabled: pushDisabled.value || !unref(config).http_get_gravity
               }, null, 8, ["options", "disabled"]),
               createVNode(_component_BsModal, {
-                onClick: renderFormat,
+                onClick: gravityRenderFormat,
                 modelValue: render.value,
-                "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => render.value = $event),
+                "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => render.value = $event),
                 code: true,
                 title: "Format preview",
                 button: "Preview format",
-                disabled: pushDisabled.value
+                disabled: pushDisabled.value || !unref(config).http_get_gravity
+              }, null, 8, ["modelValue", "disabled"])
+            ]),
+            createBaseVNode("div", _hoisted_11$5, [
+              createVNode(_component_BsInputTextAreaFormat, {
+                modelValue: unref(config).http_get_format_pressure,
+                "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => unref(config).http_get_format_pressure = $event),
+                rows: "6",
+                label: "Pressure Data format",
+                help: "Format template used to create the data sent to the remote service",
+                disabled: pushDisabled.value || !unref(config).http_get_pressure
+              }, null, 8, ["modelValue", "disabled"])
+            ]),
+            createBaseVNode("div", _hoisted_12$5, [
+              createVNode(_component_BsInputSwitch, {
+                modelValue: unref(config).http_get_pressure,
+                "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => unref(config).http_get_pressure = $event),
+                label: "Enable pressure",
+                disabled: unref(global$1).disabled
+              }, null, 8, ["modelValue", "disabled"]),
+              createVNode(_component_BsDropdown, {
+                label: "Predefined formats",
+                button: "Formats",
+                options: unref(pressureHttpGetFormatOptions),
+                callback: pressureHttpFormatCallback,
+                disabled: pushDisabled.value || !unref(config).http_get_pressure
+              }, null, 8, ["options", "disabled"]),
+              createVNode(_component_BsModal, {
+                onClick: pressureRenderFormat,
+                modelValue: render.value,
+                "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => render.value = $event),
+                code: true,
+                title: "Format preview",
+                button: "Preview format",
+                disabled: pushDisabled.value || !unref(config).http_get_pressure
               }, null, 8, ["modelValue", "disabled"])
             ])
           ]),
-          createBaseVNode("div", _hoisted_11$5, [
-            _cache[8] || (_cache[8] = createBaseVNode("div", { class: "col-md-12" }, [
+          createBaseVNode("div", _hoisted_13$5, [
+            _cache[11] || (_cache[11] = createBaseVNode("div", { class: "col-md-12" }, [
               createBaseVNode("hr")
             ], -1)),
-            createBaseVNode("div", _hoisted_12$5, [
+            createBaseVNode("div", _hoisted_14$4, [
               createBaseVNode("button", {
                 type: "submit",
                 class: "btn btn-primary w-2",
@@ -11205,24 +11472,10 @@ const _sfc_main$F = {
                   role: "status",
                   "aria-hidden": "true",
                   hidden: !unref(global$1).disabled
-                }, null, 8, _hoisted_14$4),
-                _cache[5] || (_cache[5] = createTextVNode("  Save"))
-              ], 8, _hoisted_13$5),
-              _cache[7] || (_cache[7] = createTextVNode("  ")),
-              createBaseVNode("button", {
-                onClick: runTest,
-                type: "button",
-                class: "btn btn-secondary",
-                disabled: pushDisabled.value
-              }, [
-                createBaseVNode("span", {
-                  class: "spinner-border spinner-border-sm",
-                  role: "status",
-                  "aria-hidden": "true",
-                  hidden: !unref(global$1).disabled
                 }, null, 8, _hoisted_16$1),
-                _cache[6] || (_cache[6] = createTextVNode("  Run push test "))
-              ], 8, _hoisted_15$3)
+                _cache[9] || (_cache[9] = createTextVNode("  Save"))
+              ], 8, _hoisted_15$3),
+              _cache[10] || (_cache[10] = createTextVNode("  "))
             ])
           ])
         ], 32)
@@ -11239,10 +11492,10 @@ const _hoisted_6$a = { class: "col-md-6" };
 const _hoisted_7$8 = { class: "col-md-6" };
 const _hoisted_8$8 = { class: "col-md-9" };
 const _hoisted_9$6 = { class: "col-md-3 gy-2" };
-const _hoisted_10$6 = { class: "row gy-2" };
-const _hoisted_11$4 = { class: "col-sm-12" };
-const _hoisted_12$4 = ["disabled"];
-const _hoisted_13$4 = ["hidden"];
+const _hoisted_10$6 = { class: "col-md-9" };
+const _hoisted_11$4 = { class: "col-md-3 gy-2" };
+const _hoisted_12$4 = { class: "row gy-2" };
+const _hoisted_13$4 = { class: "col-sm-12" };
 const _hoisted_14$3 = ["disabled"];
 const _hoisted_15$2 = ["hidden"];
 const _sfc_main$E = {
@@ -11252,19 +11505,17 @@ const _sfc_main$E = {
     const pushDisabled = computed(() => {
       return global$1.disabled || config.use_wifi_direct;
     });
-    const runTest = () => {
-      const data = {
-        push_format: "influxdb2_format"
-      };
-      global$1.clearMessages();
-      config.runPushTest(data, () => {
-      });
+    const gravityInfluxdb2FormatCallback = (opt) => {
+      config.influxdb2_format_gravity = decodeURIComponent(opt);
     };
-    const influxdb2FormatCallback = (opt) => {
-      config.influxdb2_format = decodeURIComponent(opt);
+    const pressureInfluxdb2FormatCallback = (opt) => {
+      config.influxdb2_format_pressure = decodeURIComponent(opt);
     };
-    const renderFormat = () => {
-      render.value = applyTemplate(status, config, config.influxdb2_format);
+    const gravityRenderFormat = () => {
+      render.value = applyTemplate(status, config, config.influxdb2_format_gravity);
+    };
+    const pressureRenderFormat = () => {
+      render.value = applyTemplate(status, config, config.influxdb2_format_pressure);
     };
     const save = () => {
       if (!validateCurrentForm()) return;
@@ -11273,12 +11524,13 @@ const _sfc_main$E = {
     return (_ctx, _cache) => {
       const _component_BsInputText = resolveComponent("BsInputText");
       const _component_BsInputTextAreaFormat = resolveComponent("BsInputTextAreaFormat");
+      const _component_BsInputSwitch = resolveComponent("BsInputSwitch");
       const _component_BsDropdown = resolveComponent("BsDropdown");
       const _component_BsModal = resolveComponent("BsModal");
       return openBlock(), createElementBlock("div", _hoisted_1$s, [
-        _cache[10] || (_cache[10] = createBaseVNode("p", null, null, -1)),
-        _cache[11] || (_cache[11] = createBaseVNode("p", { class: "h3" }, "Push - Influxdb v2", -1)),
-        _cache[12] || (_cache[12] = createBaseVNode("hr", null, null, -1)),
+        _cache[13] || (_cache[13] = createBaseVNode("p", null, null, -1)),
+        _cache[14] || (_cache[14] = createBaseVNode("p", { class: "h3" }, "Push - Influxdb v2", -1)),
+        _cache[15] || (_cache[15] = createBaseVNode("hr", null, null, -1)),
         createBaseVNode("form", {
           onSubmit: withModifiers(save, ["prevent"]),
           class: "needs-validation",
@@ -11330,38 +11582,78 @@ const _sfc_main$E = {
             ]),
             createBaseVNode("div", _hoisted_8$8, [
               createVNode(_component_BsInputTextAreaFormat, {
-                modelValue: unref(config).influxdb2_format,
-                "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => unref(config).influxdb2_format = $event),
+                modelValue: unref(config).influxdb2_format_gravity,
+                "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => unref(config).influxdb2_format_gravity = $event),
                 rows: "6",
-                label: "Data format",
+                label: "Gravity Data format",
                 help: "Format template used to create the data sent to the remote service",
-                disabled: pushDisabled.value
+                disabled: pushDisabled.value || !unref(config).influxdb2_gravity
               }, null, 8, ["modelValue", "disabled"])
             ]),
             createBaseVNode("div", _hoisted_9$6, [
+              createVNode(_component_BsInputSwitch, {
+                modelValue: unref(config).influxdb2_gravity,
+                "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => unref(config).influxdb2_gravity = $event),
+                label: "Enable gravity",
+                disabled: unref(global$1).disabled
+              }, null, 8, ["modelValue", "disabled"]),
               createVNode(_component_BsDropdown, {
                 label: "Predefined formats",
                 button: "Formats",
-                options: unref(influxdb2FormatOptions),
-                callback: influxdb2FormatCallback,
-                disabled: pushDisabled.value
+                options: unref(gravityInfluxdb2FormatOptions),
+                callback: gravityInfluxdb2FormatCallback,
+                disabled: pushDisabled.value || !unref(config).influxdb2_gravity
               }, null, 8, ["options", "disabled"]),
               createVNode(_component_BsModal, {
-                onClick: renderFormat,
+                onClick: gravityRenderFormat,
                 modelValue: render.value,
-                "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => render.value = $event),
+                "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => render.value = $event),
                 code: true,
                 title: "Format preview",
                 button: "Preview format",
-                disabled: pushDisabled.value
+                disabled: pushDisabled.value || !unref(config).influxdb2_gravity
+              }, null, 8, ["modelValue", "disabled"])
+            ]),
+            createBaseVNode("div", _hoisted_10$6, [
+              createVNode(_component_BsInputTextAreaFormat, {
+                modelValue: unref(config).influxdb2_format_pressure,
+                "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => unref(config).influxdb2_format_pressure = $event),
+                rows: "6",
+                label: "Pressure Data format",
+                help: "Format template used to create the data sent to the remote service",
+                disabled: pushDisabled.value || !unref(config).influxdb2_pressure
+              }, null, 8, ["modelValue", "disabled"])
+            ]),
+            createBaseVNode("div", _hoisted_11$4, [
+              createVNode(_component_BsInputSwitch, {
+                modelValue: unref(config).influxdb2_pressure,
+                "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => unref(config).influxdb2_pressure = $event),
+                label: "Enable pressure",
+                disabled: unref(global$1).disabled
+              }, null, 8, ["modelValue", "disabled"]),
+              createVNode(_component_BsDropdown, {
+                label: "Predefined formats",
+                button: "Formats",
+                options: unref(pressureInfluxdb2FormatOptions),
+                callback: pressureInfluxdb2FormatCallback,
+                disabled: pushDisabled.value || !unref(config).influxdb2_pressure
+              }, null, 8, ["options", "disabled"]),
+              createVNode(_component_BsModal, {
+                onClick: pressureRenderFormat,
+                modelValue: render.value,
+                "onUpdate:modelValue": _cache[9] || (_cache[9] = ($event) => render.value = $event),
+                code: true,
+                title: "Format preview",
+                button: "Preview format",
+                disabled: pushDisabled.value || !unref(config).influxdb2_pressure
               }, null, 8, ["modelValue", "disabled"])
             ])
           ]),
-          createBaseVNode("div", _hoisted_10$6, [
-            _cache[9] || (_cache[9] = createBaseVNode("div", { class: "col-md-12" }, [
+          createBaseVNode("div", _hoisted_12$4, [
+            _cache[12] || (_cache[12] = createBaseVNode("div", { class: "col-md-12" }, [
               createBaseVNode("hr")
             ], -1)),
-            createBaseVNode("div", _hoisted_11$4, [
+            createBaseVNode("div", _hoisted_13$4, [
               createBaseVNode("button", {
                 type: "submit",
                 class: "btn btn-primary w-2",
@@ -11372,24 +11664,10 @@ const _sfc_main$E = {
                   role: "status",
                   "aria-hidden": "true",
                   hidden: !unref(global$1).disabled
-                }, null, 8, _hoisted_13$4),
-                _cache[6] || (_cache[6] = createTextVNode("  Save"))
-              ], 8, _hoisted_12$4),
-              _cache[8] || (_cache[8] = createTextVNode("  ")),
-              createBaseVNode("button", {
-                onClick: runTest,
-                type: "button",
-                class: "btn btn-secondary",
-                disabled: pushDisabled.value
-              }, [
-                createBaseVNode("span", {
-                  class: "spinner-border spinner-border-sm",
-                  role: "status",
-                  "aria-hidden": "true",
-                  hidden: !unref(global$1).disabled
                 }, null, 8, _hoisted_15$2),
-                _cache[7] || (_cache[7] = createTextVNode("  Run push test "))
-              ], 8, _hoisted_14$3)
+                _cache[10] || (_cache[10] = createTextVNode("  Save"))
+              ], 8, _hoisted_14$3),
+              _cache[11] || (_cache[11] = createTextVNode("  "))
             ])
           ])
         ], 40, _hoisted_2$n)
@@ -11406,10 +11684,10 @@ const _hoisted_6$9 = { class: "col-md-6" };
 const _hoisted_7$7 = { class: "col-md-6" };
 const _hoisted_8$7 = { class: "col-md-9" };
 const _hoisted_9$5 = { class: "col-md-3" };
-const _hoisted_10$5 = { class: "row gy-2" };
-const _hoisted_11$3 = { class: "col-md-12" };
-const _hoisted_12$3 = ["disabled"];
-const _hoisted_13$3 = ["hidden"];
+const _hoisted_10$5 = { class: "col-md-9" };
+const _hoisted_11$3 = { class: "col-md-3" };
+const _hoisted_12$3 = { class: "row gy-2" };
+const _hoisted_13$3 = { class: "col-md-12" };
 const _hoisted_14$2 = ["disabled"];
 const _hoisted_15$1 = ["hidden"];
 const _sfc_main$D = {
@@ -11419,20 +11697,19 @@ const _sfc_main$D = {
     const pushDisabled = computed(() => {
       return global$1.disabled || config.use_wifi_direct;
     });
-    const runTest = () => {
-      const data = {
-        push_format: "mqtt_format"
-      };
-      global$1.clearMessages();
-      config.runPushTest(data, () => {
-      });
+    const gravityMqttFormatCallback = (opt) => {
+      config.mqtt_format_gravity = decodeURIComponent(opt);
+      config.mqtt_format_gravity = config.mqtt_format_gravity.replaceAll("|", "|\n");
     };
-    const mqttFormatCallback = (opt) => {
-      config.mqtt_format = decodeURIComponent(opt);
-      config.mqtt_format = config.mqtt_format.replaceAll("|", "|\n");
+    const pressureMqttFormatCallback = (opt) => {
+      config.mqtt_format_pressure = decodeURIComponent(opt);
+      config.mqtt_format_pressure = config.mqtt_format_pressure.replaceAll("|", "|\n");
     };
-    const renderFormat = () => {
-      render.value = applyTemplate(status, config, config.mqtt_format);
+    const gravityRenderFormat = () => {
+      render.value = applyTemplate(status, config, config.mqtt_format_gravity);
+    };
+    const pressureRenderFormat = () => {
+      render.value = applyTemplate(status, config, config.mqtt_format_pressure);
     };
     const save = () => {
       if (!validateCurrentForm()) return;
@@ -11442,12 +11719,13 @@ const _sfc_main$D = {
       const _component_BsInputText = resolveComponent("BsInputText");
       const _component_BsInputNumber = resolveComponent("BsInputNumber");
       const _component_BsInputTextAreaFormat = resolveComponent("BsInputTextAreaFormat");
+      const _component_BsInputSwitch = resolveComponent("BsInputSwitch");
       const _component_BsDropdown = resolveComponent("BsDropdown");
       const _component_BsModal = resolveComponent("BsModal");
       return openBlock(), createElementBlock("div", _hoisted_1$r, [
-        _cache[10] || (_cache[10] = createBaseVNode("p", null, null, -1)),
-        _cache[11] || (_cache[11] = createBaseVNode("p", { class: "h3" }, "Push - MQTT", -1)),
-        _cache[12] || (_cache[12] = createBaseVNode("hr", null, null, -1)),
+        _cache[13] || (_cache[13] = createBaseVNode("p", null, null, -1)),
+        _cache[14] || (_cache[14] = createBaseVNode("p", { class: "h3" }, "Push - MQTT", -1)),
+        _cache[15] || (_cache[15] = createBaseVNode("hr", null, null, -1)),
         createBaseVNode("form", {
           onSubmit: withModifiers(save, ["prevent"]),
           class: "needs-validation",
@@ -11499,38 +11777,78 @@ const _sfc_main$D = {
             ]),
             createBaseVNode("div", _hoisted_8$7, [
               createVNode(_component_BsInputTextAreaFormat, {
-                modelValue: unref(config).mqtt_format,
-                "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => unref(config).mqtt_format = $event),
+                modelValue: unref(config).mqtt_format_gravity,
+                "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => unref(config).mqtt_format_gravity = $event),
                 rows: "6",
-                label: "Data format",
+                label: "Gravity Data format",
                 help: "Format template used to create the data sent to the remote service",
-                disabled: pushDisabled.value
+                disabled: pushDisabled.value || !unref(config).mqtt_gravity
               }, null, 8, ["modelValue", "disabled"])
             ]),
             createBaseVNode("div", _hoisted_9$5, [
+              createVNode(_component_BsInputSwitch, {
+                modelValue: unref(config).mqtt_gravity,
+                "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => unref(config).mqtt_gravity = $event),
+                label: "Enable gavity",
+                disabled: unref(global$1).disabled
+              }, null, 8, ["modelValue", "disabled"]),
               createVNode(_component_BsDropdown, {
                 label: "Predefined formats",
                 button: "Formats",
-                options: unref(mqttFormatOptions),
-                callback: mqttFormatCallback,
-                disabled: pushDisabled.value
+                options: unref(gravityMqttFormatOptions),
+                callback: gravityMqttFormatCallback,
+                disabled: pushDisabled.value || !unref(config).mqtt_gravity
               }, null, 8, ["options", "disabled"]),
               createVNode(_component_BsModal, {
-                onClick: renderFormat,
+                onClick: gravityRenderFormat,
                 modelValue: render.value,
-                "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => render.value = $event),
+                "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => render.value = $event),
                 code: true,
                 title: "Format preview",
                 button: "Preview format",
-                disabled: pushDisabled.value
+                disabled: pushDisabled.value || !unref(config).mqtt_gravity
+              }, null, 8, ["modelValue", "disabled"])
+            ]),
+            createBaseVNode("div", _hoisted_10$5, [
+              createVNode(_component_BsInputTextAreaFormat, {
+                modelValue: unref(config).mqtt_format_pressure,
+                "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => unref(config).mqtt_format_pressure = $event),
+                rows: "6",
+                label: "Pressure Data format",
+                help: "Format template used to create the data sent to the remote service",
+                disabled: pushDisabled.value || !unref(config).mqtt_pressure
+              }, null, 8, ["modelValue", "disabled"])
+            ]),
+            createBaseVNode("div", _hoisted_11$3, [
+              createVNode(_component_BsInputSwitch, {
+                modelValue: unref(config).mqtt_pressure,
+                "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => unref(config).mqtt_pressure = $event),
+                label: "Enable pressure",
+                disabled: unref(global$1).disabled
+              }, null, 8, ["modelValue", "disabled"]),
+              createVNode(_component_BsDropdown, {
+                label: "Predefined formats",
+                button: "Formats",
+                options: unref(pressureMqttFormatOptions),
+                callback: pressureMqttFormatCallback,
+                disabled: pushDisabled.value || !unref(config).mqtt_pressure
+              }, null, 8, ["options", "disabled"]),
+              createVNode(_component_BsModal, {
+                onClick: pressureRenderFormat,
+                modelValue: render.value,
+                "onUpdate:modelValue": _cache[9] || (_cache[9] = ($event) => render.value = $event),
+                code: true,
+                title: "Format preview",
+                button: "Preview format",
+                disabled: pushDisabled.value || !unref(config).mqtt_pressure
               }, null, 8, ["modelValue", "disabled"])
             ])
           ]),
-          createBaseVNode("div", _hoisted_10$5, [
-            _cache[9] || (_cache[9] = createBaseVNode("div", { class: "col-md-12" }, [
+          createBaseVNode("div", _hoisted_12$3, [
+            _cache[12] || (_cache[12] = createBaseVNode("div", { class: "col-md-12" }, [
               createBaseVNode("hr")
             ], -1)),
-            createBaseVNode("div", _hoisted_11$3, [
+            createBaseVNode("div", _hoisted_13$3, [
               createBaseVNode("button", {
                 type: "submit",
                 class: "btn btn-primary w-2",
@@ -11541,24 +11859,10 @@ const _sfc_main$D = {
                   role: "status",
                   "aria-hidden": "true",
                   hidden: !unref(global$1).disabled
-                }, null, 8, _hoisted_13$3),
-                _cache[6] || (_cache[6] = createTextVNode("  Save"))
-              ], 8, _hoisted_12$3),
-              _cache[8] || (_cache[8] = createTextVNode("  ")),
-              createBaseVNode("button", {
-                onClick: runTest,
-                type: "button",
-                class: "btn btn-secondary",
-                disabled: pushDisabled.value
-              }, [
-                createBaseVNode("span", {
-                  class: "spinner-border spinner-border-sm",
-                  role: "status",
-                  "aria-hidden": "true",
-                  hidden: !unref(global$1).disabled
                 }, null, 8, _hoisted_15$1),
-                _cache[7] || (_cache[7] = createTextVNode("  Run push test "))
-              ], 8, _hoisted_14$2)
+                _cache[10] || (_cache[10] = createTextVNode("  Save"))
+              ], 8, _hoisted_14$2),
+              _cache[11] || (_cache[11] = createTextVNode("  "))
             ])
           ])
         ], 40, _hoisted_2$m)
@@ -12918,7 +13222,7 @@ const _sfc_main$r = {
             message: unref(global$1).messageInfo,
             alert: "info"
           }, null, 8, ["message"])) : createCommentVNode("", true),
-          unref(status).wifi_setup ? (openBlock(), createBlock(_component_BsMessage, {
+          unref(status).wifi_setup && unref(global$1).initialized ? (openBlock(), createBlock(_component_BsMessage, {
             key: 4,
             dismissable: false,
             alert: "info"
@@ -12938,7 +13242,7 @@ const _sfc_main$r = {
             ]),
             _: 1
           })) : createCommentVNode("", true),
-          !unref(config).ble_active_scan ? (openBlock(), createBlock(_component_BsMessage, {
+          !unref(config).ble_active_scan && unref(global$1).initialized ? (openBlock(), createBlock(_component_BsMessage, {
             key: 5,
             dismissable: true,
             alert: "warning"
