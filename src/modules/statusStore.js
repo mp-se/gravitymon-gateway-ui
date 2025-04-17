@@ -11,6 +11,7 @@ export const useStatusStore = defineStore('status', {
       app_build: '',
       mdns: '',
       platform: '',
+      board: '',
       wifi_ssid: '',
       ip: '',
       total_heap: 0,
@@ -19,6 +20,7 @@ export const useStatusStore = defineStore('status', {
 
       gravity_device: [],
       pressure_device: [],
+      temperature_device: [],
 
       uptime_seconds: 0,
       uptime_minutes: 0,
@@ -28,6 +30,7 @@ export const useStatusStore = defineStore('status', {
       // Values that are not updated but needed for format template viewer
       angle: 35,
       gravity: 1.015,
+      pressure: 1.23,
       temp: 20.1,
       battery: 4.0
     }
@@ -48,6 +51,7 @@ export const useStatusStore = defineStore('status', {
           this.app_build = json.app_build
           this.mdns = json.mdns
           this.platform = json.platform
+          this.board = json.board
           this.wifi_ssid = json.wifi_ssid
           this.ip = json.ip
           this.total_heap = json.total_heap
@@ -56,6 +60,7 @@ export const useStatusStore = defineStore('status', {
 
           this.gravity_device = json.gravity_device
           this.pressure_device = json.pressure_device
+          this.temperature_device = json.temperature_device
 
           this.uptime_seconds = json.uptime_seconds
           this.uptime_minutes = json.uptime_minutes

@@ -14,6 +14,7 @@ export const useConfigStore = defineStore('config', {
       pressure_unit: '',
       dark_mode: false,
       // Hardware
+      ble_enable: true,
       ble_active_scan: false,
       ble_scan_time: 5,
       timezone: '',
@@ -113,6 +114,7 @@ export const useConfigStore = defineStore('config', {
           this.pressure_unit = json.pressure_unit
           this.dark_mode = json.dark_mode
           // Hardware
+          this.ble_enable = json.ble_enable
           this.ble_active_scan = json.ble_active_scan
           this.ble_scan_time = json.ble_scan_time
           this.timezone = json.timezone

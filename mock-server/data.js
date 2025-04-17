@@ -13,6 +13,7 @@ export var configData = {
   pressure_unit: "PSI",
   dark_mode: false, 
   // Hardware
+  ble_enable: true,
   ble_active_scan: false,
   ble_scan_time: 5,
   timezone: "CET-1CEST,M3.5.0,M10.5.0/3",
@@ -105,6 +106,9 @@ export var statusData = {
     { device: "dev6", pressure: 1.23, temp: 24, update_time: 100, push_time: 10 },  
     { device: "dev7", pressure: 0.95, temp: 24, update_time: 200, push_time: 10 },
     { device: "dev8", pressure: 2.23, temp: 24, update_time: 300, push_time: 10 },  
+  ],
+  temperature_device: [ 
+    { device: "dev9", chamber_temp: 1.23, beer_temp: 24, update_time: 100, push_time: 10 }
   ]
 }
 

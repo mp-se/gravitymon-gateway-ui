@@ -18,6 +18,9 @@
                 {{ config.gravity_unit === 'G' ? ' SG' : ' P' }} Temperature:
                 {{ formatTemp(g.temp) }} {{ config.temp_unit }}
               </p>
+
+              <span class="badge bg-primary">{{ g.source }}</span>&nbsp;
+              <span class="badge bg-primary">{{ g.type }}</span>
             </BsCard>
           </div>
         </template>
@@ -42,6 +45,29 @@
                 }}
                 Temperature: {{ formatTemp(p.temp) }} {{ config.temp_unit }}
               </p>
+
+              <span class="badge bg-primary">{{ p.source }}</span>&nbsp;
+              <span class="badge bg-primary">{{ p.type }}</span>
+            </BsCard>
+          </div>
+        </template>
+
+        <template v-for="t in status.temperature_device" :key="t.device">
+          <div class="col-md-4">
+            <BsCard
+              header="Temperature Device"
+              color="secondary"
+              :title="
+                t.device + ' (' + formatTime(t.update_time) + ')'
+              "
+            >
+              <p class="text-center">
+                Chamber: {{ formatTemp(t.chamber_temp) }} {{ config.temp_unit }}, 
+                Beer: {{ formatTemp(t.beer_temp) }} {{ config.temp_unit }}
+              </p>
+
+              <span class="badge bg-primary">{{ t.source }}</span>&nbsp;
+              <span class="badge bg-primary">{{ t.type }}</span>
             </BsCard>
           </div>
         </template>
@@ -80,7 +106,13 @@
 
         <div class="col-md-4">
           <BsCard header="Device" title="Platform">
-            <p class="text-center">{{ status.platform }} (id: {{ status.id }})</p>
+            <p class="text-center">{{ status.platform }} ({{ status.board }})</p>
+          </BsCard>
+        </div>
+
+        <div class="col-md-4">
+          <BsCard header="Device" title="Device ID">
+            <p class="text-center">{{ status.id }}</p>
           </BsCard>
         </div>
 
@@ -142,7 +174,7 @@ function refresh() {
 
 onBeforeMount(() => {
   refresh()
-  polling.value = setInterval(refresh, 4000)
+  polling.value = setInterval(refresh, 10000)
 })
 
 onBeforeUnmount(() => {

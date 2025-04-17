@@ -6,25 +6,33 @@
 
     <form @submit.prevent="save" class="needs-validation" novalidate>
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
+          <BsInputSwitch
+            v-model="config.ble_enable"
+            label="Enable Bluetooth"
+            width=""
+            :disabled="global.disabled"
+          ></BsInputSwitch>
+        </div>
+        <div class="col-md-3">
           <BsInputRadio
             v-model="config.ble_active_scan"
             :options="bleScanOptions"
             label="Scan Mode"
             width=""
-            :disabled="global.disabled"
+            :disabled="global.disabled || !config.ble_enable"
           ></BsInputRadio>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <BsInputNumber
             v-model="config.ble_scan_time"
             unit="s"
             label="Scanning Time"
-            width="4"
-            :disabled="global.disabled"
+            width="5"
+            :disabled="global.disabled || !config.ble_enable"
           ></BsInputNumber>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <BsSelect
             v-model="config.timezone"
             :options="timezoneOptions"
@@ -36,11 +44,13 @@
 
         <div class="col-md-12">
           <p>&nbsp;</p>
+          <p class="fw-normal">Enable/Disable bluetooth requires a restart of the device.</p>
           <p class="fw-normal">
             Supporting the following GravityMon BLE transmission options:
             <lu>
-              <li>GravityMon iBeacon (<b>Passive scanning</b>)</li>
-              <li>GravityMon EddyStone (<b>Active scanning, Require BLE 5.0, i.e. ESP32 S3</b>)</li>
+              <li>Gravitymon iBeacon (<b>Passive scanning</b>)</li>
+              <li>Gravitymon EddyStone (<b>Active scanning, Require BLE 5.0, i.e. ESP32 S3</b>)</li>
+              <li>Pressuremon iBeacon (<b>Passive scanning</b>)</li>
             </lu>
           </p>
           <p class="fw-normal">If you want to use the Tilt options I recommend TiltBridge!</p>
