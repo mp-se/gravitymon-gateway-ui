@@ -19,7 +19,8 @@
                 {{ formatTemp(g.temp) }} {{ config.temp_unit }}
               </p>
 
-              <span class="badge bg-primary">{{ g.source }}</span>&nbsp;
+              <span class="badge bg-primary">{{ g.source }}</span
+              >&nbsp;
               <span class="badge bg-primary">{{ g.type }}</span>
             </BsCard>
           </div>
@@ -46,7 +47,8 @@
                 Temperature: {{ formatTemp(p.temp) }} {{ config.temp_unit }}
               </p>
 
-              <span class="badge bg-primary">{{ p.source }}</span>&nbsp;
+              <span class="badge bg-primary">{{ p.source }}</span
+              >&nbsp;
               <span class="badge bg-primary">{{ p.type }}</span>
             </BsCard>
           </div>
@@ -57,16 +59,15 @@
             <BsCard
               header="Temperature Device"
               color="secondary"
-              :title="
-                t.device + ' (' + formatTime(t.update_time) + ')'
-              "
+              :title="t.device + ' (' + formatTime(t.update_time) + ')'"
             >
               <p class="text-center">
-                Chamber: {{ formatTemp(t.chamber_temp) }} {{ config.temp_unit }}, 
-                Beer: {{ formatTemp(t.beer_temp) }} {{ config.temp_unit }}
+                Chamber: {{ formatTemp(t.chamber_temp) }} {{ config.temp_unit }}, Beer:
+                {{ formatTemp(t.beer_temp) }} {{ config.temp_unit }}
               </p>
 
-              <span class="badge bg-primary">{{ t.source }}</span>&nbsp;
+              <span class="badge bg-primary">{{ t.source }}</span
+              >&nbsp;
               <span class="badge bg-primary">{{ t.type }}</span>
             </BsCard>
           </div>
