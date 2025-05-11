@@ -7044,7 +7044,7 @@ function logInfo(...args) {
 function logError(...args) {
   console.log("Error", ...args);
 }
-const __vite_import_meta_env__ = { "BASE_URL": "/", "DEV": false, "MODE": "production", "PROD": true, "SSR": false, "VITE_APP_BUILD": "..8baf07", "VITE_APP_VERSION": "0.7.0" };
+const __vite_import_meta_env__ = { "BASE_URL": "/", "DEV": false, "MODE": "production", "PROD": true, "SSR": false, "VITE_APP_BUILD": "..b8912f", "VITE_APP_VERSION": "0.7.0" };
 const useGlobalStore = /* @__PURE__ */ defineStore("global", {
   state: () => {
     return {
@@ -7094,7 +7094,7 @@ const useGlobalStore = /* @__PURE__ */ defineStore("global", {
       return "0.7.0";
     },
     uiBuild() {
-      return "..8baf07";
+      return "..b8912f";
     },
     disabled32() {
       if (this.disabled) return true;
@@ -9923,11 +9923,12 @@ const _hoisted_18$3 = { class: "text-center" };
 const _hoisted_19$1 = { class: "col-md-4" };
 const _hoisted_20 = { class: "text-center" };
 const _hoisted_21 = { class: "col-md-4" };
-const _hoisted_22 = { class: "text-center" };
-const _hoisted_23 = { class: "col-md-4" };
-const _hoisted_24 = { class: "text-center" };
-const _hoisted_25 = { class: "col-md-4" };
-const _hoisted_26 = { class: "text-center" };
+const _hoisted_22 = { class: "badge bg-secondary" };
+const _hoisted_23 = { class: "badge bg-secondary" };
+const _hoisted_24 = { class: "col-md-4" };
+const _hoisted_25 = { class: "text-center" };
+const _hoisted_26 = { class: "col-md-4" };
+const _hoisted_27 = { class: "text-center" };
 const _sfc_main$O = {
   __name: "HomeView",
   setup(__props) {
@@ -9964,7 +9965,7 @@ const _sfc_main$O = {
     return (_ctx, _cache) => {
       const _component_BsCard = resolveComponent("BsCard");
       return openBlock(), createElementBlock("div", _hoisted_1$B, [
-        _cache[3] || (_cache[3] = createBaseVNode("p", null, null, -1)),
+        _cache[5] || (_cache[5] = createBaseVNode("p", null, null, -1)),
         unref(status) ? (openBlock(), createElementBlock("div", _hoisted_2$w, [
           createBaseVNode("div", _hoisted_3$q, [
             (openBlock(true), createElementBlock(Fragment, null, renderList(unref(status).gravity_device, (g) => {
@@ -10077,29 +10078,32 @@ const _sfc_main$O = {
                 title: "Platform"
               }, {
                 default: withCtx(() => [
-                  createBaseVNode("p", _hoisted_22, toDisplayString(unref(status).platform) + " (" + toDisplayString(unref(status).board) + ")", 1)
+                  _cache[3] || (_cache[3] = createTextVNode(" Platform: ")),
+                  createBaseVNode("span", _hoisted_22, toDisplayString(unref(status).platform), 1),
+                  _cache[4] || (_cache[4] = createTextVNode(" Board: ")),
+                  createBaseVNode("span", _hoisted_23, toDisplayString(unref(status).board), 1)
                 ]),
                 _: 1
               })
             ]),
-            createBaseVNode("div", _hoisted_23, [
+            createBaseVNode("div", _hoisted_24, [
               createVNode(_component_BsCard, {
                 header: "Device",
                 title: "Device ID"
               }, {
                 default: withCtx(() => [
-                  createBaseVNode("p", _hoisted_24, toDisplayString(unref(status).id), 1)
+                  createBaseVNode("p", _hoisted_25, toDisplayString(unref(status).id), 1)
                 ]),
                 _: 1
               })
             ]),
-            createBaseVNode("div", _hoisted_25, [
+            createBaseVNode("div", _hoisted_26, [
               createVNode(_component_BsCard, {
                 header: "Device",
                 title: "Uptime"
               }, {
                 default: withCtx(() => [
-                  createBaseVNode("p", _hoisted_26, toDisplayString(unref(status).uptime_days) + " days " + toDisplayString(unref(status).uptime_hours) + " hours " + toDisplayString(unref(status).uptime_minutes) + " minutes " + toDisplayString(unref(status).uptime_seconds) + " seconds ", 1)
+                  createBaseVNode("p", _hoisted_27, toDisplayString(unref(status).uptime_days) + " days " + toDisplayString(unref(status).uptime_hours) + " hours " + toDisplayString(unref(status).uptime_minutes) + " minutes " + toDisplayString(unref(status).uptime_seconds) + " seconds ", 1)
                 ]),
                 _: 1
               })
