@@ -7044,7 +7044,7 @@ function logInfo(...args) {
 function logError(...args) {
   console.log("Error", ...args);
 }
-const __vite_import_meta_env__ = { "BASE_URL": "/", "DEV": false, "MODE": "production", "PROD": true, "SSR": false, "VITE_APP_BUILD": "..7c0ad7", "VITE_APP_VERSION": "0.7.0" };
+const __vite_import_meta_env__ = { "BASE_URL": "/", "DEV": false, "MODE": "production", "PROD": true, "SSR": false, "VITE_APP_BUILD": "..f0b8e5", "VITE_APP_VERSION": "0.7.0" };
 const useGlobalStore = /* @__PURE__ */ defineStore("global", {
   state: () => {
     return {
@@ -7094,7 +7094,7 @@ const useGlobalStore = /* @__PURE__ */ defineStore("global", {
       return "0.7.0";
     },
     uiBuild() {
-      return "..7c0ad7";
+      return "..f0b8e5";
     },
     disabled32() {
       if (this.disabled) return true;
@@ -9950,14 +9950,14 @@ const _hoisted_12$b = { class: "badge bg-primary" };
 const _hoisted_13$b = { class: "col-md-4" };
 const _hoisted_14$a = { class: "text-center" };
 const _hoisted_15$8 = { class: "col-md-4" };
-const _hoisted_16$5 = { class: "text-center" };
-const _hoisted_17$3 = { class: "col-md-4" };
-const _hoisted_18$3 = { class: "text-center" };
-const _hoisted_19$1 = { class: "col-md-4" };
-const _hoisted_20 = { class: "text-center" };
-const _hoisted_21 = { class: "col-md-4" };
-const _hoisted_22 = { class: "badge bg-secondary" };
-const _hoisted_23 = { class: "badge bg-secondary" };
+const _hoisted_16$7 = { class: "text-center" };
+const _hoisted_17$7 = { class: "col-md-4" };
+const _hoisted_18$7 = { class: "text-center" };
+const _hoisted_19$5 = { class: "col-md-4" };
+const _hoisted_20$3 = { class: "text-center" };
+const _hoisted_21$1 = { class: "col-md-4" };
+const _hoisted_22$1 = { class: "badge bg-secondary" };
+const _hoisted_23$1 = { class: "badge bg-secondary" };
 const _hoisted_24 = { class: "col-md-4" };
 const _hoisted_25 = { class: "text-center" };
 const _hoisted_26 = { class: "col-md-4" };
@@ -10078,43 +10078,43 @@ const _sfc_main$O = {
                 title: "IP Address"
               }, {
                 default: withCtx(() => [
-                  createBaseVNode("p", _hoisted_16$5, toDisplayString(unref(status).ip), 1)
+                  createBaseVNode("p", _hoisted_16$7, toDisplayString(unref(status).ip), 1)
                 ]),
                 _: 1
               })
             ]),
-            createBaseVNode("div", _hoisted_17$3, [
+            createBaseVNode("div", _hoisted_17$7, [
               createVNode(_component_BsCard, {
                 header: "Device",
                 title: "Memory"
               }, {
                 default: withCtx(() => [
-                  createBaseVNode("p", _hoisted_18$3, " Free: " + toDisplayString(unref(status).free_heap) + " kb, Total: " + toDisplayString(unref(status).total_heap) + " kb ", 1)
+                  createBaseVNode("p", _hoisted_18$7, " Free: " + toDisplayString(unref(status).free_heap) + " kb, Total: " + toDisplayString(unref(status).total_heap) + " kb ", 1)
                 ]),
                 _: 1
               })
             ]),
-            createBaseVNode("div", _hoisted_19$1, [
+            createBaseVNode("div", _hoisted_19$5, [
               createVNode(_component_BsCard, {
                 header: "Device",
                 title: "Software version"
               }, {
                 default: withCtx(() => [
-                  createBaseVNode("p", _hoisted_20, " Firmware: " + toDisplayString(unref(status).app_ver) + " (" + toDisplayString(unref(status).app_build) + ") UI: " + toDisplayString(unref(global$1).uiVersion) + " (" + toDisplayString(unref(global$1).uiBuild) + ") ", 1)
+                  createBaseVNode("p", _hoisted_20$3, " Firmware: " + toDisplayString(unref(status).app_ver) + " (" + toDisplayString(unref(status).app_build) + ") UI: " + toDisplayString(unref(global$1).uiVersion) + " (" + toDisplayString(unref(global$1).uiBuild) + ") ", 1)
                 ]),
                 _: 1
               })
             ]),
-            createBaseVNode("div", _hoisted_21, [
+            createBaseVNode("div", _hoisted_21$1, [
               createVNode(_component_BsCard, {
                 header: "Device",
                 title: "Platform"
               }, {
                 default: withCtx(() => [
                   _cache[3] || (_cache[3] = createTextVNode(" Platform: ")),
-                  createBaseVNode("span", _hoisted_22, toDisplayString(unref(status).platform), 1),
+                  createBaseVNode("span", _hoisted_22$1, toDisplayString(unref(status).platform), 1),
                   _cache[4] || (_cache[4] = createTextVNode(" Board: ")),
-                  createBaseVNode("span", _hoisted_23, toDisplayString(unref(status).board), 1)
+                  createBaseVNode("span", _hoisted_23$1, toDisplayString(unref(status).board), 1)
                 ]),
                 _: 1
               })
@@ -10617,9 +10617,9 @@ const _hoisted_12$8 = { class: "col-md-6" };
 const _hoisted_13$8 = { class: "row gy-2" };
 const _hoisted_14$7 = { class: "col-md-12" };
 const _hoisted_15$6 = ["disabled"];
-const _hoisted_16$4 = ["hidden"];
-const _hoisted_17$2 = ["disabled"];
-const _hoisted_18$2 = ["hidden"];
+const _hoisted_16$6 = ["hidden"];
+const _hoisted_17$6 = ["disabled"];
+const _hoisted_18$6 = ["hidden"];
 const _sfc_main$J = {
   __name: "DeviceWifiView",
   setup(__props) {
@@ -10824,7 +10824,7 @@ const _sfc_main$J = {
                   role: "status",
                   "aria-hidden": "true",
                   hidden: !unref(global$1).disabled
-                }, null, 8, _hoisted_16$4),
+                }, null, 8, _hoisted_16$6),
                 _cache[15] || (_cache[15] = createTextVNode("  Save"))
               ], 8, _hoisted_15$6),
               _cache[17] || (_cache[17] = createTextVNode("  ")),
@@ -10839,9 +10839,9 @@ const _sfc_main$J = {
                   role: "status",
                   "aria-hidden": "true",
                   hidden: !unref(global$1).disabled
-                }, null, 8, _hoisted_18$2),
+                }, null, 8, _hoisted_18$6),
                 _cache[16] || (_cache[16] = createTextVNode("  Restart device "))
-              ], 8, _hoisted_17$2)
+              ], 8, _hoisted_17$6)
             ])
           ])
         ], 32)
@@ -10957,11 +10957,31 @@ const _hoisted_12$7 = { class: "col-md-3" };
 const _hoisted_13$7 = { class: "row gy-2" };
 const _hoisted_14$6 = { class: "col-md-12" };
 const _hoisted_15$5 = ["disabled"];
-const _hoisted_16$3 = ["hidden"];
+const _hoisted_16$5 = ["hidden"];
+const _hoisted_17$5 = ["disabled"];
+const _hoisted_18$5 = ["hidden"];
+const _hoisted_19$4 = ["disabled"];
+const _hoisted_20$2 = ["hidden"];
 const _sfc_main$H = {
   __name: "PushHttpPost1View",
   setup(__props) {
     const render = ref("");
+    const runTestGravity = () => {
+      const data = {
+        push_format: "http_post_format_gravity"
+      };
+      global$1.clearMessages();
+      config.runPushTest(data, () => {
+      });
+    };
+    const runTestPressure = () => {
+      const data = {
+        push_format: "http_post_format_pressure"
+      };
+      global$1.clearMessages();
+      config.runPushTest(data, () => {
+      });
+    };
     const httpUrlCallback = (opt) => {
       config.http_post_target = opt;
     };
@@ -10994,9 +11014,9 @@ const _sfc_main$H = {
       const _component_BsInputSwitch = resolveComponent("BsInputSwitch");
       const _component_BsModal = resolveComponent("BsModal");
       return openBlock(), createElementBlock("div", _hoisted_1$v, [
-        _cache[12] || (_cache[12] = createBaseVNode("p", null, null, -1)),
-        _cache[13] || (_cache[13] = createBaseVNode("p", { class: "h3" }, "Push - HTTP Post", -1)),
-        _cache[14] || (_cache[14] = createBaseVNode("hr", null, null, -1)),
+        _cache[15] || (_cache[15] = createBaseVNode("p", null, null, -1)),
+        _cache[16] || (_cache[16] = createBaseVNode("p", { class: "h3" }, "Push - HTTP Post", -1)),
+        _cache[17] || (_cache[17] = createBaseVNode("hr", null, null, -1)),
         createBaseVNode("form", {
           onSubmit: withModifiers(save, ["prevent"]),
           class: "needs-validation",
@@ -11135,7 +11155,7 @@ const _sfc_main$H = {
             ])
           ]),
           createBaseVNode("div", _hoisted_13$7, [
-            _cache[11] || (_cache[11] = createBaseVNode("div", { class: "col-md-12" }, [
+            _cache[14] || (_cache[14] = createBaseVNode("div", { class: "col-md-12" }, [
               createBaseVNode("hr")
             ], -1)),
             createBaseVNode("div", _hoisted_14$6, [
@@ -11149,10 +11169,39 @@ const _sfc_main$H = {
                   role: "status",
                   "aria-hidden": "true",
                   hidden: !unref(global$1).disabled
-                }, null, 8, _hoisted_16$3),
+                }, null, 8, _hoisted_16$5),
                 _cache[9] || (_cache[9] = createTextVNode("  Save"))
               ], 8, _hoisted_15$5),
-              _cache[10] || (_cache[10] = createTextVNode("  "))
+              _cache[12] || (_cache[12] = createTextVNode("  ")),
+              createBaseVNode("button", {
+                onClick: runTestGravity,
+                type: "button",
+                class: "btn btn-secondary",
+                disabled: _ctx.pushDisabled
+              }, [
+                createBaseVNode("span", {
+                  class: "spinner-border spinner-border-sm",
+                  role: "status",
+                  "aria-hidden": "true",
+                  hidden: !unref(global$1).disabled
+                }, null, 8, _hoisted_18$5),
+                _cache[10] || (_cache[10] = createTextVNode("  Run push gravity test"))
+              ], 8, _hoisted_17$5),
+              _cache[13] || (_cache[13] = createTextVNode("  ")),
+              createBaseVNode("button", {
+                onClick: runTestPressure,
+                type: "button",
+                class: "btn btn-secondary",
+                disabled: _ctx.pushDisabled
+              }, [
+                createBaseVNode("span", {
+                  class: "spinner-border spinner-border-sm",
+                  role: "status",
+                  "aria-hidden": "true",
+                  hidden: !unref(global$1).disabled
+                }, null, 8, _hoisted_20$2),
+                _cache[11] || (_cache[11] = createTextVNode("  Run push pressure test "))
+              ], 8, _hoisted_19$4)
             ])
           ])
         ], 32)
@@ -11175,10 +11224,14 @@ const _hoisted_12$6 = { class: "col-md-3" };
 const _hoisted_13$6 = { class: "row" };
 const _hoisted_14$5 = { class: "col-md-9" };
 const _hoisted_15$4 = { class: "col-md-3" };
-const _hoisted_16$2 = { class: "row gy-2" };
-const _hoisted_17$1 = { class: "col-md-12" };
-const _hoisted_18$1 = ["disabled"];
-const _hoisted_19 = ["hidden"];
+const _hoisted_16$4 = { class: "row gy-2" };
+const _hoisted_17$4 = { class: "col-md-12" };
+const _hoisted_18$4 = ["disabled"];
+const _hoisted_19$3 = ["hidden"];
+const _hoisted_20$1 = ["disabled"];
+const _hoisted_21 = ["hidden"];
+const _hoisted_22 = ["disabled"];
+const _hoisted_23 = ["hidden"];
 const _sfc_main$G = {
   __name: "PushHttpPost2View",
   setup(__props) {
@@ -11186,6 +11239,22 @@ const _sfc_main$G = {
     const pushDisabled = computed(() => {
       return global$1.disabled || config.use_wifi_direct;
     });
+    const runTestGravity = () => {
+      const data = {
+        push_format: "http_post2_format_gravity"
+      };
+      global$1.clearMessages();
+      config.runPushTest(data, () => {
+      });
+    };
+    const runTestPressure = () => {
+      const data = {
+        push_format: "http_post2_format_pressure"
+      };
+      global$1.clearMessages();
+      config.runPushTest(data, () => {
+      });
+    };
     const httpUrlCallback = (opt) => {
       config.http_post2_target = opt;
     };
@@ -11218,9 +11287,9 @@ const _sfc_main$G = {
       const _component_BsInputSwitch = resolveComponent("BsInputSwitch");
       const _component_BsModal = resolveComponent("BsModal");
       return openBlock(), createElementBlock("div", _hoisted_1$u, [
-        _cache[12] || (_cache[12] = createBaseVNode("p", null, null, -1)),
-        _cache[13] || (_cache[13] = createBaseVNode("p", { class: "h3" }, "Push - HTTP Post #2", -1)),
-        _cache[14] || (_cache[14] = createBaseVNode("hr", null, null, -1)),
+        _cache[15] || (_cache[15] = createBaseVNode("p", null, null, -1)),
+        _cache[16] || (_cache[16] = createBaseVNode("p", { class: "h3" }, "Push - HTTP Post #2", -1)),
+        _cache[17] || (_cache[17] = createBaseVNode("hr", null, null, -1)),
         createBaseVNode("form", {
           onSubmit: withModifiers(save, ["prevent"]),
           class: "needs-validation",
@@ -11363,11 +11432,11 @@ const _sfc_main$G = {
               }, null, 8, ["modelValue", "disabled"])
             ])
           ]),
-          createBaseVNode("div", _hoisted_16$2, [
-            _cache[11] || (_cache[11] = createBaseVNode("div", { class: "col-md-12" }, [
+          createBaseVNode("div", _hoisted_16$4, [
+            _cache[14] || (_cache[14] = createBaseVNode("div", { class: "col-md-12" }, [
               createBaseVNode("hr")
             ], -1)),
-            createBaseVNode("div", _hoisted_17$1, [
+            createBaseVNode("div", _hoisted_17$4, [
               createBaseVNode("button", {
                 type: "submit",
                 class: "btn btn-primary w-2",
@@ -11378,10 +11447,39 @@ const _sfc_main$G = {
                   role: "status",
                   "aria-hidden": "true",
                   hidden: !unref(global$1).disabled
-                }, null, 8, _hoisted_19),
+                }, null, 8, _hoisted_19$3),
                 _cache[9] || (_cache[9] = createTextVNode("  Save"))
-              ], 8, _hoisted_18$1),
-              _cache[10] || (_cache[10] = createTextVNode("  "))
+              ], 8, _hoisted_18$4),
+              _cache[12] || (_cache[12] = createTextVNode("  ")),
+              createBaseVNode("button", {
+                onClick: runTestGravity,
+                type: "button",
+                class: "btn btn-secondary",
+                disabled: pushDisabled.value
+              }, [
+                createBaseVNode("span", {
+                  class: "spinner-border spinner-border-sm",
+                  role: "status",
+                  "aria-hidden": "true",
+                  hidden: !unref(global$1).disabled
+                }, null, 8, _hoisted_21),
+                _cache[10] || (_cache[10] = createTextVNode("  Run push gravity test"))
+              ], 8, _hoisted_20$1),
+              _cache[13] || (_cache[13] = createTextVNode("  ")),
+              createBaseVNode("button", {
+                onClick: runTestPressure,
+                type: "button",
+                class: "btn btn-secondary",
+                disabled: pushDisabled.value
+              }, [
+                createBaseVNode("span", {
+                  class: "spinner-border spinner-border-sm",
+                  role: "status",
+                  "aria-hidden": "true",
+                  hidden: !unref(global$1).disabled
+                }, null, 8, _hoisted_23),
+                _cache[11] || (_cache[11] = createTextVNode("  Run push pressure test "))
+              ], 8, _hoisted_22)
             ])
           ])
         ], 40, _hoisted_2$p)
@@ -11404,7 +11502,11 @@ const _hoisted_12$5 = { class: "col-md-3" };
 const _hoisted_13$5 = { class: "row gy-2" };
 const _hoisted_14$4 = { class: "col-md-12" };
 const _hoisted_15$3 = ["disabled"];
-const _hoisted_16$1 = ["hidden"];
+const _hoisted_16$3 = ["hidden"];
+const _hoisted_17$3 = ["disabled"];
+const _hoisted_18$3 = ["hidden"];
+const _hoisted_19$2 = ["disabled"];
+const _hoisted_20 = ["hidden"];
 const _sfc_main$F = {
   __name: "PushHttpGetView",
   setup(__props) {
@@ -11412,6 +11514,22 @@ const _sfc_main$F = {
     const pushDisabled = computed(() => {
       return global$1.disabled || config.use_wifi_direct;
     });
+    const runTestGravity = () => {
+      const data = {
+        push_format: "http_get_format_gravity"
+      };
+      global$1.clearMessages();
+      config.runPushTest(data, () => {
+      });
+    };
+    const runTestPressure = () => {
+      const data = {
+        push_format: "http_get_format_pressure"
+      };
+      global$1.clearMessages();
+      config.runPushTest(data, () => {
+      });
+    };
     const httpUrlCallback = (opt) => {
       config.http_get_target = opt;
     };
@@ -11446,9 +11564,9 @@ const _sfc_main$F = {
       const _component_BsInputSwitch = resolveComponent("BsInputSwitch");
       const _component_BsModal = resolveComponent("BsModal");
       return openBlock(), createElementBlock("div", _hoisted_1$t, [
-        _cache[12] || (_cache[12] = createBaseVNode("p", null, null, -1)),
-        _cache[13] || (_cache[13] = createBaseVNode("p", { class: "h3" }, "Push - HTTP Get", -1)),
-        _cache[14] || (_cache[14] = createBaseVNode("hr", null, null, -1)),
+        _cache[15] || (_cache[15] = createBaseVNode("p", null, null, -1)),
+        _cache[16] || (_cache[16] = createBaseVNode("p", { class: "h3" }, "Push - HTTP Get", -1)),
+        _cache[17] || (_cache[17] = createBaseVNode("hr", null, null, -1)),
         createBaseVNode("form", {
           onSubmit: withModifiers(save, ["prevent"]),
           class: "needs-validation",
@@ -11585,7 +11703,7 @@ const _sfc_main$F = {
             ])
           ]),
           createBaseVNode("div", _hoisted_13$5, [
-            _cache[11] || (_cache[11] = createBaseVNode("div", { class: "col-md-12" }, [
+            _cache[14] || (_cache[14] = createBaseVNode("div", { class: "col-md-12" }, [
               createBaseVNode("hr")
             ], -1)),
             createBaseVNode("div", _hoisted_14$4, [
@@ -11599,10 +11717,39 @@ const _sfc_main$F = {
                   role: "status",
                   "aria-hidden": "true",
                   hidden: !unref(global$1).disabled
-                }, null, 8, _hoisted_16$1),
+                }, null, 8, _hoisted_16$3),
                 _cache[9] || (_cache[9] = createTextVNode("  Save"))
               ], 8, _hoisted_15$3),
-              _cache[10] || (_cache[10] = createTextVNode("  "))
+              _cache[12] || (_cache[12] = createTextVNode("  ")),
+              createBaseVNode("button", {
+                onClick: runTestGravity,
+                type: "button",
+                class: "btn btn-secondary",
+                disabled: pushDisabled.value
+              }, [
+                createBaseVNode("span", {
+                  class: "spinner-border spinner-border-sm",
+                  role: "status",
+                  "aria-hidden": "true",
+                  hidden: !unref(global$1).disabled
+                }, null, 8, _hoisted_18$3),
+                _cache[10] || (_cache[10] = createTextVNode("  Run push gravity test"))
+              ], 8, _hoisted_17$3),
+              _cache[13] || (_cache[13] = createTextVNode("  ")),
+              createBaseVNode("button", {
+                onClick: runTestPressure,
+                type: "button",
+                class: "btn btn-secondary",
+                disabled: pushDisabled.value
+              }, [
+                createBaseVNode("span", {
+                  class: "spinner-border spinner-border-sm",
+                  role: "status",
+                  "aria-hidden": "true",
+                  hidden: !unref(global$1).disabled
+                }, null, 8, _hoisted_20),
+                _cache[11] || (_cache[11] = createTextVNode("  Run push pressure test "))
+              ], 8, _hoisted_19$2)
             ])
           ])
         ], 32)
@@ -11625,6 +11772,10 @@ const _hoisted_12$4 = { class: "row gy-2" };
 const _hoisted_13$4 = { class: "col-sm-12" };
 const _hoisted_14$3 = ["disabled"];
 const _hoisted_15$2 = ["hidden"];
+const _hoisted_16$2 = ["disabled"];
+const _hoisted_17$2 = ["hidden"];
+const _hoisted_18$2 = ["disabled"];
+const _hoisted_19$1 = ["hidden"];
 const _sfc_main$E = {
   __name: "PushInfluxdbView",
   setup(__props) {
@@ -11632,6 +11783,22 @@ const _sfc_main$E = {
     const pushDisabled = computed(() => {
       return global$1.disabled || config.use_wifi_direct;
     });
+    const runTestGravity = () => {
+      const data = {
+        push_format: "influxdb2_format_gravity"
+      };
+      global$1.clearMessages();
+      config.runPushTest(data, () => {
+      });
+    };
+    const runTestPressure = () => {
+      const data = {
+        push_format: "influxdb2_format_pressure"
+      };
+      global$1.clearMessages();
+      config.runPushTest(data, () => {
+      });
+    };
     const gravityInfluxdb2FormatCallback = (opt) => {
       config.influxdb2_format_gravity = decodeURIComponent(opt);
     };
@@ -11655,9 +11822,9 @@ const _sfc_main$E = {
       const _component_BsDropdown = resolveComponent("BsDropdown");
       const _component_BsModal = resolveComponent("BsModal");
       return openBlock(), createElementBlock("div", _hoisted_1$s, [
-        _cache[13] || (_cache[13] = createBaseVNode("p", null, null, -1)),
-        _cache[14] || (_cache[14] = createBaseVNode("p", { class: "h3" }, "Push - Influxdb v2", -1)),
-        _cache[15] || (_cache[15] = createBaseVNode("hr", null, null, -1)),
+        _cache[16] || (_cache[16] = createBaseVNode("p", null, null, -1)),
+        _cache[17] || (_cache[17] = createBaseVNode("p", { class: "h3" }, "Push - Influxdb v2", -1)),
+        _cache[18] || (_cache[18] = createBaseVNode("hr", null, null, -1)),
         createBaseVNode("form", {
           onSubmit: withModifiers(save, ["prevent"]),
           class: "needs-validation",
@@ -11777,7 +11944,7 @@ const _sfc_main$E = {
             ])
           ]),
           createBaseVNode("div", _hoisted_12$4, [
-            _cache[12] || (_cache[12] = createBaseVNode("div", { class: "col-md-12" }, [
+            _cache[15] || (_cache[15] = createBaseVNode("div", { class: "col-md-12" }, [
               createBaseVNode("hr")
             ], -1)),
             createBaseVNode("div", _hoisted_13$4, [
@@ -11794,7 +11961,36 @@ const _sfc_main$E = {
                 }, null, 8, _hoisted_15$2),
                 _cache[10] || (_cache[10] = createTextVNode("  Save"))
               ], 8, _hoisted_14$3),
-              _cache[11] || (_cache[11] = createTextVNode("  "))
+              _cache[13] || (_cache[13] = createTextVNode("  ")),
+              createBaseVNode("button", {
+                onClick: runTestGravity,
+                type: "button",
+                class: "btn btn-secondary",
+                disabled: pushDisabled.value
+              }, [
+                createBaseVNode("span", {
+                  class: "spinner-border spinner-border-sm",
+                  role: "status",
+                  "aria-hidden": "true",
+                  hidden: !unref(global$1).disabled
+                }, null, 8, _hoisted_17$2),
+                _cache[11] || (_cache[11] = createTextVNode("  Run push gravity test"))
+              ], 8, _hoisted_16$2),
+              _cache[14] || (_cache[14] = createTextVNode("  ")),
+              createBaseVNode("button", {
+                onClick: runTestPressure,
+                type: "button",
+                class: "btn btn-secondary",
+                disabled: pushDisabled.value
+              }, [
+                createBaseVNode("span", {
+                  class: "spinner-border spinner-border-sm",
+                  role: "status",
+                  "aria-hidden": "true",
+                  hidden: !unref(global$1).disabled
+                }, null, 8, _hoisted_19$1),
+                _cache[12] || (_cache[12] = createTextVNode("  Run push pressure test "))
+              ], 8, _hoisted_18$2)
             ])
           ])
         ], 40, _hoisted_2$n)
@@ -11817,6 +12013,10 @@ const _hoisted_12$3 = { class: "row gy-2" };
 const _hoisted_13$3 = { class: "col-md-12" };
 const _hoisted_14$2 = ["disabled"];
 const _hoisted_15$1 = ["hidden"];
+const _hoisted_16$1 = ["disabled"];
+const _hoisted_17$1 = ["hidden"];
+const _hoisted_18$1 = ["disabled"];
+const _hoisted_19 = ["hidden"];
 const _sfc_main$D = {
   __name: "PushMqttView",
   setup(__props) {
@@ -11824,6 +12024,22 @@ const _sfc_main$D = {
     const pushDisabled = computed(() => {
       return global$1.disabled || config.use_wifi_direct;
     });
+    const runTestGravity = () => {
+      const data = {
+        push_format: "mqtt_format_gravity"
+      };
+      global$1.clearMessages();
+      config.runPushTest(data, () => {
+      });
+    };
+    const runTestPressure = () => {
+      const data = {
+        push_format: "mqtt_format_pressure"
+      };
+      global$1.clearMessages();
+      config.runPushTest(data, () => {
+      });
+    };
     const gravityMqttFormatCallback = (opt) => {
       config.mqtt_format_gravity = decodeURIComponent(opt);
       config.mqtt_format_gravity = config.mqtt_format_gravity.replaceAll("|", "|\n");
@@ -11850,9 +12066,9 @@ const _sfc_main$D = {
       const _component_BsDropdown = resolveComponent("BsDropdown");
       const _component_BsModal = resolveComponent("BsModal");
       return openBlock(), createElementBlock("div", _hoisted_1$r, [
-        _cache[13] || (_cache[13] = createBaseVNode("p", null, null, -1)),
-        _cache[14] || (_cache[14] = createBaseVNode("p", { class: "h3" }, "Push - MQTT", -1)),
-        _cache[15] || (_cache[15] = createBaseVNode("hr", null, null, -1)),
+        _cache[16] || (_cache[16] = createBaseVNode("p", null, null, -1)),
+        _cache[17] || (_cache[17] = createBaseVNode("p", { class: "h3" }, "Push - MQTT", -1)),
+        _cache[18] || (_cache[18] = createBaseVNode("hr", null, null, -1)),
         createBaseVNode("form", {
           onSubmit: withModifiers(save, ["prevent"]),
           class: "needs-validation",
@@ -11976,7 +12192,7 @@ const _sfc_main$D = {
             ])
           ]),
           createBaseVNode("div", _hoisted_12$3, [
-            _cache[12] || (_cache[12] = createBaseVNode("div", { class: "col-md-12" }, [
+            _cache[15] || (_cache[15] = createBaseVNode("div", { class: "col-md-12" }, [
               createBaseVNode("hr")
             ], -1)),
             createBaseVNode("div", _hoisted_13$3, [
@@ -11993,7 +12209,36 @@ const _sfc_main$D = {
                 }, null, 8, _hoisted_15$1),
                 _cache[10] || (_cache[10] = createTextVNode("  Save"))
               ], 8, _hoisted_14$2),
-              _cache[11] || (_cache[11] = createTextVNode("  "))
+              _cache[13] || (_cache[13] = createTextVNode("  ")),
+              createBaseVNode("button", {
+                onClick: runTestGravity,
+                type: "button",
+                class: "btn btn-secondary",
+                disabled: pushDisabled.value
+              }, [
+                createBaseVNode("span", {
+                  class: "spinner-border spinner-border-sm",
+                  role: "status",
+                  "aria-hidden": "true",
+                  hidden: !unref(global$1).disabled
+                }, null, 8, _hoisted_17$1),
+                _cache[11] || (_cache[11] = createTextVNode("  Run push gravity test"))
+              ], 8, _hoisted_16$1),
+              _cache[14] || (_cache[14] = createTextVNode("  ")),
+              createBaseVNode("button", {
+                onClick: runTestPressure,
+                type: "button",
+                class: "btn btn-secondary",
+                disabled: pushDisabled.value
+              }, [
+                createBaseVNode("span", {
+                  class: "spinner-border spinner-border-sm",
+                  role: "status",
+                  "aria-hidden": "true",
+                  hidden: !unref(global$1).disabled
+                }, null, 8, _hoisted_19),
+                _cache[12] || (_cache[12] = createTextVNode("  Run push pressure test "))
+              ], 8, _hoisted_18$1)
             ])
           ])
         ], 40, _hoisted_2$m)
