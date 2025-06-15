@@ -7044,7 +7044,7 @@ function logInfo(...args) {
 function logError(...args) {
   console.log("Error", ...args);
 }
-const __vite_import_meta_env__ = { "BASE_URL": "/", "DEV": false, "MODE": "production", "PROD": true, "SSR": false, "VITE_APP_BUILD": "..3d289e", "VITE_APP_VERSION": "0.7.0" };
+const __vite_import_meta_env__ = { "BASE_URL": "/", "DEV": false, "MODE": "production", "PROD": true, "SSR": false, "VITE_APP_BUILD": "..8dabde", "VITE_APP_VERSION": "0.7.0" };
 const useGlobalStore = /* @__PURE__ */ defineStore("global", {
   state: () => {
     return {
@@ -7094,7 +7094,7 @@ const useGlobalStore = /* @__PURE__ */ defineStore("global", {
       return "0.7.0";
     },
     uiBuild() {
-      return "..3d289e";
+      return "..8dabde";
     },
     disabled32() {
       if (this.disabled) return true;
@@ -9974,9 +9974,9 @@ const _sfc_main$O = {
                 class: "col-md-4"
               }, [
                 createVNode(_component_BsCard, {
-                  header: "Gravity Device",
+                  header: "Gravity Device: " + g.device,
                   color: "info",
-                  title: g.device + " (" + formatTime(g.update_time) + " / " + formatTime(g.push_time) + ")"
+                  title: g.name + " (" + formatTime(g.update_time) + " / " + formatTime(g.push_time) + ")"
                 }, {
                   default: withCtx(() => [
                     createBaseVNode("p", _hoisted_4$m, " Gravity: " + toDisplayString(formatGravity(g.gravity)) + " " + toDisplayString(unref(config).gravity_unit === "G" ? " SG" : " P") + " Temperature: " + toDisplayString(formatTemp(g.temp)) + " " + toDisplayString(unref(config).temp_unit), 1),
@@ -9985,7 +9985,7 @@ const _sfc_main$O = {
                     createBaseVNode("span", _hoisted_6$i, toDisplayString(g.type), 1)
                   ]),
                   _: 2
-                }, 1032, ["title"])
+                }, 1032, ["header", "title"])
               ]);
             }), 128)),
             (openBlock(true), createElementBlock(Fragment, null, renderList(unref(status).pressure_device, (p2) => {
@@ -9994,9 +9994,9 @@ const _sfc_main$O = {
                 class: "col-md-4"
               }, [
                 createVNode(_component_BsCard, {
-                  header: "Pressure Device",
+                  header: "Pressure Device: " + p2.device,
                   color: "info",
-                  title: p2.device + " (" + formatTime(p2.update_time) + " / " + formatTime(p2.push_time) + ")"
+                  title: p2.name + " (" + formatTime(p2.update_time) + " / " + formatTime(p2.push_time) + ")"
                 }, {
                   default: withCtx(() => [
                     createBaseVNode("p", _hoisted_7$g, " Pressure: " + toDisplayString(formatPressure(p2.pressure)) + " " + toDisplayString(unref(config).pressure_unit === "PSI" ? " psi" : unref(config).pressure_unit === "kPa" ? " kPa" : " Bar") + " Temperature: " + toDisplayString(formatTemp(p2.temp)) + " " + toDisplayString(unref(config).temp_unit), 1),
@@ -10005,7 +10005,7 @@ const _sfc_main$O = {
                     createBaseVNode("span", _hoisted_9$f, toDisplayString(p2.type), 1)
                   ]),
                   _: 2
-                }, 1032, ["title"])
+                }, 1032, ["header", "title"])
               ]);
             }), 128)),
             (openBlock(true), createElementBlock(Fragment, null, renderList(unref(status).temperature_device, (t) => {
