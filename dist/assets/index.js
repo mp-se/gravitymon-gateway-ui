@@ -7044,7 +7044,7 @@ function logInfo(...args) {
 function logError(...args) {
   console.log("Error", ...args);
 }
-const __vite_import_meta_env__ = { "BASE_URL": "/", "DEV": false, "MODE": "production", "PROD": true, "SSR": false, "VITE_APP_BUILD": "..8dabde", "VITE_APP_VERSION": "0.7.0" };
+const __vite_import_meta_env__ = { "BASE_URL": "/", "DEV": false, "MODE": "production", "PROD": true, "SSR": false, "VITE_APP_BUILD": "..7c0ad7", "VITE_APP_VERSION": "0.7.0" };
 const useGlobalStore = /* @__PURE__ */ defineStore("global", {
   state: () => {
     return {
@@ -7094,7 +7094,7 @@ const useGlobalStore = /* @__PURE__ */ defineStore("global", {
       return "0.7.0";
     },
     uiBuild() {
-      return "..8dabde";
+      return "..7c0ad7";
     },
     disabled32() {
       if (this.disabled) return true;
@@ -7273,38 +7273,66 @@ const gravityMqttFormatOptions = ref([
 ]);
 const pressureHttpPostFormatOptions = ref([
   {
-    label: "--blank-",
+    label: "-- none --",
     value: ""
+  },
+  {
+    label: "Pressuremon (Single)",
+    value: "%7B%22name%22%3A%20%22%24%7Bmdns%7D%22%2C%20%22id%22%3A%20%22%24%7Bid%7D%22%2C%20%22token%22%3A%20%22%24%7Btoken%7D%22%2C%20%22interval%22%3A%20%24%7Bsleep%2Dinterval%7D%2C%20%22temperature%22%3A%20%24%7Btemp%7D%2C%20%22temperature%2Dunit%22%3A%20%22%24%7Btemp%2Dunit%7D%22%2C%20%22pressure%22%3A%20%24%7Bpressure%7D%2C%20%22pressure%2Dunit%22%3A%20%22%24%7Bpressure%2Dunit%7D%22%2C%20%22battery%22%3A%20%24%7Bbattery%7D%2C%20%22rssi%22%3A%20%24%7Brssi%7D%2C%20%22run%2Dtime%22%3A%20%24%7Brun%2Dtime%7D%20%7D"
+  },
+  {
+    label: "Pressuremon (Dual)",
+    value: "%7B%22name%22%3A%20%22%24%7Bmdns%7D%22%2C%20%22id%22%3A%20%22%24%7Bid%7D%22%2C%20%22token%22%3A%20%22%24%7Btoken%7D%22%2C%20%22interval%22%3A%20%24%7Bsleep-interval%7D%2C%20%22temperature%22%3A%20%24%7Btemp%7D%2C%20%22temperature-unit%22%3A%20%22%24%7Btemp-unit%7D%22%2C%20%22pressure%22%3A%20%24%7Bpressure%7D%2C%20%22pressure1%22%3A%20%24%7Bpressure1%7D%2C%20%22pressure-unit%22%3A%20%22%24%7Bpressure-unit%7D%22%2C%20%22battery%22%3A%20%24%7Bbattery%7D%2C%20%22rssi%22%3A%20%24%7Brssi%7D%2C%20%22run-time%22%3A%20%24%7Brun-time%7D%20%7D"
   }
 ]);
 const pressureHttpGetFormatOptions = ref([
   {
-    label: "--blank-",
+    label: "-- none --",
     value: ""
   },
   {
-    label: "PressureMon",
+    label: "Pressuremon (Single)",
     value: "%3Fname%3D%24%7Bmdns%7D%26id%3D%24%7Bid%7D%26token%3D%24%7Btoken2%7D%26interval%3D%24%7Bsleep%2Dinterval%7D%26temperature%3D%24%7Btemp%7D%26temperature%2Dunit%3D%24%7Btemp%2Dunit%7D%26pressure%3D%24%7Bpressure%7D%26pressure%2Dunit%3D%24%7Bpressure%2Dunit%7D%26battery%3D%24%7Bbattery%7D%26rssi%3D%24%7Brssi%7D%26run%2Dtime%3D%24%7Brun%2Dtime%7D"
+  },
+  {
+    label: "Pressuremon (Dual)",
+    value: "%3Fname%3D%24%7Bmdns%7D%26id%3D%24%7Bid%7D%26token%3D%24%7Btoken2%7D%26interval%3D%24%7Bsleep-interval%7D%26temperature%3D%24%7Btemp%7D%26temperature-unit%3D%24%7Btemp-unit%7D%26pressure%3D%24%7Bpressure%7D%26pressure1%3D%24%7Bpressure1%7D%26pressure-unit%3D%24%7Bpressure-unit%7D%26battery%3D%24%7Bbattery%7D%26rssi%3D%24%7Brssi%7D%26run-time%3D%24%7Brun-time%7D"
   }
 ]);
 const pressureInfluxdb2FormatOptions = ref([
   {
-    label: "--blank-",
+    label: "-- none --",
     value: ""
   },
   {
-    label: "PressureMon",
+    label: "Pressuremon (Single)",
     value: "measurement%2Chost%3D%24%7Bmdns%7D%2Cdevice%3D%24%7Bid%7D%2Ctemperature%2Dunit%3D%24%7Btemp%2Dunit%7D%2Cpressure%2Dunit%3D%24%7Bpressure%2Dunit%7D%20pressure%3D%24%7Bpressure%7D%2Ctemp%3D%24%7Btemp%7D%2Cbattery%3D%24%7Bbattery%7D%2Crssi%3D%24%7Brssi%7D%0A"
+  },
+  {
+    label: "Pressuremon (Dual)",
+    value: "measurement%2Chost%3D%24%7Bmdns%7D%2Cdevice%3D%24%7Bid%7D%2Ctemperature-unit%3D%24%7Btemp-unit%7D%2Cpressure-unit%3D%24%7Bpressure-unit%7D%20pressure%3D%24%7Bpressure%7D%2Cpressure1%3D%24%7Bpressure1%7D%2Ctemp%3D%24%7Btemp%7D%2Cbattery%3D%24%7Bbattery%7D%2Crssi%3D%24%7Brssi%7D%0A"
   }
 ]);
 const pressureMqttFormatOptions = ref([
   {
-    label: "--blank-",
+    label: "-- none --",
     value: ""
   },
   {
-    label: "PressureMon",
+    label: "Pressuremon (Single)",
     value: "pressuremon%2F%24%7Bmdns%7D%2Ftemperature%3A%24%7Btemp%7D%7Cpressuremon%2F%24%7Bmdns%7D%2Ftemperature%2Dunit%3A%24%7Btemp%2Dunit%7D%7Cpressuremon%2F%24%7Bmdns%7D%2Fbattery%3A%24%7Bbattery%7D%7Cpressuremon%2F%24%7Bmdns%7D%2Fpressure%3A%24%7Bpressure%7D%7Cpressuremon%2F%24%7Bmdns%7D%2Fpressure%2Dunit%3A%24%7Bpressure%2Dunit%7D%7Cpressuremon%2F%24%7Bmdns%7D%2Finterval%3A%24%7Bsleep%2Dinterval%7D%7Cpressuremon%2F%24%7Bmdns%7D%2FRSSI%3A%24%7Brssi%7D%7C"
+  },
+  {
+    label: "Pressuremon (Dual)",
+    value: "pressuremon%2F%24%7Bmdns%7D%2Ftemperature%3A%24%7Btemp%7D%7Cpressuremon%2F%24%7Bmdns%7D%2Ftemperature-unit%3A%24%7Btemp-unit%7D%7Cpressuremon%2F%24%7Bmdns%7D%2Fbattery%3A%24%7Bbattery%7D%7Cpressuremon%2F%24%7Bmdns%7D%2Fpressure%3A%24%7Bpressure%7D%7Cpressuremon%2F%24%7Bmdns%7D%2Fpressure1%3A%24%7Bpressure1%7D%7Cpressuremon%2F%24%7Bmdns%7D%2Fpressure-unit%3A%24%7Bpressure-unit%7D%7Cpressuremon%2F%24%7Bmdns%7D%2Finterval%3A%24%7Bsleep-interval%7D%7Cpressuremon%2F%24%7Bmdns%7D%2FRSSI%3A%24%7Brssi%7D%7C"
+  },
+  {
+    label: "Brewblox (Single)",
+    value: "brewcast%2Fhistory%2Fpressuremon%3A%20%7B%22key%22%3A%20%22%24%7Bmdns%7D%22%2C%20%22data%22%3A%20%7B%22pressure%22%3A%20%24%7Bpressure%7D%2C%20%22pressure-unit%22%3A%20%22%24%7Bpressure-unit%7D%22%2C%20%22battery%22%3A%24%7Bbattery%7D%2C%20%22interval%22%3A%20%24%7Bsleep-interval%7D%2C%20%22RSSI%22%3A%20%24%7Brssi%7D%7D%7D%7C"
+  },
+  {
+    label: "Brewblox (Dual)",
+    value: "brewcast%2Fhistory%2Fpressuremon%3A%20%7B%22key%22%3A%20%22%24%7Bmdns%7D%22%2C%20%22data%22%3A%20%7B%22pressure%22%3A%20%24%7Bpressure%7D%2C%20%22pressure1%22%3A%20%24%7Bpressure1%7D%2C%20%22pressure-unit%22%3A%20%22%24%7Bpressure-unit%7D%22%2C%20%22battery%22%3A%24%7Bbattery%7D%2C%20%22interval%22%3A%20%24%7Bsleep-interval%7D%2C%20%22RSSI%22%3A%20%24%7Brssi%7D%7D%7D%7C"
   }
 ]);
 function validateCurrentForm() {
@@ -7371,6 +7399,7 @@ function applyTemplate(status2, config2, template) {
     s = s.replaceAll("${corr-gravity-sg}", plato);
     s = s.replaceAll("${gravity-sg}", sg);
   }
+  s = s.replaceAll("${velocity}", 1.01);
   s = s.replaceAll("${mdns}", config2.mdns);
   s = s.replaceAll("${id}", config2.id);
   s = s.replaceAll("${sleep-interval}", config2.sleep_interval);
@@ -7388,6 +7417,10 @@ function applyTemplate(status2, config2, template) {
   s = s.replaceAll("${pressure-psi}", p2);
   s = s.replaceAll("${pressure-bar}", psiToBar(p2));
   s = s.replaceAll("${pressure-kpa}", psiToKPa(p2));
+  s = s.replaceAll("${pressure1}", p2);
+  s = s.replaceAll("${pressure1-psi}", p2);
+  s = s.replaceAll("${pressure1-bar}", psiToBar(p2));
+  s = s.replaceAll("${pressure1-kpa}", psiToKPa(p2));
   s = s.replaceAll("${app-ver}", status2.app_ver);
   s = s.replaceAll("${app-build}", status2.app_build);
   s = s.replaceAll("${battery-percent}", 100);
