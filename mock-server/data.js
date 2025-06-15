@@ -96,19 +96,20 @@ export var statusData = {
   uptime_days: 4,
 
   gravity_device: [ 
-    { device: "dev1", gravity: 1.100, temp: 24, update_time: 100, push_time: 10 },  
-    { device: "dev2", gravity: 1.100, temp: 24, update_time: 200, push_time: 10 },
-    { device: "dev3", gravity: 1.100, temp: 24, update_time: 300, push_time: 10 },  
-    { device: "dev4", gravity: 1.100, temp: 24, update_time: 400, push_time: 10 },  
-    { device: "dev5", gravity: 1.100, temp: 24, update_time: 500, push_time: 10 },  
+    { device: "dev1", name: "test1", gravity: 1.100, temp: 24, update_time: 100, push_time: 10, source: "HTTP Post", type: "Gravitymon" },  
+    { device: "dev2", name: "test2", gravity: 1.100, temp: 24, update_time: 200, push_time: 10, source: "HTTP Post", type: "Gravitymon" },
+    { device: "dev3", name: "test3", gravity: 1.100, temp: 24, update_time: 300, push_time: 10, source: "HTTP Post", type: "Gravitymon" },  
+    { device: "dev4", name: "test4", gravity: 1.100, temp: 24, update_time: 400, push_time: 10, source: "HTTP Post", type: "Gravitymon" },  
+    { device: "dev5", name: "test5", gravity: 1.100, temp: 24, update_time: 500, push_time: 10, source: "HTTP Post", type: "Gravitymon" },  
+    { device: "devA", name: "blue", gravity: 1.100, temp: 24, update_time: 100, push_time: 10, source: "BLE Beacon", type: "Tilt"  },  
   ],
   pressure_device: [ 
-    { device: "dev6", pressure: 1.23, temp: 24, update_time: 100, push_time: 10 },  
-    { device: "dev7", pressure: 0.95, temp: 24, update_time: 200, push_time: 10 },
-    { device: "dev8", pressure: 2.23, temp: 24, update_time: 300, push_time: 10 },  
+    { device: "dev6", name: "test1", pressure: 1.23, temp: 24, update_time: 100, push_time: 10, source: "HTTP Post", type: "Pressuremon" },  
+    { device: "dev7", name: "test2", pressure: 0.95, temp: 24, update_time: 200, push_time: 10, source: "HTTP Post", type: "Pressuremon" },
+    { device: "dev8", name: "test3", pressure: 2.23, temp: 24, update_time: 300, push_time: 10, source: "HTTP Post", type: "Pressuremon" },  
   ],
   temperature_device: [ 
-    { device: "dev9", chamber_temp: 1.23, beer_temp: 24, update_time: 100, push_time: 10 }
+    { device: "dev9", name: "", chamber_temp: 1.23, beer_temp: 24, update_time: 100, push_time: 10, source: "BLE Beacon", type: "Chamber Controller" }
   ]
 }
 

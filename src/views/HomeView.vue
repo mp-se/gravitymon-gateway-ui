@@ -7,10 +7,10 @@
         <template v-for="g in status.gravity_device" :key="g.device">
           <div class="col-md-4">
             <BsCard
-              header="Gravity Device"
+              :header="'Gravity Device: ' + g.device"
               color="info"
               :title="
-                g.device + ' (' + formatTime(g.update_time) + ' / ' + formatTime(g.push_time) + ')'
+                g.name + ' (' + formatTime(g.update_time) + ' / ' + formatTime(g.push_time) + ')'
               "
             >
               <p class="text-center">
@@ -29,10 +29,10 @@
         <template v-for="p in status.pressure_device" :key="p.device">
           <div class="col-md-4">
             <BsCard
-              header="Pressure Device"
+              :header="'Pressure Device: ' + p.device"
               color="info"
               :title="
-                p.device + ' (' + formatTime(p.update_time) + ' / ' + formatTime(p.push_time) + ')'
+                p.name + ' (' + formatTime(p.update_time) + ' / ' + formatTime(p.push_time) + ')'
               "
             >
               <p class="text-center">
