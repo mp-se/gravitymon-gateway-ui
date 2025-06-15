@@ -146,7 +146,7 @@
             &nbsp;Save</button
           >&nbsp;
 
-          <!-- <button @click="runTestGravity" type="button" class="btn btn-secondary" :disabled="pushDisabled">
+          <button @click="runTestGravity" type="button" class="btn btn-secondary" :disabled="pushDisabled">
             <span
               class="spinner-border spinner-border-sm"
               role="status"
@@ -163,7 +163,7 @@
               :hidden="!global.disabled"
             ></span>
             &nbsp;Run push pressure test
-          </button> -->
+          </button>
         </div>
       </div>
     </form>
@@ -190,8 +190,7 @@ const pushDisabled = computed(() => {
 
 const runTestGravity = () => {
   const data = {
-    push_format: 'http_get',
-    target: 'gravity'
+    push_format: 'http_get_format_gravity'
   }
 
   global.clearMessages()
@@ -200,8 +199,7 @@ const runTestGravity = () => {
 
 const runTestPressure = () => {
   const data = {
-    push_format: 'http_get',
-    target: 'pressure'
+    push_format: 'http_get_format_pressure'
   }
 
   global.clearMessages()
