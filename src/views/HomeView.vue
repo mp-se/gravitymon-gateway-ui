@@ -107,8 +107,8 @@
 
         <div class="col-md-4">
           <BsCard header="Device" title="Platform">
-            Platform: <span class="badge bg-secondary">{{ status.platform }}</span> 
-            Board: <span class="badge bg-secondary">{{ status.board }}</span> 
+            Platform: <span class="badge bg-secondary">{{ status.platform }}</span> Board:
+            <span class="badge bg-secondary">{{ status.board }}</span>
           </BsCard>
         </div>
 

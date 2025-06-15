@@ -156,16 +156,26 @@
             &nbsp;Save</button
           >&nbsp;
 
-          <button @click="runTestGravity" type="button" class="btn btn-secondary" :disabled="pushDisabled">
+          <button
+            @click="runTestGravity"
+            type="button"
+            class="btn btn-secondary"
+            :disabled="pushDisabled"
+          >
             <span
               class="spinner-border spinner-border-sm"
               role="status"
               aria-hidden="true"
               :hidden="!global.disabled"
             ></span>
-            &nbsp;Run push gravity test
-          </button>&nbsp;
-          <button @click="runTestPressure" type="button" class="btn btn-secondary" :disabled="pushDisabled">
+            &nbsp;Run push gravity test</button
+          >&nbsp;
+          <button
+            @click="runTestPressure"
+            type="button"
+            class="btn btn-secondary"
+            :disabled="pushDisabled"
+          >
             <span
               class="spinner-border spinner-border-sm"
               role="status"
