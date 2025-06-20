@@ -89,6 +89,7 @@ export var statusData = {
   total_heap: 1000,
   free_heap: 500,
   ip: "192.0.0.1",
+  board: 'd1_mini',
   wifi_setup: false,
   uptime_seconds: 1,
   uptime_minutes: 2,
