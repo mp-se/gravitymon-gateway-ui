@@ -524,6 +524,25 @@ export const useConfigStore = defineStore('config', {
           callback(false, '')
         })
     },
+    sendSecureDiskRequest(data, callback) {
+      global.disabled = true
+      logInfo('configStore.sendSecureDiskRequest()', 'Sending /api/sd')
+      fetch(global.baseURL + 'api/sd', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: global.token },
+        body: JSON.stringify(data),
+        signal: AbortSignal.timeout(global.fetchTimout)
+      })
+        .then((res) => res.text())
+        .then((text) => {
+          logDebug('configStore.sendSecureDiskRequest()', text)
+          callback(true, text)
+        })
+        .catch((err) => {
+          logError('configStore.sendSecureDiskRequest()', err)
+          callback(false, '')
+        })
+    },
     runPushTest(data, callback) {
       global.disabled = true
       this.sendPushTest(data, (success) => {

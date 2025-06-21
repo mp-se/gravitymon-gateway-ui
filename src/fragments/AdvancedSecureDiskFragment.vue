@@ -1,5 +1,5 @@
 <template>
-  <h5>Upload files to internal file system</h5>
+  <!-- <h5>Upload files to file system</h5>
   <div class="row gy-4">
     <form @submit.prevent="upload">
       <div class="col-md-12">
@@ -37,14 +37,14 @@
         <BsProgress :progress="progress"></BsProgress>
       </div>
     </form>
-  </div>
+  </div> -->
 
-  <div class="row gy-4">
+  <!-- <div class="row gy-4">
     &nbsp;
     <hr />
-  </div>
+  </div> -->
 
-  <h5>Delete files from internal file system</h5>
+  <h5>Delete files from SD file system</h5>
   <div class="row gy-4">
     <div class="col-md-3">
       <button
@@ -81,7 +81,7 @@
     <BsModalConfirm
       :callback="confirmDeleteCallback"
       :message="confirmDeleteMessage"
-      id="deleteFile"
+      id="deleteSecureDiskFile"
       title="Delete file"
       :disabled="global.disabled"
     />
@@ -91,7 +91,7 @@
 <script setup>
 import { ref } from 'vue'
 import { global, config } from '@/modules/pinia'
-import { logDebug, logError } from '@/modules/logger'
+import { logDebug } from '@/modules/logger'
 
 const fileData = ref(null)
 const filesDelete = ref([])
@@ -100,7 +100,7 @@ const confirmDeleteMessage = ref(null)
 const confirmDeleteFile = ref(null)
 
 const confirmDeleteCallback = (result) => {
-  logDebug('AdancedFilesFragment.confirmDeleteCallback()', result)
+  logDebug('AdvancedSecureDiskFragment.confirmDeleteCallback()', result)
 
   if (result) {
     global.disabled = true
@@ -113,8 +113,8 @@ const confirmDeleteCallback = (result) => {
       file: confirmDeleteFile.value
     }
 
-    config.sendFilesystemRequest(data, (success, text) => {
-      logDebug('AdancedFilesFragment.confirmDeleteCallback()', success), text
+    config.sendSecureDiskRequest(data, (success, text) => {
+      logDebug('AdvancedSecureDiskFragment.confirmDeleteCallback()', success), text
       filesDelete.value = []
       global.disabled = false
     })
@@ -124,7 +124,7 @@ const confirmDeleteCallback = (result) => {
 const deleteFile = (f) => {
   confirmDeleteMessage.value = 'Do you really want to delete file ' + f
   confirmDeleteFile.value = f
-  document.getElementById('deleteFile').click()
+  document.getElementById('deleteSecureDiskFile').click()
 }
 
 const listFilesDelete = () => {
@@ -137,7 +137,7 @@ const listFilesDelete = () => {
     command: 'dir'
   }
 
-  config.sendFilesystemRequest(data, (success, text) => {
+  config.sendSecureDiskRequest(data, (success, text) => {
     if (success) {
       var json = JSON.parse(text)
       for (var f in json.files) {
@@ -149,72 +149,72 @@ const listFilesDelete = () => {
   })
 }
 
-const progress = ref(0)
+// const progress = ref(0)
 
-function upload() {
-  const fileElement = document.getElementById('upload')
+// function upload() {
+//   const fileElement = document.getElementById('upload')
 
-  function errorAction(e) {
-    logError('AdancedFilesFragment.upload()', e.type)
-    global.messageFailed = 'File upload failed!'
-    global.disabled = false
-  }
+//   function errorAction(e) {
+//     logError('AdancedFilesFragment.upload()', e.type)
+//     global.messageFailed = 'File upload failed!'
+//     global.disabled = false
+//   }
 
-  if (fileElement.files.length === 0) {
-    global.messageFailed = 'You need to select one file with firmware to upload'
-  } else {
-    global.disabled = true
-    logDebug('AdancedFilesFragment.upload()', 'Selected file: ' + fileElement.files[0].name)
+//   if (fileElement.files.length === 0) {
+//     global.messageFailed = 'You need to select one file with firmware to upload'
+//   } else {
+//     global.disabled = true
+//     logDebug('AdancedFilesFragment.upload()', 'Selected file: ' + fileElement.files[0].name)
 
-    const xhr = new XMLHttpRequest()
-    xhr.timeout = 40000 // 40 s
-    progress.value = 0
+//     const xhr = new XMLHttpRequest()
+//     xhr.timeout = 40000 // 40 s
+//     progress.value = 0
 
-    xhr.onabort = function (e) {
-      errorAction(e)
-    }
-    xhr.onerror = function (e) {
-      errorAction(e)
-    }
-    xhr.ontimeout = function (e) {
-      errorAction(e)
-    }
+//     xhr.onabort = function (e) {
+//       errorAction(e)
+//     }
+//     xhr.onerror = function (e) {
+//       errorAction(e)
+//     }
+//     xhr.ontimeout = function (e) {
+//       errorAction(e)
+//     }
 
-    xhr.onloadstart = function () {}
+//     xhr.onloadstart = function () {}
 
-    xhr.onloadend = function () {
-      progress.value = 100
-      if (xhr.status == 200) {
-        global.messageSuccess = 'File upload completed!'
-        global.messageFailed = ''
-      }
+//     xhr.onloadend = function () {
+//       progress.value = 100
+//       if (xhr.status == 200) {
+//         global.messageSuccess = 'File upload completed!'
+//         global.messageFailed = ''
+//       }
 
-      global.disabled = false
-      filesDelete.value = []
-    }
+//       global.disabled = false
+//       filesDelete.value = []
+//     }
 
-    // The update only seams to work when loaded from the device (i.e. when CORS is not used)
-    xhr.upload.addEventListener(
-      'progress',
-      (e) => {
-        progress.value = (e.loaded / e.total) * 100
-      },
-      false
-    )
+//     // The update only seams to work when loaded from the device (i.e. when CORS is not used)
+//     xhr.upload.addEventListener(
+//       'progress',
+//       (e) => {
+//         progress.value = (e.loaded / e.total) * 100
+//       },
+//       false
+//     )
 
-    const fileData = new FormData()
-    fileData.onprogress = function (e) {
-      logDebug(
-        'AdancedFilesFragment.upload()',
-        'progress2: ' + e.loaded + ',' + e.total + ',' + xhr.status
-      )
-    }
+//     const fileData = new FormData()
+//     fileData.onprogress = function (e) {
+//       logDebug(
+//         'AdancedFilesFragment.upload()',
+//         'progress2: ' + e.loaded + ',' + e.total + ',' + xhr.status
+//       )
+//     }
 
-    fileData.append('file', fileElement.files[0])
+//     fileData.append('file', fileElement.files[0])
 
-    xhr.open('POST', global.baseURL + 'api/filesystem/upload')
-    xhr.setRequestHeader('Authorization', global.token)
-    xhr.send(fileData)
-  }
-}
+//     xhr.open('POST', global.baseURL + 'api/filesystem/upload')
+//     xhr.setRequestHeader('Authorization', global.token)
+//     xhr.send(fileData)
+//   }
+// }
 </script>

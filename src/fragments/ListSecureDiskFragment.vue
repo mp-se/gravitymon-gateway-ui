@@ -1,5 +1,5 @@
 <template>
-  <h5>Explore the internal file system</h5>
+  <h5>Explore the SD file system</h5>
   <div class="row gy-4">
     <div class="col-md-3">
       <button
@@ -14,7 +14,7 @@
           aria-hidden="true"
           :hidden="!global.disabled"
         ></span>
-        &nbsp;List files</button
+        &nbsp;List SD files</button
       >&nbsp;
     </div>
 
@@ -68,7 +68,7 @@ const viewFile = (f) => {
     file: f
   }
 
-  config.sendFilesystemRequest(data, (success, text) => {
+  config.sendSecureDiskRequest(data, (success, text) => {
     if (success) {
       if (isValidJson(text)) fileData.value = JSON.stringify(JSON.parse(text), null, 2)
       else if (isValidFormData(text)) fileData.value = text.replaceAll('&', '&\n\r')
@@ -90,7 +90,7 @@ const listFilesView = () => {
     command: 'dir'
   }
 
-  config.sendFilesystemRequest(data, (success, text) => {
+  config.sendSecureDiskRequest(data, (success, text) => {
     if (success) {
       var json = JSON.parse(text)
       filesystemUsage.value = (json.used / json.total) * 100

@@ -27,6 +27,8 @@ export const useStatusStore = defineStore('status', {
       uptime_hours: 0,
       uptime_days: 0,
 
+      sd_enbled: false,
+
       // Values that are not updated but needed for format template viewer
       angle: 35,
       gravity: 1.015,
@@ -66,6 +68,8 @@ export const useStatusStore = defineStore('status', {
           this.uptime_minutes = json.uptime_minutes
           this.uptime_hours = json.uptime_hours
           this.uptime_days = json.uptime_days
+
+          this.sd_enabled = json.sd_enabled
 
           this.total_heap = Math.round(this.total_heap / 1024).toFixed(0)
           this.free_heap = Math.round(this.free_heap / 1024).toFixed(0)
