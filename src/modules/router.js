@@ -20,6 +20,7 @@ import SupportView from '@/views/SupportView.vue'
 import SerialView from '@/views/SerialView.vue'
 import ToolsView from '@/views/ToolsView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
+import MeasurementView from '@/views/MeasurementView.vue'
 
 const routes = [
   {
@@ -41,6 +42,11 @@ const routes = [
     path: '/device/wifi',
     name: 'device-wifi',
     component: DeviceWifiView
+  },
+  {
+    path: '/data',
+    name: 'measurement',
+    component: MeasurementView
   },
   {
     path: '/other/firmware',
@@ -149,6 +155,12 @@ const items = ref([
         path: '/device/wifi'
       }
     ]
+  },
+  {
+    label: 'Measurements',
+    icon: 'IconData',
+    path: '/data',
+    subs: []
   },
   {
     label: 'Push targets',

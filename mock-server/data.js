@@ -95,6 +95,7 @@ export var statusData = {
   uptime_minutes: 2,
   uptime_hours: 3,
   uptime_days: 4,
+  sd_enabled: true,
 
   gravity_device: [ 
     { device: "dev1", name: "test1", gravity: 1.100, temp: 24, update_time: 100, push_time: 10, source: "HTTP Post", type: "Gravitymon" },  

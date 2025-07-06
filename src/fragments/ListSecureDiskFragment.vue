@@ -49,7 +49,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { global, config } from '@/modules/pinia'
+import { global, measurement } from '@/modules/pinia'
 import { isValidJson, isValidFormData, isValidMqttData } from '@/modules/utils'
 
 const filesystemUsage = ref(null)
@@ -63,12 +63,7 @@ const viewFile = (f) => {
 
   fileData.value = null
 
-  var data = {
-    command: 'get',
-    file: f
-  }
-
-  config.sendSecureDiskRequest(data, (success, text) => {
+  measurement.fetchSecureDiskFile(f, (success, text) => {
     if (success) {
       if (isValidJson(text)) fileData.value = JSON.stringify(JSON.parse(text), null, 2)
       else if (isValidFormData(text)) fileData.value = text.replaceAll('&', '&\n\r')
@@ -90,7 +85,7 @@ const listFilesView = () => {
     command: 'dir'
   }
 
-  config.sendSecureDiskRequest(data, (success, text) => {
+  measurement.sendSecureDiskRequest(data, (success, text) => {
     if (success) {
       var json = JSON.parse(text)
       filesystemUsage.value = (json.used / json.total) * 100

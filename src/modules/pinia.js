@@ -3,6 +3,7 @@ import { createPinia } from 'pinia'
 import { useGlobalStore } from '@/modules/globalStore'
 import { useStatusStore } from '@/modules/statusStore'
 import { useConfigStore } from '@/modules/configStore'
+import { useMeasurementStore } from '@/modules/measurementStore'
 import { logInfo } from '@/modules/logger'
 
 const piniaInstance = createPinia()
@@ -12,8 +13,9 @@ export default piniaInstance
 const config = useConfigStore(piniaInstance)
 const global = useGlobalStore(piniaInstance)
 const status = useStatusStore(piniaInstance)
+const measurement = useMeasurementStore(piniaInstance)
 
-export { global, status, config }
+export { global, status, config, measurement }
 
 const configCompare = ref(null)
 

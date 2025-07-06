@@ -90,7 +90,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { global, config } from '@/modules/pinia'
+import { global, measurement } from '@/modules/pinia'
 import { logDebug } from '@/modules/logger'
 
 const fileData = ref(null)
@@ -113,7 +113,7 @@ const confirmDeleteCallback = (result) => {
       file: confirmDeleteFile.value
     }
 
-    config.sendSecureDiskRequest(data, (success, text) => {
+    measurement.sendSecureDiskRequest(data, (success, text) => {
       logDebug('AdvancedSecureDiskFragment.confirmDeleteCallback()', success), text
       filesDelete.value = []
       global.disabled = false
@@ -137,7 +137,7 @@ const listFilesDelete = () => {
     command: 'dir'
   }
 
-  config.sendSecureDiskRequest(data, (success, text) => {
+  measurement.sendSecureDiskRequest(data, (success, text) => {
     if (success) {
       var json = JSON.parse(text)
       for (var f in json.files) {
