@@ -392,6 +392,11 @@ export const useMeasurementStore = defineStore('measurement', {
 
       logInfo('measurementStore.fetchAllMeasurementFiles()', allLines)
 
+      this.tiltData = []
+      this.gravitymonData = []
+      this.pressuremonData = []
+      this.chamberControllerData = []
+
       for (const line of allLines) {
         if (!line.trim()) continue
         if (TiltData.isTiltDataCsv(line)) {
