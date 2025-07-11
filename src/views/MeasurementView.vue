@@ -21,7 +21,6 @@
       <div class="col-md-12">&nbsp;</div>
 
       <template v-if="deviceType === 0">
-
         <div class="col-md-12">
           <BsSelect
             v-model="gravitymonDevice"
@@ -31,51 +30,14 @@
           ></BsSelect>
         </div>
 
-        <div class="table-responsive">
-          <table class="table table-sm table-bordered">
-            <thead class="table-primary">
-              <tr>
-                <th>#</th>
-                <th>Created</th>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Token</th>
-                <th>Temp</th>
-                <th>Gravity</th>
-                <th>Angle</th>
-                <th>Battery</th>
-                <th>Tx Power</th>
-                <th>RSSI</th>
-                <th>Interval</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(entry, idx) in filteredGravitymonData" :key="idx">
-                <td>{{ idx + 1 }}</td>
-                <td>
-                  {{
-                    entry.getCreated() instanceof Date
-                      ? `${entry.getCreated().getFullYear()}-${String(entry.getCreated().getMonth() + 1).padStart(2, '0')}-${String(entry.getCreated().getDate()).padStart(2, '0')} ${String(entry.getCreated().getHours()).padStart(2, '0')}:${String(entry.getCreated().getMinutes()).padStart(2, '0')}`
-                      : entry.getCreated()
-                  }}
-                </td>
-                <td>{{ entry.getId() }}</td>
-                <td>{{ entry.getName() }}</td>
-                <td>{{ entry.getToken() }}</td>
-                <td>{{ entry.getTempC() }}°C</td>
-                <td>{{ entry.getGravity() }}</td>
-                <td>{{ entry.getAngle() }}</td>
-                <td>{{ entry.getBattery() }}V</td>
-                <td>{{ entry.getTxPower() }}</td>
-                <td>{{ entry.getRssi() }}</td>
-                <td>{{ entry.getInterval() }}s</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <div class="col-md-12">&nbsp;</div>
+
+        <MeasurementTableFragment 
+          :data="filteredGravitymonData" 
+          :columns="gravitymonColumns" 
+        />
       </template>
       <template v-if="deviceType === 1">
-
         <div class="col-md-12">
           <BsSelect
             v-model="tiltDevice"
@@ -85,45 +47,14 @@
           ></BsSelect>
         </div>
 
-        <div class="table-responsive">
-          <table class="table table-sm table-bordered">
-            <thead class="table-primary">
-              <tr>
-                <th>#</th>
-                <th>Created</th>
-                <th>ID</th>
-                <th>Color</th>
-                <th>Temp</th>
-                <th>Gravity</th>
-                <th>Tx Power</th>
-                <th>RSSI</th>
-                <th>Is Pro</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(entry, idx) in filteredTiltData" :key="idx">
-                <td>{{ idx + 1 }}</td>
-                <td>
-                  {{
-                    entry.getCreated() instanceof Date
-                      ? `${entry.getCreated().getFullYear()}-${String(entry.getCreated().getMonth() + 1).padStart(2, '0')}-${String(entry.getCreated().getDate()).padStart(2, '0')} ${String(entry.getCreated().getHours()).padStart(2, '0')}:${String(entry.getCreated().getMinutes()).padStart(2, '0')}`
-                      : entry.getCreated()
-                  }}
-                </td>
-                <td>{{ entry.getId() }}</td>
-                <td>{{ entry.getColor() }}</td>
-                <td>{{ entry.getTempC() }}°C</td>
-                <td>{{ entry.getGravity() }}</td>
-                <td>{{ entry.getTxPower() }}</td>
-                <td>{{ entry.getRssi() }}</td>
-                <td>{{ entry.getIsPro() ? 'Yes' : 'No' }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <div class="col-md-12">&nbsp;</div>
+
+        <MeasurementTableFragment 
+          :data="filteredTiltData" 
+          :columns="tiltColumns" 
+        />
       </template>
       <template v-if="deviceType === 2">
-
         <div class="col-md-12">
           <BsSelect
             v-model="pressuremonDevice"
@@ -133,52 +64,15 @@
           ></BsSelect>
         </div>
 
-        <div class="table-responsive">
-          <table class="table table-sm table-bordered">
-            <thead class="table-primary">
-              <tr>
-                <th>#</th>
-                <th>Created</th>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Token</th>
-                <th>Temp</th>
-                <th>Pressure</th>
-                <th>Pressure1</th>
-                <th>Battery</th>
-                <th>Tx Power</th>
-                <th>RSSI</th>
-                <th>Interval</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(entry, idx) in filteredPressuremonData" :key="idx">
-                <td>{{ idx + 1 }}</td>
-                <td>
-                  {{
-                    entry.getCreated() instanceof Date
-                      ? `${entry.getCreated().getFullYear()}-${String(entry.getCreated().getMonth() + 1).padStart(2, '0')}-${String(entry.getCreated().getDate()).padStart(2, '0')} ${String(entry.getCreated().getHours()).padStart(2, '0')}:${String(entry.getCreated().getMinutes()).padStart(2, '0')}`
-                      : entry.getCreated()
-                  }}
-                </td>
-                <td>{{ entry.getId() }}</td>
-                <td>{{ entry.getName() }}</td>
-                <td>{{ entry.getToken() }}</td>
-                <td>{{ entry.getTempC() }}°C</td>
-                <td>{{ entry.getPressure() }}</td>
-                <td>{{ entry.getPressure1() }}</td>
-                <td>{{ entry.getBattery() }}V</td>
-                <td>{{ entry.getTxPower() }}</td>
-                <td>{{ entry.getRssi() }}</td>
-                <td>{{ entry.getInterval() }}s</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <div class="col-md-12">&nbsp;</div>
+
+        <MeasurementTableFragment 
+          :data="filteredPressuremonData" 
+          :columns="pressuremonColumns" 
+        />
       </template>
       <template v-if="deviceType === 3">
-
-                <div class="col-md-12">
+        <div class="col-md-12">
           <BsSelect
             v-model="chamberControllerDevice"
             :options="chamberControllerDeviceOptions"
@@ -187,36 +81,12 @@
           ></BsSelect>
         </div>
 
-        <div class="table-responsive">
-          <table class="table table-sm table-bordered">
-            <thead class="table-primary">
-              <tr>
-                <th>#</th>
-                <th>Created</th>
-                <th>ID</th>
-                <th>Chamber Temp</th>
-                <th>Beer Temp</th>
-                <th>RSSI</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(entry, idx) in measurement.chamberControllerData" :key="idx">
-                <td>{{ idx + 1 }}</td>
-                <td>
-                  {{
-                    entry.getCreated() instanceof Date
-                      ? `${entry.getCreated().getFullYear()}-${String(entry.getCreated().getMonth() + 1).padStart(2, '0')}-${String(entry.getCreated().getDate()).padStart(2, '0')} ${String(entry.getCreated().getHours()).padStart(2, '0')}:${String(entry.getCreated().getMinutes()).padStart(2, '0')}`
-                      : entry.getCreated()
-                  }}
-                </td>
-                <td>{{ entry.getId() }}</td>
-                <td>{{ entry.getChamberTempC() }}°C</td>
-                <td>{{ entry.getBeerTempC() }}°C</td>
-                <td>{{ entry.getRssi() }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <div class="col-md-12">&nbsp;</div>
+
+        <MeasurementTableFragment 
+          :data="measurement.chamberControllerData" 
+          :columns="chamberControllerColumns" 
+        />
       </template>
     </div>
   </div>
@@ -226,14 +96,14 @@
 import { measurement, global, status } from '@/modules/pinia'
 import { ref, watch, onBeforeMount, onBeforeUnmount, computed } from 'vue'
 import { logDebug } from '@/modules/logger'
-import BsDropdown from '@/components/BsDropdown.vue'
 import BsSelect from '@/components/BsSelect.vue'
+import BsInputRadio from '@/components/BsInputRadio.vue'
+import MeasurementTableFragment from '@/fragments/MeasurementTableFragment.vue'
 
 const deviceType = ref(-1)
 const deviceTypeOptions = ref([
   //  { label: 'Text', value: 0 },
 ])
-
 
 const gravitymonDevice = ref('')
 const tiltDevice = ref('')
@@ -245,6 +115,49 @@ const tiltDeviceOptions = ref([])
 const pressuremonDeviceOptions = ref([])
 const chamberControllerDeviceOptions = ref([])
 
+// Column definitions for each device type
+const gravitymonColumns = ref([
+  { key: 'id', label: 'ID', method: 'getId' },
+  { key: 'name', label: 'Name', method: 'getName' },
+  { key: 'token', label: 'Token', method: 'getToken' },
+  { key: 'temp', label: 'Temp', method: 'getTempC', format: 'temperature' },
+  { key: 'gravity', label: 'Gravity', method: 'getGravity' },
+  { key: 'angle', label: 'Angle', method: 'getAngle' },
+  { key: 'battery', label: 'Battery', method: 'getBattery', format: 'voltage' },
+  { key: 'txPower', label: 'Tx Power', method: 'getTxPower' },
+  { key: 'rssi', label: 'RSSI', method: 'getRssi' },
+  { key: 'interval', label: 'Interval', method: 'getInterval', format: 'seconds' }
+])
+
+const tiltColumns = ref([
+  // { key: 'id', label: 'ID', method: 'getId' },
+  { key: 'color', label: 'Color', method: 'getColor' },
+  { key: 'temp', label: 'Temp', method: 'getTempC', format: 'temperature' },
+  { key: 'gravity', label: 'Gravity', method: 'getGravity' },
+  { key: 'txPower', label: 'Tx Power', method: 'getTxPower' },
+  { key: 'rssi', label: 'RSSI', method: 'getRssi' },
+  { key: 'isPro', label: 'Is Pro', method: 'getIsPro', format: 'boolean' }
+])
+
+const pressuremonColumns = ref([
+  { key: 'id', label: 'ID', method: 'getId' },
+  { key: 'name', label: 'Name', method: 'getName' },
+  { key: 'token', label: 'Token', method: 'getToken' },
+  { key: 'temp', label: 'Temp', method: 'getTempC', format: 'temperature' },
+  { key: 'pressure', label: 'Pressure', method: 'getPressure' },
+  { key: 'pressure1', label: 'Pressure1', method: 'getPressure1' },
+  { key: 'battery', label: 'Battery', method: 'getBattery', format: 'voltage' },
+  { key: 'txPower', label: 'Tx Power', method: 'getTxPower' },
+  { key: 'rssi', label: 'RSSI', method: 'getRssi' },
+  { key: 'interval', label: 'Interval', method: 'getInterval', format: 'seconds' }
+])
+
+const chamberControllerColumns = ref([
+  { key: 'id', label: 'ID', method: 'getId' },
+  { key: 'chamberTemp', label: 'Chamber Temp', method: 'getChamberTempC', format: 'temperature' },
+  { key: 'beerTemp', label: 'Beer Temp', method: 'getBeerTempC', format: 'temperature' },
+  { key: 'rssi', label: 'RSSI', method: 'getRssi' }
+])
 
 onBeforeMount(() => {
   measurement.updateMeasurementFiles((success) => {
@@ -321,7 +234,6 @@ onBeforeMount(() => {
             }))
           chamberControllerDeviceOptions.value.push({ label: 'All devices', value: '' })
         }
-
       })
     } else {
       global.errorMessage = 'Failed to fetch list of measurement files'
@@ -332,22 +244,20 @@ onBeforeMount(() => {
 onBeforeUnmount(() => {})
 
 // Watch for changes to deviceType
-watch(deviceType, (newValue, oldValue) => {
+watch(deviceType, (newValue) => {
   logDebug('MeasurementView.watch()', 'Selected deviceType:', newValue)
-
-
 })
 
 const filteredGravitymonData = computed(() => {
   if (!gravitymonDevice.value) return measurement.gravitymonData
-  return measurement.gravitymonData.filter(entry => entry.getId() === gravitymonDevice.value)
+  return measurement.gravitymonData.filter((entry) => entry.getId() === gravitymonDevice.value)
 })
 const filteredTiltData = computed(() => {
   if (!tiltDevice.value) return measurement.tiltData
-  return measurement.tiltData.filter(entry => entry.getId() === tiltDevice.value)
+  return measurement.tiltData.filter((entry) => entry.getId() === tiltDevice.value)
 })
 const filteredPressuremonData = computed(() => {
   if (!pressuremonDevice.value) return measurement.pressuremonData
-  return measurement.pressuremonData.filter(entry => entry.getId() === pressuremonDevice.value)
+  return measurement.pressuremonData.filter((entry) => entry.getId() === pressuremonDevice.value)
 })
 </script>

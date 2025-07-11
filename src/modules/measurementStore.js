@@ -417,11 +417,14 @@ export const useMeasurementStore = defineStore('measurement', {
       }
 
       // Sort each data set by created (ascending)
-      const getTime = (entry) => entry.getCreated() instanceof Date ? entry.getCreated().getTime() : new Date(entry.getCreated()).getTime();
-      this.gravitymonData.sort((a, b) => getTime(a) - getTime(b));
-      this.pressuremonData.sort((a, b) => getTime(a) - getTime(b));
-      this.tiltData.sort((a, b) => getTime(a) - getTime(b));
-      this.chamberControllerData.sort((a, b) => getTime(a) - getTime(b));
+      const getTime = (entry) =>
+        entry.getCreated() instanceof Date
+          ? entry.getCreated().getTime()
+          : new Date(entry.getCreated()).getTime()
+      this.gravitymonData.sort((a, b) => getTime(a) - getTime(b))
+      this.pressuremonData.sort((a, b) => getTime(a) - getTime(b))
+      this.tiltData.sort((a, b) => getTime(a) - getTime(b))
+      this.chamberControllerData.sort((a, b) => getTime(a) - getTime(b))
 
       callback()
     },
