@@ -220,7 +220,8 @@ onBeforeMount(() => {
               return true
             })
             .map((entry) => ({
-              label: entry.getId() + ' - ' + entry.getName(),
+              // label: entry.getId() + ' - ' + entry.getName(),
+              label: entry.getId(),
               value: entry.getId()
             }))
           chamberControllerDeviceOptions.value.push({ label: 'All devices', value: '' })
