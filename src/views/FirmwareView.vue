@@ -9,10 +9,11 @@
         <div style="col-md-12">
           <p>
             Selet the firmware file that matches your device. Platform:
-            <span class="badge bg-secondary">{{ status.platform }}</span>
-            , Version: <span class="badge bg-secondary">{{ status.app_ver }}</span> ({{
-              status.app_build
-            }})
+            <span class="badge bg-secondary">{{ global.platform }}</span>
+            , Version: <span class="badge bg-secondary">{{ global.app_ver }}</span> ({{
+              global.app_build
+            }}) , Board: <span class="badge bg-secondary">{{ global.board }}</span> , Firmware file:
+            <span class="badge bg-secondary">{{ global.firmware_file }}</span>
           </p>
         </div>
 
@@ -60,7 +61,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { global, status } from '@/modules/pinia'
+import { global } from '@/modules/pinia'
 import { logDebug, logError } from '@/modules/logger'
 
 const progress = ref(0)

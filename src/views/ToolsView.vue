@@ -3,7 +3,7 @@
     <p></p>
     <p class="h3">Tools</p>
 
-    <div class="col-md-12" v-if="status.sd_enabled">
+    <div class="col-md-12" v-if="status.sd_mounted">
       <BsInputRadio
         v-model="fileSystem"
         :options="fileSystemOptions"

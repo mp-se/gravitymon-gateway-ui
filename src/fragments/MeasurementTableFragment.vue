@@ -5,12 +5,7 @@
         <tr>
           <th scope="col" class="text-center">#</th>
           <th scope="col" class="text-nowrap">Created</th>
-          <th 
-            v-for="column in columns" 
-            :key="column.key" 
-            scope="col"
-            class="text-nowrap"
-          >
+          <th v-for="column in columns" :key="column.key" scope="col" class="text-nowrap">
             {{ column.label }}
           </th>
         </tr>
@@ -25,17 +20,13 @@
                 : entry.getCreated()
             }}
           </td>
-          <td 
-            v-for="column in columns" 
-            :key="column.key"
-            class="text-nowrap"
-          >
+          <td v-for="column in columns" :key="column.key" class="text-nowrap">
             {{ formatCellValue(entry, column) }}
           </td>
         </tr>
       </tbody>
     </table>
-    
+
     <!-- Empty state -->
     <div v-if="data.length === 0" class="text-center py-4 text-muted">
       <p class="mb-0">No measurement data available</p>
@@ -61,7 +52,7 @@ defineProps({
 
 const formatCellValue = (entry, column) => {
   const value = entry[column.method]()
-  
+
   if (column.format === 'temperature') {
     return `${value}°C`
   } else if (column.format === 'voltage') {
@@ -71,7 +62,7 @@ const formatCellValue = (entry, column) => {
   } else if (column.format === 'boolean') {
     return value ? 'Yes' : 'No'
   }
-  
+
   return value
 }
 </script>

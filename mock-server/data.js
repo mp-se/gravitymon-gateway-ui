@@ -81,21 +81,17 @@ export var statusData = {
   id: "7376ef",
   angle: 22.4,
   rssi: -56,
-  app_ver: "0.5.0",
-  app_build: "gitrev",
   mdns: "gravmon",
-  platform: "esp32",
   wifi_ssid: "wifi",
   total_heap: 1000,
   free_heap: 500,
   ip: "192.0.0.1",
-  board: 'd1_mini',
   wifi_setup: false,
   uptime_seconds: 1,
   uptime_minutes: 2,
   uptime_hours: 3,
   uptime_days: 4,
-  sd_enabled: true,
+  sd_mounted: true,
 
   gravity_device: [ 
     { device: "dev1", name: "test1", gravity: 1.100, temp: 24, update_time: 100, push_time: 10, source: "HTTP Post", type: "Gravitymon" },  
@@ -113,6 +109,19 @@ export var statusData = {
   temperature_device: [ 
     { device: "dev9", name: "", chamber_temp: 1.23, beer_temp: 24, update_time: 100, push_time: 10, source: "BLE Beacon", type: "Chamber Controller" }
   ]
+}
+
+export var featureData = {
+  board: 'D1_MINI',
+  platform: 'esp32c3',
+  app_ver: '2.0.0',
+  app_build: 'gitrev',
+  hardware: 'ispindel',
+  firmware_file: 'firmware.bin',
+
+  // Feature flags
+  tft: true,
+  sd: true,
 }
 
 // EOF

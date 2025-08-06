@@ -40,8 +40,8 @@
     <div class="row">
       <div class="col">
         <p>
-          Platform: <span class="badge bg-secondary">{{ status.platform }}</span> Firmware:
-          <span class="badge bg-secondary">{{ status.app_ver }} ({{ status.app_build }})</span> User
+          Platform: <span class="badge bg-secondary">{{ global.platform }}</span> Firmware:
+          <span class="badge bg-secondary">{{ global.app_ver }} ({{ global.app_build }})</span> User
           interface:
           <span class="badge bg-secondary">{{ global.uiVersion }} ({{ global.uiBuild }})</span>
         </p>
@@ -94,7 +94,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { status, config, global } from '@/modules/pinia'
+import { config, global } from '@/modules/pinia'
 import { logDebug } from '@/modules/logger'
 
 const logData = ref('')

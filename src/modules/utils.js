@@ -233,8 +233,8 @@ export function applyTemplate(status, config, template) {
   s = s.replaceAll('${temp-f}', f)
   s = s.replaceAll('${angle}', status.angle)
   s = s.replaceAll('${tilt}', status.angle)
-  s = s.replaceAll('${app-ver}', status.app_ver)
-  s = s.replaceAll('${app-build}', status.app_build)
+  s = s.replaceAll('${app-ver}', global.app_ver)
+  s = s.replaceAll('${app-build}', global.app_build)
   s = s.replaceAll('${rssi}', status.rssi)
   s = s.replaceAll('${battery}', status.battery)
 
@@ -287,8 +287,8 @@ export function applyTemplate(status, config, template) {
   s = s.replaceAll('${pressure1-bar}', psiToBar(p))
   s = s.replaceAll('${pressure1-kpa}', psiToKPa(p))
 
-  s = s.replaceAll('${app-ver}', status.app_ver)
-  s = s.replaceAll('${app-build}', status.app_build)
+  s = s.replaceAll('${app-ver}', global.app_ver)
+  s = s.replaceAll('${app-build}', global.app_build)
   s = s.replaceAll('${battery-percent}', 100)
   s = s.replaceAll('${rssi}', status.rssi)
   s = s.replaceAll('${run-time}', status.runtime_average)

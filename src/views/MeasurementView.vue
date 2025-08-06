@@ -4,11 +4,11 @@
     <p class="h3">Measurements</p>
     <hr />
 
-    <div class="row" v-if="!status.sd_enabled">
+    <div class="row" v-if="!status.sd_mounted">
       <p>No SD card attached so this feature is not available.</p>
     </div>
 
-    <div class="row" v-if="status.sd_enabled">
+    <div class="row" v-if="status.sd_mounted">
       <div class="col-md-12">
         <BsInputRadio
           v-model="deviceType"
@@ -32,10 +32,7 @@
 
         <div class="col-md-12">&nbsp;</div>
 
-        <MeasurementTableFragment 
-          :data="filteredGravitymonData" 
-          :columns="gravitymonColumns" 
-        />
+        <MeasurementTableFragment :data="filteredGravitymonData" :columns="gravitymonColumns" />
       </template>
       <template v-if="deviceType === 1">
         <div class="col-md-12">
@@ -49,10 +46,7 @@
 
         <div class="col-md-12">&nbsp;</div>
 
-        <MeasurementTableFragment 
-          :data="filteredTiltData" 
-          :columns="tiltColumns" 
-        />
+        <MeasurementTableFragment :data="filteredTiltData" :columns="tiltColumns" />
       </template>
       <template v-if="deviceType === 2">
         <div class="col-md-12">
@@ -66,10 +60,7 @@
 
         <div class="col-md-12">&nbsp;</div>
 
-        <MeasurementTableFragment 
-          :data="filteredPressuremonData" 
-          :columns="pressuremonColumns" 
-        />
+        <MeasurementTableFragment :data="filteredPressuremonData" :columns="pressuremonColumns" />
       </template>
       <template v-if="deviceType === 3">
         <div class="col-md-12">
@@ -83,9 +74,9 @@
 
         <div class="col-md-12">&nbsp;</div>
 
-        <MeasurementTableFragment 
-          :data="measurement.chamberControllerData" 
-          :columns="chamberControllerColumns" 
+        <MeasurementTableFragment
+          :data="measurement.chamberControllerData"
+          :columns="chamberControllerColumns"
         />
       </template>
     </div>

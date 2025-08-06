@@ -7,11 +7,7 @@ export const useStatusStore = defineStore('status', {
     return {
       id: '',
       rssi: 0,
-      app_ver: '',
-      app_build: '',
       mdns: '',
-      platform: '',
-      board: '',
       wifi_ssid: '',
       ip: '',
       total_heap: 0,
@@ -49,11 +45,7 @@ export const useStatusStore = defineStore('status', {
           logDebug('statusStore.load()', json)
           this.id = json.id
           this.rssi = json.rssi
-          this.app_ver = json.app_ver
-          this.app_build = json.app_build
           this.mdns = json.mdns
-          this.platform = json.platform.toUpperCase()
-          this.board = json.board.toUpperCase()
           this.wifi_ssid = json.wifi_ssid
           this.ip = json.ip
           this.total_heap = json.total_heap
@@ -69,7 +61,7 @@ export const useStatusStore = defineStore('status', {
           this.uptime_hours = json.uptime_hours
           this.uptime_days = json.uptime_days
 
-          this.sd_enabled = json.sd_enabled
+          this.sd_mounted = json.sd_mounted
 
           this.total_heap = Math.round(this.total_heap / 1024).toFixed(0)
           this.free_heap = Math.round(this.free_heap / 1024).toFixed(0)
