@@ -7044,7 +7044,7 @@ function logInfo(...args) {
 function logError(...args) {
   console.log("Error", ...args);
 }
-const __vite_import_meta_env__ = { "BASE_URL": "/", "DEV": false, "MODE": "production", "PROD": true, "SSR": false, "VITE_APP_BUILD": "..f0b8e5", "VITE_APP_VERSION": "0.7.0" };
+const __vite_import_meta_env__ = { "BASE_URL": "/", "DEV": false, "MODE": "production", "PROD": true, "SSR": false, "VITE_APP_BUILD": "..0879e8", "VITE_APP_VERSION": "0.7.0" };
 const useGlobalStore = /* @__PURE__ */ defineStore("global", {
   state: () => {
     return {
@@ -7094,7 +7094,7 @@ const useGlobalStore = /* @__PURE__ */ defineStore("global", {
       return "0.7.0";
     },
     uiBuild() {
-      return "..f0b8e5";
+      return "..0879e8";
     },
     disabled32() {
       if (this.disabled) return true;
@@ -7153,8 +7153,8 @@ const useStatusStore = /* @__PURE__ */ defineStore("status", {
         this.app_ver = json.app_ver;
         this.app_build = json.app_build;
         this.mdns = json.mdns;
-        this.platform = json.platform;
-        this.board = json.board;
+        this.platform = json.platform.toUpperCase();
+        this.board = json.board.toUpperCase();
         this.wifi_ssid = json.wifi_ssid;
         this.ip = json.ip;
         this.total_heap = json.total_heap;
