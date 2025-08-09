@@ -17,7 +17,6 @@ export const useStatusStore = defineStore('status', {
       gravity_device: [],
       pressure_device: [],
       temperature_device: [],
-      rapt_device: [],
 
       uptime_seconds: 0,
       uptime_minutes: 0,
@@ -56,7 +55,6 @@ export const useStatusStore = defineStore('status', {
           this.gravity_device = json.gravity_device
           this.pressure_device = json.pressure_device
           this.temperature_device = json.temperature_device
-          this.rapt_device = json.rapt_device
 
           this.uptime_seconds = json.uptime_seconds
           this.uptime_minutes = json.uptime_minutes
