@@ -7044,7 +7044,7 @@ function logInfo(...args) {
 function logError(...args) {
   console.log("Error", ...args);
 }
-const __vite_import_meta_env__ = { "BASE_URL": "/", "DEV": false, "MODE": "production", "PROD": true, "SSR": false, "VITE_APP_BUILD": "..44bec5", "VITE_APP_VERSION": "0.8-beta" };
+const __vite_import_meta_env__ = { "BASE_URL": "/", "DEV": false, "MODE": "production", "PROD": true, "SSR": false, "VITE_APP_BUILD": "..e156c5", "VITE_APP_VERSION": "0.8-beta" };
 const useGlobalStore = /* @__PURE__ */ defineStore("global", {
   state: () => {
     return {
@@ -7102,7 +7102,7 @@ const useGlobalStore = /* @__PURE__ */ defineStore("global", {
       return "0.8-beta";
     },
     uiBuild() {
-      return "..44bec5";
+      return "..e156c5";
     },
     disabled32() {
       if (this.disabled) return true;
