@@ -73,6 +73,28 @@
           </div>
         </template>
 
+        <template v-for="r in status.rapt_device" :key="r.device">
+          <div class="col-md-4">
+            <BsCard
+              :header="'RAPT Device: ' + r.device"
+              color="info"
+              :title="
+                r.device + ' (' + formatTime(r.update_time) + ' / ' + formatTime(r.push_time) + ')'
+              "
+            >
+              <p class="text-center">
+                Gravity: {{ formatGravity(r.gravity) }}
+                {{ config.gravity_unit === 'G' ? ' SG' : ' P' }} Temperature:
+                {{ formatTemp(r.temp) }} {{ config.temp_unit }}
+              </p>
+
+              <span class="badge bg-primary">{{ r.source }}</span
+              >&nbsp;
+              <span class="badge bg-primary">{{ r.type }}</span>
+            </BsCard>
+          </div>
+        </template>
+
         <div class="col-md-4">
           <BsCard header="Device" title="WIFI">
             <p class="text-center">{{ status.rssi }} dBm - {{ status.wifi_ssid }}</p>

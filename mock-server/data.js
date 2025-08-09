@@ -108,8 +108,10 @@ export var statusData = {
   ],
   temperature_device: [ 
     { device: "dev9", name: "", chamber_temp: 1.23, beer_temp: 24, update_time: 100, push_time: 10, source: "BLE Beacon", type: "Chamber Controller" }
-  ]
-}
+  ],
+  rapt_device: [
+    { device: "6d3fb9", gravity: 1.234567, velocity: 0, temp: 42.12344, update_time: 6, push_time: 104, source: "BLE Beacon", type: "RAPT Sensor" }
+  ],}
 
 export var featureData = {
   board: 'D1_MINI',
