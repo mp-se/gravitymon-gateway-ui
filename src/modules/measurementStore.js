@@ -1,16 +1,19 @@
 import { defineStore } from 'pinia'
-import { global } from '@/modules/pinia'
+import { global, config } from '@/modules/pinia'
 import { logDebug, logError, logInfo } from '@/modules/logger'
+import { tempToF, psiToBar, psiToKPa, gravityToPlato } from '@/modules/utils'
+
+// TODO: Convert to SG->Plato and C->F if needed
 
 class TiltData {
-  constructor({ type, source, created, id, color, tempC, gravity, txPower, rssi }) {
+  constructor({ type, source, created, id, color, tempC, gravitySG, txPower, rssi }) {
     this.type = type
     this.source = source
     this.created = new Date(created)
     this.id = id
     this.color = color
-    this.tempC = tempC
-    this.gravity = gravity
+    this.temp = config.temp_unit == 'C' ? tempC : tempToF(tempC)
+    this.gravity = config.gravity_unit == 'SG' ? gravitySG : gravityToPlato(gravitySG)
     this.txPower = txPower
     this.rssi = rssi
     this.isPro = type === 'Tilt Pro'
@@ -31,8 +34,8 @@ class TiltData {
   getColor() {
     return this.color
   }
-  getTempC() {
-    return this.tempC
+  getTemp() {
+    return this.temp
   }
   getGravity() {
     return this.gravity
@@ -40,7 +43,6 @@ class TiltData {
   getTxPower() {
     return this.txPower
   }
-
   getRssi() {
     return this.rssi
   }
@@ -76,7 +78,7 @@ class TiltData {
       id: parts[4],
       color: parts[5],
       tempC: parseFloat(parts[6]),
-      gravity: parseFloat(parts[7]),
+      gravitySG: parseFloat(parts[7]),
       txPower: parseInt(parts[8], 10),
       rssi: parseInt(parts[9], 10)
     })
@@ -92,8 +94,8 @@ class PressureData {
     name,
     token,
     tempC,
-    pressure,
-    pressure1,
+    pressurePsi,
+    pressurePsi1,
     battery,
     txPower,
     rssi,
@@ -105,9 +107,20 @@ class PressureData {
     this.id = id
     this.name = name
     this.token = token
-    this.tempC = tempC
-    this.pressure = pressure
-    this.pressure1 = pressure1
+    this.temp = tempC
+    this.temp = config.temp_unit == 'C' ? tempC : tempToF(tempC)
+    this.pressure =
+      config.pressure_unit == 'PSI'
+        ? pressurePsi
+        : config.pressure_unit == 'Bar'
+          ? psiToBar(pressurePsi)
+          : psiToKPa(pressurePsi)
+    this.pressure1 =
+      config.pressure_unit == 'PSI'
+        ? pressurePsi1
+        : config.pressure_unit == 'Bar'
+          ? psiToBar(pressurePsi1)
+          : psiToKPa(pressurePsi1)
     this.battery = battery
     this.txPower = txPower
     this.rssi = rssi
@@ -132,8 +145,8 @@ class PressureData {
   getToken() {
     return this.token
   }
-  getTempC() {
-    return this.tempC
+  getTemp() {
+    return this.temp
   }
   getPressure() {
     return this.pressure
@@ -182,8 +195,8 @@ class PressureData {
       name: parts[5],
       token: parts[6],
       tempC: parseFloat(parts[7]),
-      pressure: parseFloat(parts[8]),
-      pressure1: parseFloat(parts[9]),
+      pressurePsi: parseFloat(parts[8]),
+      pressurePsi1: parseFloat(parts[9]),
       battery: parseFloat(parts[10]),
       txPower: parseInt(parts[11], 10),
       rssi: parseInt(parts[12], 10),
@@ -201,7 +214,7 @@ class GravityData {
     name,
     token,
     tempC,
-    gravity,
+    gravitySG,
     angle,
     battery,
     txPower,
@@ -214,8 +227,8 @@ class GravityData {
     this.id = id
     this.name = name
     this.token = token
-    this.tempC = tempC
-    this.gravity = gravity
+    this.temp = config.temp_unit == 'C' ? tempC : tempToF(tempC)
+    this.gravity = config.gravity_unit == 'SG' ? gravitySG : gravityToPlato(gravitySG)
     this.angle = angle
     this.battery = battery
     this.txPower = txPower
@@ -241,8 +254,8 @@ class GravityData {
   getToken() {
     return this.token
   }
-  getTempC() {
-    return this.tempC
+  getTemp() {
+    return this.temp
   }
   getGravity() {
     return this.gravity
@@ -291,7 +304,7 @@ class GravityData {
       name: parts[5],
       token: parts[6],
       tempC: parseFloat(parts[7]),
-      gravity: parseFloat(parts[8]),
+      gravitySG: parseFloat(parts[8]),
       angle: parseFloat(parts[9]),
       battery: parseFloat(parts[10]),
       txPower: parseInt(parts[11], 10),
@@ -300,14 +313,29 @@ class GravityData {
     })
   }
 }
-class ChamberData {
-  constructor({ type, source, created, id, chamberTempC, beerTempC, rssi }) {
+
+class RaptData {
+  constructor({
+    type,
+    source,
+    created,
+    id,
+    tempC,
+    gravitySG,
+    angle,
+    battery,
+    txPower,
+    rssi
+  }) {
     this.type = type
     this.source = source
     this.created = new Date(created)
     this.id = id
-    this.chamberTempC = chamberTempC
-    this.beerTempC = beerTempC
+    this.temp = config.temp_unit == 'C' ? tempC : tempToF(tempC)
+    this.gravity = config.gravity_unit == 'SG' ? gravitySG : gravityToPlato(gravitySG)
+    this.angle = angle
+    this.battery = battery
+    this.txPower = txPower
     this.rssi = rssi
   }
 
@@ -323,11 +351,88 @@ class ChamberData {
   getId() {
     return this.id
   }
-  getChamberTempC() {
-    return this.chamberTempC
+  getTemp() {
+    return this.temp
   }
-  getBeerTempC() {
-    return this.beerTempC
+  getGravity() {
+    return this.gravity
+  }
+  getAngle() {
+    return this.angle
+  }
+  getBattery() {
+    return this.battery
+  }
+  getTxPower() {
+    return this.txPower
+  }
+  getRssi() {
+    return this.rssi
+  }
+
+  static isRaptDataCsv(line) {
+    const parts = line.split(',')
+    return parts.length >= 2 && parts[0] === '1' && parts[1] === 'RAPT'
+  }
+
+  // Example: 1,RAPT,BLE Beacon,2025-08-13 08:04:40,EEE222,15.20,1.0300,35.3300,3.84,10,-72,,,
+  static fromCsvLine(line) {
+    const parts = line.split(',')
+    if (parts.length < 14) {
+      logError('RaptData.fromCsvLine', 'Invalid RaptData CSV line', line)
+      return
+    }
+    if (parts[0] !== '1') {
+      logError('RaptData.fromCsvLine', 'Unsupported RaptData CSV version:', parts[0], line)
+      return
+    }
+    if (parts[1] !== 'RAPT') {
+      logError('RaptData.fromCsvLine', 'CSV line is not for RaptData:', parts[1], line)
+      return
+    }
+    return new RaptData({
+      type: parts[1],
+      source: parts[2],
+      created: parts[3],
+      id: parts[4],
+      tempC: parseFloat(parts[5]),
+      gravitySG: parseFloat(parts[6]),
+      angle: parseFloat(parts[7]),
+      battery: parseFloat(parts[8]),
+      txPower: parseInt(parts[9], 10),
+      rssi: parseInt(parts[10], 10),
+    })
+  }
+}
+
+class ChamberData {
+  constructor({ type, source, created, id, chamberTempC, beerTempC, rssi }) {
+    this.type = type
+    this.source = source
+    this.created = new Date(created)
+    this.id = id
+    this.chamberTemp = config.temp_unit == 'C' ? chamberTempC : tempToF(chamberTempC)
+    this.beerTemp = config.temp_unit == 'C' ? beerTempC : tempToF(beerTempC)
+    this.rssi = rssi
+  }
+
+  getType() {
+    return this.type
+  }
+  getSource() {
+    return this.source
+  }
+  getCreated() {
+    return this.created
+  }
+  getId() {
+    return this.id
+  }
+  getChamberTemp() {
+    return this.chamberTemp
+  }
+  getBeerTemp() {
+    return this.beerTemp
   }
   getRssi() {
     return this.rssi
@@ -372,7 +477,8 @@ export const useMeasurementStore = defineStore('measurement', {
       gravitymonData: [],
       pressuremonData: [],
       tiltData: [],
-      chamberControllerData: []
+      chamberData: [],
+      raptData: []
     }
   },
   getters: {},
@@ -395,7 +501,8 @@ export const useMeasurementStore = defineStore('measurement', {
       this.tiltData = []
       this.gravitymonData = []
       this.pressuremonData = []
-      this.chamberControllerData = []
+      this.chamberData = []
+      this.raptData = []
 
       for (const line of allLines) {
         if (!line.trim()) continue
@@ -410,7 +517,10 @@ export const useMeasurementStore = defineStore('measurement', {
           if (obj) this.pressuremonData.push(obj)
         } else if (ChamberData.isChamberDataCsv(line)) {
           const obj = ChamberData.fromCsvLine(line)
-          if (obj) this.chamberControllerData.push(obj)
+          if (obj) this.chamberData.push(obj)
+        } else if (RaptData.isRaptDataCsv(line)) {
+          const obj = RaptData.fromCsvLine(line)
+          if (obj) this.raptData.push(obj)
         } else {
           logError('parseMeasurementFileLines', 'Unknown CSV line type', line)
         }
@@ -424,7 +534,8 @@ export const useMeasurementStore = defineStore('measurement', {
       this.gravitymonData.sort((a, b) => getTime(a) - getTime(b))
       this.pressuremonData.sort((a, b) => getTime(a) - getTime(b))
       this.tiltData.sort((a, b) => getTime(a) - getTime(b))
-      this.chamberControllerData.sort((a, b) => getTime(a) - getTime(b))
+      this.chamberData.sort((a, b) => getTime(a) - getTime(b))
+      this.raptData.sort((a, b) => getTime(a) - getTime(b))
 
       callback()
     },

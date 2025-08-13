@@ -132,6 +132,15 @@ app.get('/sd/data1.csv', function (req, res) {
   res.sendFile('mock-server/data1.csv', options)
 })
 
+app.get('/sd/data2.csv', function (req, res) {
+  console.log('GET: /')
+  const options = {
+    root: path.join('.')
+  }
+  res.type('text/csv')
+  res.sendFile('mock-server/data2.csv', options)
+})
+
 app.post('/api/sd', (req, res) => {
   console.log('POST: /api/sd')
   /* 
@@ -152,7 +161,7 @@ app.post('/api/sd', (req, res) => {
       total: 1000,
       used: 900,
       free: 100,
-      files: [{ file: '/data.csv', size: 200 },{ file: '/data1.csv', size: 200 }]
+      files: [{ file: '/data.csv', size: 200 },{ file: '/data1.csv', size: 200 },{ file: '/data2.csv', size: 200 }]
     }
     res.type('application/json')
     res.send(data)

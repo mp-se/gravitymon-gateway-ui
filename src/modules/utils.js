@@ -209,6 +209,10 @@ export function barToPsi(p) {
   return p
 }
 
+export const gravityToPlato = (sg) => {
+  return 259 - 259 / sg
+}
+
 export function kpaToPsi(p) {
   return p
 }

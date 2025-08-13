@@ -73,7 +73,6 @@
           </div>
         </template>
 
-
         <div class="col-md-4">
           <BsCard header="Device" title="WIFI">
             <p class="text-center">{{ status.rssi }} dBm - {{ status.wifi_ssid }}</p>
