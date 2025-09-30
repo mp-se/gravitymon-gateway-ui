@@ -123,10 +123,7 @@
 
         <div class="col-md-12">&nbsp;</div>
 
-        <MeasurementTableFragment
-          :data="filteredChamberTableData"
-          :columns="chamberColumns"
-        />
+        <MeasurementTableFragment :data="filteredChamberTableData" :columns="chamberColumns" />
       </template>
 
       <template v-if="deviceType === 4">
@@ -151,12 +148,8 @@
 
         <div class="col-md-12">&nbsp;</div>
 
-        <MeasurementTableFragment
-          :data="filteredRaptTableData"
-          :columns="raptColumns"
-        />
+        <MeasurementTableFragment :data="filteredRaptTableData" :columns="raptColumns" />
       </template>
-
     </div>
   </div>
 </template>

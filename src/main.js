@@ -1,14 +1,19 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 
+// CSS imports - Bootstrap with PurgeCSS
+import 'bootstrap/dist/css/bootstrap.css'
+
+// App setup
 const app = createApp(App)
 
+// Store and router
 import piniaInstance from './modules/pinia.js'
-app.use(piniaInstance)
-
 import router from './modules/router.js'
+app.use(piniaInstance)
 app.use(router)
 
+// Component imports
 import BsMessage from '@/components/BsMessage.vue'
 import BsCard from '@/components/BsCard.vue'
 import BsFileUpload from '@/components/BsFileUpload.vue'
@@ -22,7 +27,6 @@ import BsInputNumber from '@/components/BsInputNumber.vue'
 import BsInputSwitch from '@/components/BsInputSwitch.vue'
 import BsInputRadio from '@/components/BsInputRadio.vue'
 import BsDropdown from '@/components/BsDropdown.vue'
-
 import BsModal from '@/components/BsModal.vue'
 import BsModalConfirm from '@/components/BsModalConfirm.vue'
 import BsInputTextAreaFormat from '@/components/BsInputTextAreaFormat.vue'
@@ -60,9 +64,7 @@ app.component('IconUpArrow', IconUpArrow)
 app.component('IconCpu', IconCpu)
 app.component('IconData', IconData)
 
-import 'bootstrap/dist/css/bootstrap.css'
-
 app.mount('#app')
 
-//import '@popperjs/core/dist/umd/popper.min.js'
+// Bootstrap JavaScript
 import 'bootstrap/dist/js/bootstrap.bundle.js'

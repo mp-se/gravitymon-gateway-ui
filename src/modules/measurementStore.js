@@ -315,18 +315,7 @@ class GravityData {
 }
 
 class RaptData {
-  constructor({
-    type,
-    source,
-    created,
-    id,
-    tempC,
-    gravitySG,
-    angle,
-    battery,
-    txPower,
-    rssi
-  }) {
+  constructor({ type, source, created, id, tempC, gravitySG, angle, battery, txPower, rssi }) {
     this.type = type
     this.source = source
     this.created = new Date(created)
@@ -400,7 +389,7 @@ class RaptData {
       angle: parseFloat(parts[7]),
       battery: parseFloat(parts[8]),
       txPower: parseInt(parts[9], 10),
-      rssi: parseInt(parts[10], 10),
+      rssi: parseInt(parts[10], 10)
     })
   }
 }

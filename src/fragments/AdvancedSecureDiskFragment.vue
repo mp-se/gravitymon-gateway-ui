@@ -114,7 +114,7 @@ const confirmDeleteCallback = (result) => {
     }
 
     measurement.sendSecureDiskRequest(data, (success, text) => {
-      logDebug('AdvancedSecureDiskFragment.confirmDeleteCallback()', success), text
+      ;(logDebug('AdvancedSecureDiskFragment.confirmDeleteCallback()', success), text)
       filesDelete.value = []
       global.disabled = false
     })
