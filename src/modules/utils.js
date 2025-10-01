@@ -202,11 +202,11 @@ export function psiToBar(p) {
 }
 
 export function psiToKPa(p) {
-  return p * 68.947572932 * 1000
+  return p * 6.89475729
 }
 
 export function barToPsi(p) {
-  return p
+  return p * 14.5037738
 }
 
 export const gravityToPlato = (sg) => {
@@ -214,7 +214,7 @@ export const gravityToPlato = (sg) => {
 }
 
 export function kpaToPsi(p) {
-  return p
+  return p * 0.145037738
 }
 
 export function applyTemplate(status, config, template) {
