@@ -1,27 +1,8 @@
 <template>
   <div class="container">
     <p></p>
-    <p class="h3">Device - WIFI</p>
+    <p class="h3">Device - WIFI (Manual)</p>
     <hr />
-
-    <BsMessage
-      v-if="scanning"
-      :dismissable="false"
-      message="Scanning for wifi networks in range"
-      alert="info"
-    >
-    </BsMessage>
-
-    <template v-if="global.ui.enableManualWifiEntry && !scanning">
-      <BsMessage dismissable="true" message="" alert="info">
-        If you have an hidden SSID then you can set it manually
-        <router-link
-          class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-          to="/device/wifi2"
-          >here</router-link
-        >
-      </BsMessage>
-    </template>
 
     <BsMessage
       v-if="config.wifi_ssid === '' && config.wifi_ssid2 === ''"
@@ -35,10 +16,10 @@
     <form @submit.prevent="save" class="needs-validation" novalidate>
       <div class="row">
         <div class="col-md-6">
-          <BsSelect
+          <BsInputText
             v-model="config.wifi_ssid"
             label="SSID #1"
-            :options="networks"
+            maxlength="30"
             :badge="badge.deviceWifi1Badge()"
             :disabled="global.disabled"
           />
@@ -55,10 +36,10 @@
         </div>
 
         <div class="col-md-6">
-          <BsSelect
+          <BsInputText
             v-model="config.wifi_ssid2"
             label="SSID #2"
-            :options="networks"
+            maxlength="30"
             :badge="badge.deviceWifi2Badge()"
             :disabled="global.disabled"
           />
@@ -159,47 +140,6 @@
 import { validateCurrentForm } from '@mp-se/espframework-ui-components'
 import { global, config } from '@/modules/pinia'
 import * as badge from '@/modules/badge'
-import { onMounted, ref } from 'vue'
-import { logDebug } from '@mp-se/espframework-ui-components'
-
-const scanning = ref(false)
-const networks = ref([])
-
-function wifiName(label, rssi, encr) {
-  var l = label
-  if (encr) l += ' \u{1f512}'
-  if (rssi > -50) l += ' (Excellent)'
-  else if (rssi > -60) l += ' (Good)'
-  else if (rssi > -67) l += ' (Minimum)'
-  else l += ' (Poor)'
-  return l
-}
-
-onMounted(async () => {
-  scanning.value = true
-  const res = await config.runWifiScan()
-  if (res && res.success) {
-    const data = res.data
-    networks.value = [{ label: '-blank-', value: '', rssi: 0, encryption: 0, channel: 0 }]
-    for (var n in data.networks) {
-      var d = data.networks[n]
-      var o = {
-        label: wifiName(d.wifi_ssid, d.rssi, d.encryption),
-        value: d.wifi_ssid,
-        rssi: d.rssi,
-        encryption: data.networks[n].encryption,
-        channel: d.channel
-      }
-
-      var f = networks.value.filter((obj) => {
-        return obj.value === d.wifi_ssid
-      })
-      logDebug('DeviceWifiView.onMounted()', 'result:', f, d.wifi_ssid)
-      if (f.length === 0) networks.value.push(o)
-    }
-  }
-  scanning.value = false
-})
 
 const save = () => {
   if (!validateCurrentForm()) return

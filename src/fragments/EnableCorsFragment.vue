@@ -12,7 +12,7 @@
           class="spinner-border spinner-border-sm"
           role="status"
           aria-hidden="true"
-          :hidden="!global.disabled"
+          v-show="global.disabled"
         ></span>
         &nbsp;Enable CORS</button
       >&nbsp;
@@ -22,39 +22,31 @@
 
 <script setup>
 import { global } from '@/modules/pinia'
-import { logInfo, logError } from '@/modules/logger'
+import { logInfo, logError } from '@mp-se/espframework-ui-components'
+import { sharedHttpClient as http } from '@mp-se/espframework-ui-components'
 
-const enableCors = () => {
-  global.disabled = true
-  global.clearMessages()
+const enableCors = async () => {
+  try {
+    global.disabled = true
+    global.clearMessages()
 
-  var data = {
-    cors_allowed: true
+    const data = {
+      cors_allowed: true
+    }
+
+    try {
+      await http.postJson('api/config', data)
+      logInfo('EnableCorsFragment.enableCors()', 'Sending /api/config completed')
+      global.messageSuccess = 'CORS enabled in configuration, please reboot to take effect.'
+    } catch (err) {
+      logError('EnableCorsFragment.enableCors()', 'Sending /api/config failed', err)
+      global.messageError = 'Failed to enable CORS.'
+    }
+  } catch (err) {
+    logError('EnableCorsFragment.enableCors()', 'Error enabling CORS:', err)
+    global.messageError = 'Failed to enable CORS: ' + (err.message || err)
+  } finally {
+    global.disabled = false
   }
-
-  fetch(global.baseURL + 'api/config', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: global.token
-    },
-    body: JSON.stringify(data),
-    signal: AbortSignal.timeout(global.fetchTimout)
-  })
-    .then((res) => {
-      global.disabled = false
-      if (res.status != 200) {
-        logError('EnableCorsFragment.enableCors()', 'Sending /api/config failed', res.status)
-        global.messageError = 'Failed to enable CORS.'
-      } else {
-        logInfo('EnableCorsFragment.enableCors()', 'Sending /api/config completed')
-        global.messageSuccess = 'CORS enabled in configuration, reboot to take effect.'
-      }
-      global.disabled = false
-    })
-    .catch((err) => {
-      logError('EnableCorsFragment.enableCors()', err)
-      global.disabled = false
-    })
 }
 </script>
