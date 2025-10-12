@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { global, saveConfigState, getConfigChanges } from '@/modules/pinia'
 import { logDebug, logError, logInfo } from '@mp-se/espframework-ui-components'
-import { tempToC, tempToF, roundVal } from '@mp-se/espframework-ui-components'
 import { sharedHttpClient as http } from '@mp-se/espframework-ui-components'
 
 export const useConfigStore = defineStore('config', {
@@ -12,18 +11,13 @@ export const useConfigStore = defineStore('config', {
       mdns: '',
       temp_unit: '',
       gravity_unit: '',
+      pressure_unit: '',
+      dark_mode: false,
       // Hardware
-      ota_url: '',
-      storage_sleep: false,
-      voltage_factor: 0,
-      voltage_config: 0,
-      gyro_temp: false,
-      gyro_swap_xy: false,
-      gyro_filter: false,
-      battery_saving: false,
-      tempsensor_resolution: 0,
-      temp_adjustment_value: 0, // C or F
-      charging_pin_enabled: false,
+      ble_enable: true,
+      ble_active_scan: false,
+      ble_scan_time: 5,
+      timezone: '',
       // Wifi
       wifi_portal_timeout: 0,
       wifi_connect_timeout: 0,
@@ -33,34 +27,26 @@ export const useConfigStore = defineStore('config', {
       wifi_pass2: '',
       wifi_direct_ssid: '',
       wifi_direct_pass: '',
-      use_wifi_direct: false,
-      wifi_scan_ap: false,
       // Push - Generic
       token: '',
-      token2: '',
-      sleep_interval: 0,
       push_timeout: 0,
-      skip_ssl_on_test: false,
+      push_resend_time: 300,
       // Push - Http Post 1
       http_post_target: '',
       http_post_header1: '',
       http_post_header2: '',
-      http_post_tcp: false,
-      http_post_int: 0,
       http_post_format_gravity: '',
       http_post_format_pressure: '',
       // Push - Http Post 2
       http_post2_target: '',
       http_post2_header1: '',
       http_post2_header2: '',
-      http_post2_int: 0,
       http_post2_format_gravity: '',
       http_post2_format_pressure: '',
       // Push - Http Get
       http_get_target: '',
       http_get_header1: '',
       http_get_header2: '',
-      http_get_int: 0,
       http_get_format_gravity: '',
       http_get_format_pressure: '',
       // Push - Influx
@@ -68,7 +54,6 @@ export const useConfigStore = defineStore('config', {
       influxdb2_org: '',
       influxdb2_bucket: '',
       influxdb2_token: '',
-      influxdb2_int: 0,
       influxdb2_format_gravity: '',
       influxdb2_format_pressure: '',
       // Push - MQTT
@@ -76,46 +61,25 @@ export const useConfigStore = defineStore('config', {
       mqtt_port: '',
       mqtt_user: '',
       mqtt_pass: '',
-      mqtt_int: 0,
       mqtt_format_gravity: '',
       mqtt_format_pressure: '',
-      // Push BLE
-      ble_tilt_color: '',
-      ble_format: 0,
-      // Gravity formula
-      gyro_type: 0,
-      gravity_formula: '',
-      gravity_temp_adjustment: false,
-      formula_calculation_data: [], // SG or P
-      gyro_read_count: 0,
-      gyro_moving_threashold: 0,
-      formula_max_deviation: 0,
-      formula_calibration_temp: 0, // C or F
-      ignore_low_angles: false,
-      gyro_calibration_data: [],
-      dark_mode: false
+      // Push
+      http_post_gravity: true,
+      http_post_pressure: true,
+      http_post2_gravity: true,
+      http_post2_pressure: true,
+      http_get_gravity: true,
+      http_get_pressure: true,
+      influxdb2_gravity: true,
+      influxdb2_pressure: true,
+      mqtt_gravity: true,
+      mqtt_pressure: true,
+
+      // Values that are not updated but needed for format template viewer
+      sleep_interval: 900
     }
   },
   actions: {
-    convertTemp() {
-      if (this.temp_unit == this.internal_temp_unit) return
-      if (this.temp_unit == 'C') this.convertTempToC()
-      if (this.temp_unit == 'F') this.convertTempToF()
-    },
-    convertTempToC() {
-      if (this.internal_temp_unit == 'C') return
-
-      this.temp_adjustment_value = roundVal(this.temp_adjustment_value / 1.8, 2)
-      this.formula_calibration_temp = roundVal(tempToC(this.formula_calibration_temp), 2)
-      this.internal_temp_unit = 'C'
-    },
-    convertTempToF() {
-      if (this.internal_temp_unit == 'F') return
-
-      this.temp_adjustment_value = roundVal(this.temp_adjustment_value * 1.8, 2) // Delta value
-      this.formula_calibration_temp = roundVal(tempToF(this.formula_calibration_temp), 2)
-      this.internal_temp_unit = 'F'
-    },
     toJson() {
       logInfo('configStore.toJSON()')
       const dest = {}
@@ -150,91 +114,75 @@ export const useConfigStore = defineStore('config', {
         const json = await http.getJson('api/config')
         logDebug('configStore.load()', json)
         global.disabled = false
-        this.id = json.id
-        // Device
-        this.mdns = json.mdns
-        this.temp_unit = json.temp_unit
-        this.gravity_unit = json.gravity_unit
-        // Hardware
-        this.ota_url = json.ota_url
-        this.storage_sleep = json.storage_sleep
-        this.voltage_factor = json.voltage_factor
-        this.voltage_config = json.voltage_config
-        this.gyro_type = json.gyro_type
-        this.gyro_temp = json.gyro_temp
-        this.gyro_swap_xy = json.gyro_swap_xy
-        this.gyro_filter = json.gyro_filter
-        this.battery_saving = json.battery_saving
-        this.tempsensor_resolution = json.tempsensor_resolution
-        this.temp_adjustment_value = json.temp_adjustment_value
-        this.charging_pin_enabled = json.charging_pin_enabled
-        // Wifi
-        this.wifi_portal_timeout = json.wifi_portal_timeout
-        this.wifi_connect_timeout = json.wifi_connect_timeout
-        this.wifi_ssid = json.wifi_ssid
-        this.wifi_ssid2 = json.wifi_ssid2
-        this.wifi_pass = json.wifi_pass
-        this.wifi_pass2 = json.wifi_pass2
-        this.wifi_direct_ssid = json.wifi_direct_ssid
-        this.wifi_direct_pass = json.wifi_direct_pass
-        this.use_wifi_direct = json.use_wifi_direct
-        this.wifi_scan_ap = json.wifi_scan_ap
-        // Push - Generic
-        this.token = json.token
-        this.token2 = json.token2
-        this.sleep_interval = json.sleep_interval
-        this.push_timeout = json.push_timeout
-        this.skip_ssl_on_test = json.skip_ssl_on_test
-        // Push - Http Post 1
-        this.http_post_target = json.http_post_target
-        this.http_post_header1 = json.http_post_header1
-        this.http_post_header2 = json.http_post_header2
-        this.http_post_tcp = json.http_post_tcp
-        this.http_post_int = json.http_post_int
-        // this.http_post_format_gravity = json.http_post_format_gravity
-        // Push - Http Post 2
-        this.http_post2_target = json.http_post2_target
-        this.http_post2_header1 = json.http_post2_header1
-        this.http_post2_header2 = json.http_post2_header2
-        this.http_post2_int = json.http_post2_int
-        // this.http_post2_format_gravity = json.http_post2_format_gravity
-        // Push - Http Get
-        this.http_get_target = json.http_get_target
-        this.http_get_header1 = json.http_get_header1
-        this.http_get_header2 = json.http_get_header2
-        this.http_get_int = json.http_get_int
-        // this.http_get_format_gravity = json.http_get_format_gravity
-        // Push - Influx
-        this.influxdb2_target = json.influxdb2_target
-        this.influxdb2_org = json.influxdb2_org
-        this.influxdb2_bucket = json.influxdb2_bucket
-        this.influxdb2_token = json.influxdb2_token
-        this.influxdb2_int = json.influxdb2_int
-        // this.influxdb2_format_gravity = json.influxdb2_format_gravity
-        // Push - MQTT
-        this.mqtt_target = json.mqtt_target
-        this.mqtt_port = json.mqtt_port
-        this.mqtt_user = json.mqtt_user
-        this.mqtt_pass = json.mqtt_pass
-        this.mqtt_int = json.mqtt_int
-        // this.mqtt_format_gravity = json.mqtt_format_gravity
-        // Push BLE
-        this.ble_tilt_color = json.ble_tilt_color
-        this.ble_format = json.ble_format
-        // Gravity formula
-        this.gravity_formula = json.gravity_formula
-        this.gravity_temp_adjustment = json.gravity_temp_adjustment
-        this.gyro_read_count = json.gyro_read_count
-        this.gyro_moving_threashold = json.gyro_moving_threashold
-        this.formula_max_deviation = json.formula_max_deviation
-        this.formula_calibration_temp = json.formula_calibration_temp
-        this.ignore_low_angles = json.ignore_low_angles
-        this.formula_calculation_data = json.formula_calculation_data
-        this.gyro_calibration_data = json.gyro_calibration_data
-        this.dark_mode = json.dark_mode
+          this.id = json.id
+          // Device
+          this.mdns = json.mdns
+          this.temp_unit = json.temp_unit
+          this.gravity_unit = json.gravity_unit
+          this.pressure_unit = json.pressure_unit
+          this.dark_mode = json.dark_mode
+          // Hardware
+          this.ble_enable = json.ble_enable
+          this.ble_active_scan = json.ble_active_scan
+          this.ble_scan_time = json.ble_scan_time
+          this.timezone = json.timezone
+          // Wifi
+          this.wifi_portal_timeout = json.wifi_portal_timeout
+          this.wifi_connect_timeout = json.wifi_connect_timeout
+          this.wifi_ssid = json.wifi_ssid
+          this.wifi_ssid2 = json.wifi_ssid2
+          this.wifi_pass = json.wifi_pass
+          this.wifi_pass2 = json.wifi_pass2
+          this.wifi_direct_ssid = json.wifi_direct_ssid
+          this.wifi_direct_pass = json.wifi_direct_pass
+          // Push - Generic
+          this.token = json.token
+          this.push_timeout = json.push_timeout
+          this.push_resend_time = json.push_resend_time
+          // Push - Http Post 1
+          this.http_post_target = json.http_post_target
+          this.http_post_header1 = json.http_post_header1
+          this.http_post_header2 = json.http_post_header2
+          // this.http_post_format_gravity = json.http_post_format_gravity
+          // this.http_post_format_pressure = json.http_post_format_pressure
+          // Push - Http Post 2
+          this.http_post2_target = json.http_post2_target
+          this.http_post2_header1 = json.http_post2_header1
+          this.http_post2_header2 = json.http_post2_header2
+          // this.http_post2_format_gravity = json.http_post2_format_gravity
+          // this.http_post2_format_pressure = json.http_post2_format_pressure
+          // Push - Http Get
+          this.http_get_target = json.http_get_target
+          this.http_get_header1 = json.http_get_header1
+          this.http_get_header2 = json.http_get_header2
+          // this.http_get_format_gravity = json.http_get_format_gravity
+          // this.http_get_format_pressure = json.http_get_format_pressure
+          // Push - Influx
+          this.influxdb2_target = json.influxdb2_target
+          this.influxdb2_org = json.influxdb2_org
+          this.influxdb2_bucket = json.influxdb2_bucket
+          this.influxdb2_token = json.influxdb2_token
+          // this.influxdb2_format_gravity = json.influxdb2_format_gravity
+          // this.influxdb2_format_pressure = json.influxdb2_format_pressure
+          // Push - MQTT
+          this.mqtt_target = json.mqtt_target
+          this.mqtt_port = json.mqtt_port
+          this.mqtt_user = json.mqtt_user
+          this.mqtt_pass = json.mqtt_pass
+          // this.mqtt_format_gravity = json.mqtt_format_gravity
+          // this.mqtt_format_pressure = json.mqtt_format_pressure
+          // Push - flags
+          this.http_post_gravity = json.http_post_gravity
+          this.http_post_pressure = json.http_post_pressure
+          this.http_post2_gravity = json.http_post2_gravity
+          this.http_post2_pressure = json.http_post2_pressure
+          this.http_get_gravity = json.http_get_gravity
+          this.http_get_pressure = json.http_get_pressure
+          this.influxdb2_gravity = json.influxdb2_gravity
+          this.influxdb2_pressure = json.influxdb2_pressure
+          this.mqtt_gravity = json.mqtt_gravity
+          this.mqtt_pressure = json.mqtt_pressure
 
-        this.internal_temp_unit = 'C'
-        this.convertTemp()
         return true
       } catch (err) {
         global.disabled = false
@@ -275,8 +223,6 @@ export const useConfigStore = defineStore('config', {
       global.disabled = true
       logInfo('configStore.sendConfig()', 'Sending /api/config')
 
-      this.convertTempToC() // Device use C internally
-
       const data = getConfigChanges()
       delete data.http_post_format_gravity
       delete data.http_post2_format_gravity
@@ -302,11 +248,9 @@ export const useConfigStore = defineStore('config', {
         await http.postJson('api/config', data)
         global.disabled = false
         logInfo('configStore.sendConfig()', 'Sending /api/config completed')
-        this.convertTemp()
         return true
       } catch (err) {
         logError('configStore.sendConfig()', err)
-        this.convertTemp()
         global.disabled = false
         return false
       }
