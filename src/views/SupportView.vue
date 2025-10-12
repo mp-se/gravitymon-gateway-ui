@@ -133,7 +133,6 @@ function viewLogs() {
   global.clearMessages()
   global.disabled = true
   logData.value = ''
-
   ;(async () => {
     await fetchLog('/error2.log')
     await fetchLog('/error.log')
@@ -145,7 +144,6 @@ function removeLogs() {
   global.clearMessages()
   global.disabled = true
   logData.value = ''
-
   ;(async () => {
     await removeLog('/error2.log')
     await removeLog('/error.log')

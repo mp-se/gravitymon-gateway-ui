@@ -114,74 +114,74 @@ export const useConfigStore = defineStore('config', {
         const json = await http.getJson('api/config')
         logDebug('configStore.load()', json)
         global.disabled = false
-          this.id = json.id
-          // Device
-          this.mdns = json.mdns
-          this.temp_unit = json.temp_unit
-          this.gravity_unit = json.gravity_unit
-          this.pressure_unit = json.pressure_unit
-          this.dark_mode = json.dark_mode
-          // Hardware
-          this.ble_enable = json.ble_enable
-          this.ble_active_scan = json.ble_active_scan
-          this.ble_scan_time = json.ble_scan_time
-          this.timezone = json.timezone
-          // Wifi
-          this.wifi_portal_timeout = json.wifi_portal_timeout
-          this.wifi_connect_timeout = json.wifi_connect_timeout
-          this.wifi_ssid = json.wifi_ssid
-          this.wifi_ssid2 = json.wifi_ssid2
-          this.wifi_pass = json.wifi_pass
-          this.wifi_pass2 = json.wifi_pass2
-          this.wifi_direct_ssid = json.wifi_direct_ssid
-          this.wifi_direct_pass = json.wifi_direct_pass
-          // Push - Generic
-          this.token = json.token
-          this.push_timeout = json.push_timeout
-          this.push_resend_time = json.push_resend_time
-          // Push - Http Post 1
-          this.http_post_target = json.http_post_target
-          this.http_post_header1 = json.http_post_header1
-          this.http_post_header2 = json.http_post_header2
-          // this.http_post_format_gravity = json.http_post_format_gravity
-          // this.http_post_format_pressure = json.http_post_format_pressure
-          // Push - Http Post 2
-          this.http_post2_target = json.http_post2_target
-          this.http_post2_header1 = json.http_post2_header1
-          this.http_post2_header2 = json.http_post2_header2
-          // this.http_post2_format_gravity = json.http_post2_format_gravity
-          // this.http_post2_format_pressure = json.http_post2_format_pressure
-          // Push - Http Get
-          this.http_get_target = json.http_get_target
-          this.http_get_header1 = json.http_get_header1
-          this.http_get_header2 = json.http_get_header2
-          // this.http_get_format_gravity = json.http_get_format_gravity
-          // this.http_get_format_pressure = json.http_get_format_pressure
-          // Push - Influx
-          this.influxdb2_target = json.influxdb2_target
-          this.influxdb2_org = json.influxdb2_org
-          this.influxdb2_bucket = json.influxdb2_bucket
-          this.influxdb2_token = json.influxdb2_token
-          // this.influxdb2_format_gravity = json.influxdb2_format_gravity
-          // this.influxdb2_format_pressure = json.influxdb2_format_pressure
-          // Push - MQTT
-          this.mqtt_target = json.mqtt_target
-          this.mqtt_port = json.mqtt_port
-          this.mqtt_user = json.mqtt_user
-          this.mqtt_pass = json.mqtt_pass
-          // this.mqtt_format_gravity = json.mqtt_format_gravity
-          // this.mqtt_format_pressure = json.mqtt_format_pressure
-          // Push - flags
-          this.http_post_gravity = json.http_post_gravity
-          this.http_post_pressure = json.http_post_pressure
-          this.http_post2_gravity = json.http_post2_gravity
-          this.http_post2_pressure = json.http_post2_pressure
-          this.http_get_gravity = json.http_get_gravity
-          this.http_get_pressure = json.http_get_pressure
-          this.influxdb2_gravity = json.influxdb2_gravity
-          this.influxdb2_pressure = json.influxdb2_pressure
-          this.mqtt_gravity = json.mqtt_gravity
-          this.mqtt_pressure = json.mqtt_pressure
+        this.id = json.id
+        // Device
+        this.mdns = json.mdns
+        this.temp_unit = json.temp_unit
+        this.gravity_unit = json.gravity_unit
+        this.pressure_unit = json.pressure_unit
+        this.dark_mode = json.dark_mode
+        // Hardware
+        this.ble_enable = json.ble_enable
+        this.ble_active_scan = json.ble_active_scan
+        this.ble_scan_time = json.ble_scan_time
+        this.timezone = json.timezone
+        // Wifi
+        this.wifi_portal_timeout = json.wifi_portal_timeout
+        this.wifi_connect_timeout = json.wifi_connect_timeout
+        this.wifi_ssid = json.wifi_ssid
+        this.wifi_ssid2 = json.wifi_ssid2
+        this.wifi_pass = json.wifi_pass
+        this.wifi_pass2 = json.wifi_pass2
+        this.wifi_direct_ssid = json.wifi_direct_ssid
+        this.wifi_direct_pass = json.wifi_direct_pass
+        // Push - Generic
+        this.token = json.token
+        this.push_timeout = json.push_timeout
+        this.push_resend_time = json.push_resend_time
+        // Push - Http Post 1
+        this.http_post_target = json.http_post_target
+        this.http_post_header1 = json.http_post_header1
+        this.http_post_header2 = json.http_post_header2
+        // this.http_post_format_gravity = json.http_post_format_gravity
+        // this.http_post_format_pressure = json.http_post_format_pressure
+        // Push - Http Post 2
+        this.http_post2_target = json.http_post2_target
+        this.http_post2_header1 = json.http_post2_header1
+        this.http_post2_header2 = json.http_post2_header2
+        // this.http_post2_format_gravity = json.http_post2_format_gravity
+        // this.http_post2_format_pressure = json.http_post2_format_pressure
+        // Push - Http Get
+        this.http_get_target = json.http_get_target
+        this.http_get_header1 = json.http_get_header1
+        this.http_get_header2 = json.http_get_header2
+        // this.http_get_format_gravity = json.http_get_format_gravity
+        // this.http_get_format_pressure = json.http_get_format_pressure
+        // Push - Influx
+        this.influxdb2_target = json.influxdb2_target
+        this.influxdb2_org = json.influxdb2_org
+        this.influxdb2_bucket = json.influxdb2_bucket
+        this.influxdb2_token = json.influxdb2_token
+        // this.influxdb2_format_gravity = json.influxdb2_format_gravity
+        // this.influxdb2_format_pressure = json.influxdb2_format_pressure
+        // Push - MQTT
+        this.mqtt_target = json.mqtt_target
+        this.mqtt_port = json.mqtt_port
+        this.mqtt_user = json.mqtt_user
+        this.mqtt_pass = json.mqtt_pass
+        // this.mqtt_format_gravity = json.mqtt_format_gravity
+        // this.mqtt_format_pressure = json.mqtt_format_pressure
+        // Push - flags
+        this.http_post_gravity = json.http_post_gravity
+        this.http_post_pressure = json.http_post_pressure
+        this.http_post2_gravity = json.http_post2_gravity
+        this.http_post2_pressure = json.http_post2_pressure
+        this.http_get_gravity = json.http_get_gravity
+        this.http_get_pressure = json.http_get_pressure
+        this.influxdb2_gravity = json.influxdb2_gravity
+        this.influxdb2_pressure = json.influxdb2_pressure
+        this.mqtt_gravity = json.mqtt_gravity
+        this.mqtt_pressure = json.mqtt_pressure
 
         return true
       } catch (err) {

@@ -1,6 +1,15 @@
 import { defineStore } from 'pinia'
 import { global, config } from '@/modules/pinia'
-import { logDebug, logError, logInfo, sharedHttpClient as http, tempToF, psiToBar, psiToKPa, gravityToPlato } from '@mp-se/espframework-ui-components'
+import {
+  logDebug,
+  logError,
+  logInfo,
+  sharedHttpClient as http,
+  tempToF,
+  psiToBar,
+  psiToKPa,
+  gravityToPlato
+} from '@mp-se/espframework-ui-components'
 
 // TODO: Convert to SG->Plato and C->F if needed
 
