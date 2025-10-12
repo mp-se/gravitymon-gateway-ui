@@ -9,7 +9,8 @@ export default {
         './src/**/*.{vue,js,ts,jsx,tsx}',
         './src/**/*.html'
       ],
-      safelist: [
+      safelist: {
+        standard: [
         // Bootstrap Layout
         /^container(-fluid)?$/,
         /^row$/,
@@ -19,7 +20,10 @@ export default {
         // Bootstrap Components
         /^btn(-.*)?$/,
         /^badge(-.*)?$/,
-        /^spinner(-.*)?$/,
+  /^spinner(-.*)?$/,
+  'spinner-border',
+  'spinner-border-sm',
+  'visually-hidden',
         /^form(-.*)?$/,
         /^input(-.*)?$/,
         /^select(-.*)?$/,
@@ -78,6 +82,25 @@ export default {
         'collapsed',
         'collapsing',
         
+        // Dark mode support - Bootstrap 5.3+ data-bs-theme attribute handling
+        // Keep all CSS that responds to [data-bs-theme="dark"]
+        /.*\[data-bs-theme.*\].*/,
+        // Keep dark mode utility classes
+        /.*-dark$/,
+        'table-dark',
+        'navbar-dark',
+        'bg-dark',
+        'text-light',
+        'border-dark',
+        'btn-dark',
+        // Keep light mode utility classes for completeness
+        'table-light', 
+        'navbar-light',
+        'bg-light',
+        'text-dark',
+        'border-light',
+        'btn-light',
+        
         // Form validation
         'needs-validation',
         'was-validated',
@@ -115,7 +138,12 @@ export default {
         // Dynamically generated classes from components
         /^bg-.*-subtle$/,
         /^text-bg-.*$/
-      ],
+        ],
+        keyframes: [
+          'spinner-border',
+          'spinner-grow'
+        ]
+      },
       // Standard extraction to catch more classes
       defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || [],
       // Remove unused CSS variables and keyframes
