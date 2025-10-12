@@ -57,53 +57,48 @@ const filesystemUsageText = ref(null)
 const filesView = ref([])
 const fileData = ref(null)
 
-const viewFile = (f) => {
+const viewFile = async (f) => {
   global.disabled = true
   global.clearMessages()
 
   fileData.value = null
 
-  measurement.fetchSecureDiskFile(f, (success, text) => {
-    if (success) {
-      if (isValidJson(text)) fileData.value = JSON.stringify(JSON.parse(text), null, 2)
-      else if (isValidFormData(text)) fileData.value = text.replaceAll('&', '&\n\r')
-      else if (isValidMqttData(text)) fileData.value = text.replaceAll('|', '|\n\r')
-      else fileData.value = text
-    }
+  const res = await measurement.fetchSecureDiskFile(f)
+  if (res && res.success) {
+    const text = res.text
+    if (isValidJson(text)) fileData.value = JSON.stringify(JSON.parse(text), null, 2)
+    else if (isValidFormData(text)) fileData.value = text.replaceAll('&', '&\n\r')
+    else if (isValidMqttData(text)) fileData.value = text.replaceAll('|', '|\n\r')
+    else fileData.value = text
+  }
 
-    global.disabled = false
-  })
+  global.disabled = false
 }
 
-const listFilesView = () => {
+const listFilesView = async () => {
   global.disabled = true
   global.clearMessages()
 
   filesView.value = []
 
-  var data = {
-    command: 'dir'
+  const data = { command: 'dir' }
+  const res = await measurement.sendSecureDiskRequest(data)
+  if (res && res.success) {
+    const json = JSON.parse(res.text)
+    filesystemUsage.value = (json.used / json.total) * 100
+    filesystemUsageText.value =
+      'Total space ' +
+      new Number(json.total / 1024).toFixed(1) +
+      'kb, Free space ' +
+      new Number(json.free / 1024).toFixed(1) +
+      'kb, Used space ' +
+      new Number(json.used / 1024).toFixed(1) +
+      'kb'
+    for (const f of json.files) {
+      filesView.value.push(f.file)
+    }
   }
 
-  measurement.sendSecureDiskRequest(data, (success, text) => {
-    if (success) {
-      var json = JSON.parse(text)
-      filesystemUsage.value = (json.used / json.total) * 100
-      filesystemUsageText.value =
-        'Total space ' +
-        json.total / 1024 +
-        'kb, Free space ' +
-        json.free / 1024 +
-        'kb, Used space ' +
-        json.used / 1024 +
-        'kb'
-
-      for (var f in json.files) {
-        filesView.value.push(json.files[f].file)
-      }
-    }
-
-    global.disabled = false
-  })
+  global.disabled = false
 }
 </script>

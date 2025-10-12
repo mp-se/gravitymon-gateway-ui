@@ -59,7 +59,7 @@
           aria-hidden="true"
           :hidden="!global.disabled"
         ></span>
-        &nbsp;List files
+        &nbsp;Delete SD files
       </button>
     </div>
     <div class="col-md-6">
@@ -99,7 +99,7 @@ const filesDelete = ref([])
 const confirmDeleteMessage = ref(null)
 const confirmDeleteFile = ref(null)
 
-const confirmDeleteCallback = (result) => {
+const confirmDeleteCallback = async (result) => {
   logDebug('AdvancedSecureDiskFragment.confirmDeleteCallback()', result)
 
   if (result) {
@@ -108,16 +108,15 @@ const confirmDeleteCallback = (result) => {
 
     fileData.value = null
 
-    var data = {
+    const data = {
       command: 'del',
       file: confirmDeleteFile.value
     }
 
-    measurement.sendSecureDiskRequest(data, (success, text) => {
-      ;(logDebug('AdvancedSecureDiskFragment.confirmDeleteCallback()', success), text)
-      filesDelete.value = []
-      global.disabled = false
-    })
+    const res = await measurement.sendSecureDiskRequest(data)
+    logDebug('AdvancedSecureDiskFragment.confirmDeleteCallback()', res)
+    filesDelete.value = []
+    global.disabled = false
   }
 }
 
@@ -127,26 +126,22 @@ const deleteFile = (f) => {
   document.getElementById('deleteSecureDiskFile').click()
 }
 
-const listFilesDelete = () => {
+const listFilesDelete = async () => {
   global.disabled = true
   global.clearMessages()
 
   filesDelete.value = []
 
-  var data = {
-    command: 'dir'
+  const data = { command: 'dir' }
+  const res = await measurement.sendSecureDiskRequest(data)
+  if (res && res.success) {
+    const json = JSON.parse(res.text)
+    for (const f of json.files) {
+      filesDelete.value.push(f.file)
+    }
   }
 
-  measurement.sendSecureDiskRequest(data, (success, text) => {
-    if (success) {
-      var json = JSON.parse(text)
-      for (var f in json.files) {
-        filesDelete.value.push(json.files[f].file)
-      }
-    }
-
-    global.disabled = false
-  })
+  global.disabled = false
 }
 
 // const progress = ref(0)
