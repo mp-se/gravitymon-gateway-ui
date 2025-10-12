@@ -12,4 +12,4 @@ cp ../gravitymon-ui/src/views/SerialView.vue ./src/views/SerialView.vue
 cp ../gravitymon-ui/src/views/NotFoundView.vue ./src/views/NotFoundView.vue
 cp ../gravitymon-ui/src/views/DeviceWifiView.vue ./src/views/DeviceWifiView.vue
 cp ../gravitymon-ui/src/views/DeviceWifi2View.vue ./src/views/DeviceWifi2View.vue
-cp ../gravitymon-ui/src/views/ToolsView.vue ./src/views/ToolsView.vue
+# cp ../gravitymon-ui/src/views/ToolsView.vue ./src/views/ToolsView.vue
