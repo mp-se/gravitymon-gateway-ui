@@ -123,10 +123,10 @@
 
 <script setup>
 import { ref } from 'vue'
-import { validateCurrentForm, restart } from '@/modules/utils'
+import { validateCurrentForm } from '@mp-se/espframework-ui-components'
 import { global, config } from '@/modules/pinia'
 import * as badge from '@/modules/badge'
-import { logError, logInfo } from '@/modules/logger'
+import { logError, logInfo } from '@mp-se/espframework-ui-components'
 
 const tempOptions = ref([
   { label: 'Celsius °C', value: 'C' },
@@ -174,6 +174,10 @@ const factory = () => {
       global.messageError = 'Failed to do factory restore'
       global.disabled = false
     })
+}
+
+const restart = async () => {
+  await config.restart()
 }
 
 const saveSettings = () => {

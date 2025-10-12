@@ -1,41 +1,70 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 
-// CSS imports - Bootstrap with PurgeCSS
-import 'bootstrap/dist/css/bootstrap.css'
-
-// App setup
 const app = createApp(App)
 
-// Store and router
 import piniaInstance from './modules/pinia.js'
-import router from './modules/router.js'
 app.use(piniaInstance)
+
+import router from './modules/router.js'
 app.use(router)
 
-// Component imports
-import BsMessage from '@/components/BsMessage.vue'
-import BsCard from '@/components/BsCard.vue'
-import BsFileUpload from '@/components/BsFileUpload.vue'
-import BsProgress from '@/components/BsProgress.vue'
-import BsInputBase from '@/components/BsInputBase.vue'
-import BsInputText from '@/components/BsInputText.vue'
-import BsInputReadonly from '@/components/BsInputReadonly.vue'
-import BsSelect from '@/components/BsSelect.vue'
-import BsInputTextArea from '@/components/BsInputTextArea.vue'
-import BsInputNumber from '@/components/BsInputNumber.vue'
-import BsInputSwitch from '@/components/BsInputSwitch.vue'
-import BsInputRadio from '@/components/BsInputRadio.vue'
-import BsDropdown from '@/components/BsDropdown.vue'
-import BsModal from '@/components/BsModal.vue'
-import BsModalConfirm from '@/components/BsModalConfirm.vue'
-import BsInputTextAreaFormat from '@/components/BsInputTextAreaFormat.vue'
+// Import all components from the ESP Framework UI Components library
+import {
+  // Bootstrap Components
+  BsMessage,
+  BsCard,
+  BsFileUpload,
+  BsProgress,
+  BsInputBase,
+  BsInputText,
+  BsInputReadonly,
+  BsSelect,
+  BsInputTextArea,
+  BsInputNumber,
+  BsInputSwitch,
+  BsInputRadio,
+  BsDropdown,
+  BsModal,
+  BsModalConfirm,
+  BsInputTextAreaFormat,
+  BsMenuBar,
+  BsFooter,
+  // Icon Components
+  IconHome,
+  IconData,
+  IconTools,
+  IconGraphUpArrow,
+  IconCloudUpArrow,
+  IconUpArrow,
+  IconCpu,
+  IconWifi,
+  IconEye,
+  IconEyeSlash,
+  IconCheckCircle,
+  IconXCircle,
+  IconExclamationTriangle,
+  IconInfoCircle
+} from '@mp-se/espframework-ui-components'
 
+// Import local fragments (kept only if they provide local functionality not in the library)
+import AdvancedFilesFragment from '@/fragments/AdvancedFilesFragment.vue'
+import AdvancedSecureDiskFragment from '@/fragments/AdvancedSecureDiskFragment.vue'
+import EnableCorsFragment from '@/fragments/EnableCorsFragment.vue'
+import ListFilesFragment from '@/fragments/ListFilesFragment.vue'
+import ListSecureDiskFragment from '@/fragments/ListSecureDiskFragment.vue'
+import MeasurementGraphFragment from '@/fragments/MeasurementGraphFragment.vue'
+import MeasurementTableFragment from '@/fragments/MeasurementTableFragment.vue'
+import VoltageFragment from '@/fragments/VoltageFragment.vue'
+
+// Import Bootstrap CSS and JS first, then library CSS to allow overrides
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/js/bootstrap.bundle.js'
+// import '@mp-se/espframework-ui-components/dist/style.css'
+
+// Register Bootstrap components
 app.component('BsMessage', BsMessage)
-app.component('BsDropdown', BsDropdown)
 app.component('BsCard', BsCard)
-app.component('BsModal', BsModal)
-app.component('BsModalConfirm', BsModalConfirm)
 app.component('BsFileUpload', BsFileUpload)
 app.component('BsProgress', BsProgress)
 app.component('BsInputBase', BsInputBase)
@@ -43,28 +72,40 @@ app.component('BsInputText', BsInputText)
 app.component('BsInputReadonly', BsInputReadonly)
 app.component('BsSelect', BsSelect)
 app.component('BsInputTextArea', BsInputTextArea)
-app.component('BsInputTextAreaFormat', BsInputTextAreaFormat)
 app.component('BsInputNumber', BsInputNumber)
-app.component('BsInputRadio', BsInputRadio)
 app.component('BsInputSwitch', BsInputSwitch)
+app.component('BsInputRadio', BsInputRadio)
+app.component('BsDropdown', BsDropdown)
+app.component('BsModal', BsModal)
+app.component('BsModalConfirm', BsModalConfirm)
+app.component('BsInputTextAreaFormat', BsInputTextAreaFormat)
+app.component('BsMenuBar', BsMenuBar)
+app.component('BsFooter', BsFooter)
 
-import IconHome from './components/IconHome.vue'
-import IconTools from './components/IconTools.vue'
-import IconGraphUpArrow from './components/IconGraphUpArrow.vue'
-import IconCloudUpArrow from './components/IconCloudUpArrow.vue'
-import IconUpArrow from './components/IconUpArrow.vue'
-import IconCpu from './components/IconCpu.vue'
-import IconData from './components/IconData.vue'
-
+// Register Icon components
 app.component('IconHome', IconHome)
+app.component('IconData', IconData)
 app.component('IconTools', IconTools)
 app.component('IconGraphUpArrow', IconGraphUpArrow)
 app.component('IconCloudUpArrow', IconCloudUpArrow)
 app.component('IconUpArrow', IconUpArrow)
 app.component('IconCpu', IconCpu)
-app.component('IconData', IconData)
+app.component('IconWifi', IconWifi)
+app.component('IconEye', IconEye)
+app.component('IconEyeSlash', IconEyeSlash)
+app.component('IconCheckCircle', IconCheckCircle)
+app.component('IconXCircle', IconXCircle)
+app.component('IconExclamationTriangle', IconExclamationTriangle)
+app.component('IconInfoCircle', IconInfoCircle)
+
+// Register fragment components globally
+app.component('AdvancedFilesFragment', AdvancedFilesFragment)
+app.component('AdvancedSecureDiskFragment', AdvancedSecureDiskFragment)
+app.component('EnableCorsFragment', EnableCorsFragment)
+app.component('ListFilesFragment', ListFilesFragment)
+app.component('ListSecureDiskFragment', ListSecureDiskFragment)
+app.component('MeasurementGraphFragment', MeasurementGraphFragment)
+app.component('MeasurementTableFragment', MeasurementTableFragment)
+app.component('VoltageFragment', VoltageFragment)
 
 app.mount('#app')
-
-// Bootstrap JavaScript
-import 'bootstrap/dist/js/bootstrap.bundle.js'

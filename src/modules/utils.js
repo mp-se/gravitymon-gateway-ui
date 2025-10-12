@@ -1,13 +1,21 @@
 import { ref } from 'vue'
-import { config, global } from '@/modules/pinia'
-import { logDebug, logError, logInfo } from '@/modules/logger'
+import { global } from '@/modules/pinia'
+import { logError } from '@mp-se/espframework-ui-components'
+import {
+  tempToF,
+  tempToC,
+  psiToBar,
+  psiToKPa,
+  barToPsi,
+  kpaToPsi
+} from '@mp-se/espframework-ui-components'
 
 export const httpHeaderOptions = ref([
   { label: 'JSON data', value: 'Content-Type: application/json' },
   { label: 'Form data', value: 'Content-Type: x-www-form-urlencoded' },
   { label: 'Authorization', value: 'Authorization: Basic {enter token here}' },
   { label: 'No Cache', value: 'Pragma: no-cache' },
-  { label: 'User agent', value: 'User-Agent: gravitymon' }
+  { label: 'User agent', value: 'User-Agent: gravitymon-gateway' }
 ])
 
 export const httpPostUrlOptions = ref([
@@ -176,47 +184,6 @@ export const pressureMqttFormatOptions = ref([
   }
 ])
 
-export function validateCurrentForm() {
-  let valid = true
-  const forms = document.querySelectorAll('.needs-validation')
-
-  Array.from(forms).forEach((form) => {
-    if (!form.checkValidity()) valid = false
-
-    form.classList.add('was-validated')
-  })
-
-  return valid
-}
-
-export function tempToF(c) {
-  return c * 1.8 + 32.0
-}
-
-export function tempToC(f) {
-  return (f - 32.0) / 1.8
-}
-
-export function psiToBar(p) {
-  return p * 0.0689475729
-}
-
-export function psiToKPa(p) {
-  return p * 6.89475729
-}
-
-export function barToPsi(p) {
-  return p * 14.5037738
-}
-
-export const gravityToPlato = (sg) => {
-  return 259 - 259 / sg
-}
-
-export function kpaToPsi(p) {
-  return p * 0.145037738
-}
-
 export function applyTemplate(status, config, template) {
   var s = template
 
@@ -314,71 +281,4 @@ export function applyTemplate(status, config, template) {
   }
 
   return s
-}
-
-export function isValidJson(s) {
-  try {
-    JSON.stringify(JSON.parse(s))
-    return true
-  } catch {
-    logDebug('utils.isValidJson()')
-  }
-
-  return false
-}
-
-export function isValidFormData(s) {
-  if (s.startsWith('?')) return true
-
-  return false
-}
-
-export function isValidMqttData(s) {
-  if (s.indexOf('|') >= 0) return true
-
-  return false
-}
-
-export function getErrorString(code) {
-  switch (code) {
-    case 200:
-      return 'Success (200)'
-    case 401:
-      return 'Access denied (401)'
-    case 404:
-      return 'Endpoint not found (404)'
-    case 422:
-      return 'Paylod cannot be parsed, check format and http headers'
-  }
-
-  return 'Unknown code, check documentation (' + code + ')'
-}
-
-export function restart() {
-  global.clearMessages()
-  global.disabled = true
-  fetch(global.baseURL + 'api/restart', {
-    headers: { Authorization: global.token },
-    signal: AbortSignal.timeout(global.fetchTimout)
-  })
-    .then((res) => res.json())
-    .then((json) => {
-      logDebug('utils.restart()', json)
-      if (json.status == true) {
-        global.messageSuccess =
-          json.message + ' Redirecting to http://' + config.mdns + '.local in 8 seconds.'
-        logInfo('utils.restart()', 'Scheduling refresh of UI')
-        setTimeout(() => {
-          location.href = 'http://' + config.mdns + '.local'
-        }, 8000)
-      } else {
-        global.messageError = json.message
-        global.disabled = false
-      }
-    })
-    .catch((err) => {
-      logError('utils.restart()', err)
-      global.messageError = 'Failed to do restart'
-      global.disabled = false
-    })
 }

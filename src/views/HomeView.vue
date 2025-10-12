@@ -134,7 +134,7 @@
 <script setup>
 import { global, status, config } from '@/modules/pinia'
 import { ref, onBeforeMount, onBeforeUnmount } from 'vue'
-import { psiToBar, psiToKPa } from '@/modules/utils'
+import { psiToBar, psiToKPa } from '@mp-se/espframework-ui-components'
 
 const polling = ref(null)
 

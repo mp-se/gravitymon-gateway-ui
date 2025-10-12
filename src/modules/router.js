@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
-import { validateCurrentForm } from '@/modules/utils'
+import { validateCurrentForm } from '@mp-se/espframework-ui-components'
 import * as badge from '@/modules/badge'
 import { global } from '@/modules/pinia'
 
@@ -8,6 +8,7 @@ import HomeView from '@/views/HomeView.vue'
 import DeviceSettingsView from '@/views/DeviceSettingsView.vue'
 import DeviceHardwareView from '@/views/DeviceHardwareView.vue'
 import DeviceWifiView from '@/views/DeviceWifiView.vue'
+import DeviceWifi2View from '@/views/DeviceWifi2View.vue'
 import PushSettingsView from '@/views/PushSettingsView.vue'
 import PushHttpPost1View from '@/views/PushHttpPost1View.vue'
 import PushHttpPost2View from '@/views/PushHttpPost2View.vue'
@@ -42,6 +43,11 @@ const routes = [
     path: '/device/wifi',
     name: 'device-wifi',
     component: DeviceWifiView
+  },
+  {
+    path: '/device/wifi2',
+    name: 'device-wifi2',
+    component: DeviceWifi2View
   },
   {
     path: '/data',

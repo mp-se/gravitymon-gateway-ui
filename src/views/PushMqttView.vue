@@ -171,12 +171,8 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import {
-  validateCurrentForm,
-  applyTemplate,
-  gravityMqttFormatOptions,
-  pressureMqttFormatOptions
-} from '@/modules/utils'
+import { validateCurrentForm } from '@mp-se/espframework-ui-components'
+import { applyTemplate, gravityMqttFormatOptions, pressureMqttFormatOptions } from '@/modules/utils'
 import { global, status, config } from '@/modules/pinia'
 
 const render = ref('')
@@ -185,22 +181,16 @@ const pushDisabled = computed(() => {
   return global.disabled || config.use_wifi_direct
 })
 
-const runTestGravity = () => {
-  const data = {
-    push_format: 'mqtt_format_gravity'
-  }
-
+const runTestGravity = async () => {
+  const data = { push_format: 'mqtt_format_gravity' }
   global.clearMessages()
-  config.runPushTest(data, () => {})
+  await config.runPushTest(data)
 }
 
-const runTestPressure = () => {
-  const data = {
-    push_format: 'mqtt_format_pressure'
-  }
-
+const runTestPressure = async () => {
+  const data = { push_format: 'mqtt_format_pressure' }
   global.clearMessages()
-  config.runPushTest(data, () => {})
+  await config.runPushTest(data)
 }
 
 const gravityMqttFormatCallback = (opt) => {

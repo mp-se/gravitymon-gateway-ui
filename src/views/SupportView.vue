@@ -94,40 +94,39 @@
 
 <script setup>
 import { ref } from 'vue'
-import { config, global } from '@/modules/pinia'
-import { logDebug } from '@/modules/logger'
+import { global } from '@/modules/pinia'
+import { logDebug } from '@mp-se/espframework-ui-components'
+import { sharedHttpClient as http } from '@mp-se/espframework-ui-components'
 
 const logData = ref('')
 
-function fetchLog(file, callback) {
-  var data = {
-    command: 'get',
-    file: file
-  }
-
-  config.sendFilesystemRequest(data, (success, text) => {
-    if (success) {
+async function fetchLog(file) {
+  const data = { command: 'get', file: file }
+  try {
+    const res = await http.filesystemRequest(data)
+    if (res && res.success) {
       logDebug('SupportView.fetchLog()', 'Fetching ' + file + ' completed')
-      var list = text.split('\n')
+      const list = res.text.split('\n')
       list.forEach(function (item) {
         if (item.length) logData.value = item + '\n' + logData.value
       })
-      callback(true)
-    } else {
-      callback(false)
+      return true
     }
-  })
+  } catch (err) {
+    logDebug('SupportView.fetchLog()', 'Error fetching ' + file, err)
+  }
+  return false
 }
 
-function removeLog(file, callback) {
-  var data = {
-    command: 'del',
-    file: file
+async function removeLog(file) {
+  const data = { command: 'del', file: file }
+  try {
+    const res = await http.filesystemRequest(data)
+    return res && res.success
+  } catch (err) {
+    logDebug('SupportView.removeLog()', 'Error deleting ' + file, err)
+    return false
   }
-
-  config.sendFilesystemRequest(data, (success) => {
-    callback(success)
-  })
 }
 
 function viewLogs() {
@@ -135,11 +134,11 @@ function viewLogs() {
   global.disabled = true
   logData.value = ''
 
-  fetchLog('/error2.log', () => {
-    fetchLog('/error.log', () => {
-      global.disabled = false
-    })
-  })
+  ;(async () => {
+    await fetchLog('/error2.log')
+    await fetchLog('/error.log')
+    global.disabled = false
+  })()
 }
 
 function removeLogs() {
@@ -147,11 +146,11 @@ function removeLogs() {
   global.disabled = true
   logData.value = ''
 
-  removeLog('/error2.log', () => {
-    removeLog('/error.log', () => {
-      global.messageSuccess = 'Requested logs to be deleted'
-      global.disabled = false
-    })
-  })
+  ;(async () => {
+    await removeLog('/error2.log')
+    await removeLog('/error.log')
+    global.messageSuccess = 'Requested logs to be deleted'
+    global.disabled = false
+  })()
 }
 </script>

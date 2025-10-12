@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
-import { logInfo, logDebug, logError } from '@/modules/logger'
+import { logInfo, logDebug, logError } from '@mp-se/espframework-ui-components'
+import { sharedHttpClient as http } from '@mp-se/espframework-ui-components'
 
 export const useGlobalStore = defineStore('global', {
   state: () => {
@@ -10,6 +11,12 @@ export const useGlobalStore = defineStore('global', {
       app_ver: '',
       app_build: '',
       firmware_file: '',
+
+      ui: {
+        enableVoltageFragment: false,
+        enableManualWifiEntry: true,
+        enableScanForStrongestAp: false
+      },
 
       feature: {
         tft: false,
@@ -23,10 +30,7 @@ export const useGlobalStore = defineStore('global', {
       messageError: '',
       messageWarning: '',
       messageSuccess: '',
-      messageInfo: '',
-
-      fetchTimout: 8000,
-      url: undefined
+      messageInfo: ''
     }
   },
   getters: {
@@ -42,39 +46,11 @@ export const useGlobalStore = defineStore('global', {
     isInfo() {
       return this.messageInfo != '' ? true : false
     },
-    token() {
-      return 'Bearer ' + this.id
-    },
-    baseURL() {
-      if (this.url !== undefined) return this.url
-
-      if (import.meta.env.VITE_APP_HOST === undefined) {
-        logInfo(
-          'configStore:baseURL()',
-          'Using base URL from browser',
-          window.location.href,
-          import.meta.env
-        )
-        this.url = window.location.href
-      } else {
-        logInfo('configStore:baseURL()', 'Using base URL from env', import.meta.env.VITE_APP_HOST)
-        this.url = import.meta.env.VITE_APP_HOST
-      }
-
-      return this.url
-    },
     uiVersion() {
       return import.meta.env.VITE_APP_VERSION
     },
     uiBuild() {
       return import.meta.env.VITE_APP_BUILD
-    },
-    disabled32() {
-      if (this.disabled) return true
-
-      if (this.platform !== 'esp8266') return false
-
-      return true
     }
   },
   actions: {
@@ -84,30 +60,27 @@ export const useGlobalStore = defineStore('global', {
       this.messageSuccess = ''
       this.messageInfo = ''
     },
-    load(callback) {
+    async load() {
       logInfo('globalStore.load()', 'Fetching /api/feature')
-      fetch(this.baseURL + 'api/feature', {
-        signal: AbortSignal.timeout(this.fetchTimout)
-      })
-        .then((res) => res.json())
-        .then((json) => {
-          logDebug('globalStore.load()', json)
-          this.board = json.board.toUpperCase()
-          this.app_ver = json.app_ver
-          this.app_build = json.app_build
-          this.platform = json.platform.toUpperCase()
-          this.firmware_file = json.firmware_file.toLowerCase()
+      try {
+        const json = await http.getJson('api/feature')
+        logDebug('globalStore.load()', json)
 
-          this.feature.tft = json.tft
-          this.feature.sd = json.sd
+        this.board = json.board.toUpperCase()
+        this.app_ver = json.app_ver
+        this.app_build = json.app_build
+        this.platform = json.platform.toUpperCase()
+        this.firmware_file = json.firmware_file.toLowerCase()
 
-          logInfo('globalStore.load()', 'Fetching /api/feature completed')
-          callback(true)
-        })
-        .catch((err) => {
-          logError('globalStore.load()', err)
-          callback(false)
-        })
+        this.feature.tft = json.tft
+        this.feature.sd = json.sd
+
+        logInfo('globalStore.load()', 'Fetching /api/feature completed')
+        return true
+      } catch (err) {
+        logError('globalStore.load()', err)
+        return false
+      }
     }
   }
 })

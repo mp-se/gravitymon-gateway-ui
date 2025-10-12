@@ -136,7 +136,7 @@
           >&nbsp;
 
           <button
-            @click.prevent="config.restart()"
+            @click.prevent="restartDevice()"
             type="button"
             class="btn btn-secondary"
             :disabled="global.disabled"
@@ -207,5 +207,9 @@ const save = () => {
   config.saveAll()
   global.messageInfo =
     'If WIFI settings are changed, restart the device and enter the new URL of the device!'
+}
+
+const restartDevice = async () => {
+  await config.restart()
 }
 </script>

@@ -157,11 +157,7 @@
 <script setup>
 import { measurement, global, status } from '@/modules/pinia'
 import { ref, watch, onBeforeMount, onBeforeUnmount, computed } from 'vue'
-import { logDebug } from '@/modules/logger'
-import BsSelect from '@/components/BsSelect.vue'
-import BsInputRadio from '@/components/BsInputRadio.vue'
-import MeasurementTableFragment from '@/fragments/MeasurementTableFragment.vue'
-import MeasurementGraphFragment from '@/fragments/MeasurementGraphFragment.vue'
+import { logDebug } from '@mp-se/espframework-ui-components'
 
 const deviceType = ref(-1)
 const deviceTypeOptions = ref([
@@ -234,104 +230,102 @@ const chamberColumns = ref([
   { key: 'rssi', label: 'RSSI', method: 'getRssi' }
 ])
 
-onBeforeMount(() => {
-  measurement.updateMeasurementFiles((success) => {
-    if (success) {
-      logDebug('MeasurementView.onBeforeMount()')
+onBeforeMount(async () => {
+  const success = await measurement.updateMeasurementFiles()
+  if (success) {
+    logDebug('MeasurementView.onBeforeMount()')
 
-      measurement.fetchAllMeasurementFiles(() => {
-        logDebug('MeasurementView.onBeforeMount()', 'callback')
+    await measurement.fetchAllMeasurementFiles()
+    logDebug('MeasurementView.onBeforeMount()', 'fetched files')
 
-        if (measurement.gravitymonData.length > 0) {
-          deviceTypeOptions.value.push({ label: 'Gravitymon', value: 0 })
+    if (measurement.gravitymonData.length > 0) {
+      deviceTypeOptions.value.push({ label: 'Gravitymon', value: 0 })
 
-          const seenIds = new Set()
-          gravitymonDeviceOptions.value = measurement.gravitymonData
-            .filter((entry) => {
-              if (seenIds.has(entry.getId())) return false
-              seenIds.add(entry.getId())
-              return true
-            })
-            .map((entry) => ({
-              label: entry.getId() + ' - ' + entry.getName(),
-              value: entry.getId()
-            }))
-          gravitymonDeviceOptions.value.push({ label: 'All devices', value: '' })
-        }
-
-        if (measurement.tiltData.length > 0) {
-          deviceTypeOptions.value.push({ label: 'Tilt', value: 1 })
-
-          const seenTiltIds = new Set()
-          tiltDeviceOptions.value = measurement.tiltData
-            .filter((entry) => {
-              if (seenTiltIds.has(entry.getId())) return false
-              seenTiltIds.add(entry.getId())
-              return true
-            })
-            .map((entry) => ({
-              label: entry.getId() + ' - ' + entry.getColor(),
-              value: entry.getId()
-            }))
-          tiltDeviceOptions.value.push({ label: 'All devices', value: '' })
-        }
-
-        if (measurement.pressuremonData.length > 0) {
-          deviceTypeOptions.value.push({ label: 'Pressuremon', value: 2 })
-
-          const seenPressureIds = new Set()
-          pressuremonDeviceOptions.value = measurement.pressuremonData
-            .filter((entry) => {
-              if (seenPressureIds.has(entry.getId())) return false
-              seenPressureIds.add(entry.getId())
-              return true
-            })
-            .map((entry) => ({
-              label: entry.getId() + ' - ' + entry.getName(),
-              value: entry.getId()
-            }))
-          pressuremonDeviceOptions.value.push({ label: 'All devices', value: '' })
-        }
-
-        if (measurement.chamberData.length > 0) {
-          deviceTypeOptions.value.push({ label: 'Chamber Controller', value: 3 })
-
-          const seenChamberIds = new Set()
-          chamberDeviceOptions.value = measurement.chamberData
-            .filter((entry) => {
-              if (seenChamberIds.has(entry.getId())) return false
-              seenChamberIds.add(entry.getId())
-              return true
-            })
-            .map((entry) => ({
-              // label: entry.getId() + ' - ' + entry.getName(),
-              label: entry.getId(),
-              value: entry.getId()
-            }))
-          chamberDeviceOptions.value.push({ label: 'All devices', value: '' })
-        }
-
-        if (measurement.raptData.length > 0) {
-          deviceTypeOptions.value.push({ label: 'Rapt', value: 4 })
-
-          const seenIds = new Set()
-          raptDeviceOptions.value = measurement.raptData
-            .filter((entry) => {
-              if (seenIds.has(entry.getId())) return false
-              seenIds.add(entry.getId())
-              return true
-            })
-            .map((entry) => ({
-              label: entry.getId(),
-              value: entry.getId()
-            }))
-          raptDeviceOptions.value.push({ label: 'All devices', value: '' })
-        }
-      })
-    } else {
-      global.errorMessage = 'Failed to fetch list of measurement files'
+      const seenIds = new Set()
+      gravitymonDeviceOptions.value = measurement.gravitymonData
+        .filter((entry) => {
+          if (seenIds.has(entry.getId())) return false
+          seenIds.add(entry.getId())
+          return true
+        })
+        .map((entry) => ({
+          label: entry.getId() + ' - ' + entry.getName(),
+          value: entry.getId()
+        }))
+      gravitymonDeviceOptions.value.push({ label: 'All devices', value: '' })
     }
-  })
+
+    if (measurement.tiltData.length > 0) {
+      deviceTypeOptions.value.push({ label: 'Tilt', value: 1 })
+
+      const seenTiltIds = new Set()
+      tiltDeviceOptions.value = measurement.tiltData
+        .filter((entry) => {
+          if (seenTiltIds.has(entry.getId())) return false
+          seenTiltIds.add(entry.getId())
+          return true
+        })
+        .map((entry) => ({
+          label: entry.getId() + ' - ' + entry.getColor(),
+          value: entry.getId()
+        }))
+      tiltDeviceOptions.value.push({ label: 'All devices', value: '' })
+    }
+
+    if (measurement.pressuremonData.length > 0) {
+      deviceTypeOptions.value.push({ label: 'Pressuremon', value: 2 })
+
+      const seenPressureIds = new Set()
+      pressuremonDeviceOptions.value = measurement.pressuremonData
+        .filter((entry) => {
+          if (seenPressureIds.has(entry.getId())) return false
+          seenPressureIds.add(entry.getId())
+          return true
+        })
+        .map((entry) => ({
+          label: entry.getId() + ' - ' + entry.getName(),
+          value: entry.getId()
+        }))
+      pressuremonDeviceOptions.value.push({ label: 'All devices', value: '' })
+    }
+
+    if (measurement.chamberData.length > 0) {
+      deviceTypeOptions.value.push({ label: 'Chamber Controller', value: 3 })
+
+      const seenChamberIds = new Set()
+      chamberDeviceOptions.value = measurement.chamberData
+        .filter((entry) => {
+          if (seenChamberIds.has(entry.getId())) return false
+          seenChamberIds.add(entry.getId())
+          return true
+        })
+        .map((entry) => ({
+          // label: entry.getId() + ' - ' + entry.getName(),
+          label: entry.getId(),
+          value: entry.getId()
+        }))
+      chamberDeviceOptions.value.push({ label: 'All devices', value: '' })
+    }
+
+    if (measurement.raptData.length > 0) {
+      deviceTypeOptions.value.push({ label: 'Rapt', value: 4 })
+
+      const seenIds = new Set()
+      raptDeviceOptions.value = measurement.raptData
+        .filter((entry) => {
+          if (seenIds.has(entry.getId())) return false
+          seenIds.add(entry.getId())
+          return true
+        })
+        .map((entry) => ({
+          label: entry.getId(),
+          value: entry.getId()
+        }))
+      raptDeviceOptions.value.push({ label: 'All devices', value: '' })
+    }
+  } else {
+    global.errorMessage = 'Failed to fetch list of measurement files'
+  }
 })
 
 onBeforeUnmount(() => {})

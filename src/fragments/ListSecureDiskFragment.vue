@@ -50,7 +50,7 @@
 <script setup>
 import { ref } from 'vue'
 import { global, measurement } from '@/modules/pinia'
-import { isValidJson, isValidFormData, isValidMqttData } from '@/modules/utils'
+import { isValidJson, isValidFormData, isValidMqttData } from '@mp-se/espframework-ui-components'
 
 const filesystemUsage = ref(null)
 const filesystemUsageText = ref(null)

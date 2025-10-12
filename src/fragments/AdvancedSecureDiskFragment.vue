@@ -91,7 +91,7 @@
 <script setup>
 import { ref } from 'vue'
 import { global, measurement } from '@/modules/pinia'
-import { logDebug } from '@/modules/logger'
+import { logDebug } from '@mp-se/espframework-ui-components'
 
 const fileData = ref(null)
 const filesDelete = ref([])

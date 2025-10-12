@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-import { global } from '@/modules/pinia'
-import { logDebug, logError, logInfo } from '@/modules/logger'
+import { logDebug, logError, logInfo } from '@mp-se/espframework-ui-components'
+import { sharedHttpClient as http } from '@mp-se/espframework-ui-components'
 
 export const useStatusStore = defineStore('status', {
   state: () => {
@@ -35,63 +35,41 @@ export const useStatusStore = defineStore('status', {
   },
   getters: {},
   actions: {
-    load(callback) {
+    async load() {
       logInfo('statusStore.load()', 'Fetching /api/status')
-      fetch(global.baseURL + 'api/status', {
-        signal: AbortSignal.timeout(global.fetchTimout)
-      })
-        .then((res) => res.json())
-        .then((json) => {
-          logDebug('statusStore.load()', json)
-          this.id = json.id
-          this.rssi = json.rssi
-          this.mdns = json.mdns
-          this.wifi_ssid = json.wifi_ssid
-          this.ip = json.ip
-          this.total_heap = json.total_heap
-          this.free_heap = json.free_heap
-          this.wifi_setup = json.wifi_setup
+      try {
+        const json = await http.getJson('api/status')
+        logDebug('statusStore.load()', json)
 
-          this.gravity_device = json.gravity_device
-          this.pressure_device = json.pressure_device
-          this.temperature_device = json.temperature_device
+        this.id = json.id
+        this.rssi = json.rssi
+        this.mdns = json.mdns
+        this.wifi_ssid = json.wifi_ssid
+        this.ip = json.ip
+        this.total_heap = json.total_heap
+        this.free_heap = json.free_heap
+        this.wifi_setup = json.wifi_setup
 
-          this.uptime_seconds = json.uptime_seconds
-          this.uptime_minutes = json.uptime_minutes
-          this.uptime_hours = json.uptime_hours
-          this.uptime_days = json.uptime_days
+        this.gravity_device = json.gravity_device
+        this.pressure_device = json.pressure_device
+        this.temperature_device = json.temperature_device
 
-          this.sd_mounted = json.sd_mounted
+        this.uptime_seconds = json.uptime_seconds
+        this.uptime_minutes = json.uptime_minutes
+        this.uptime_hours = json.uptime_hours
+        this.uptime_days = json.uptime_days
 
-          this.total_heap = Math.round(this.total_heap / 1024).toFixed(0)
-          this.free_heap = Math.round(this.free_heap / 1024).toFixed(0)
+        this.sd_mounted = json.sd_mounted
 
-          logInfo('statusStore.load()', 'Fetching /api/status completed')
-          callback(true)
-        })
-        .catch((err) => {
-          logError('statusStore.load()', err)
-          callback(false)
-        })
-    },
-    auth(callback) {
-      logInfo('statusStore.auth()', 'Fetching /api/auth')
-      var base = btoa('gravitymon:password')
+        this.total_heap = Math.round(this.total_heap / 1024).toFixed(0)
+        this.free_heap = Math.round(this.free_heap / 1024).toFixed(0)
 
-      fetch(global.baseURL + 'api/auth', {
-        method: 'GET',
-        headers: { Authorization: 'Basic ' + base },
-        signal: AbortSignal.timeout(global.fetchTimout)
-      })
-        .then((res) => res.json())
-        .then((json) => {
-          logInfo('statusStore.auth()', 'Fetching /api/auth completed')
-          callback(true, json)
-        })
-        .catch((err) => {
-          logError('statusStore.auth()', err)
-          callback(false)
-        })
+        logInfo('statusStore.load()', 'Fetching /api/status completed')
+        return true
+      } catch (err) {
+        logError('statusStore.load()', err)
+        return false
+      }
     }
   }
 })

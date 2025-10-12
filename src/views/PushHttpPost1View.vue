@@ -183,8 +183,8 @@
 
 <script setup>
 import { ref } from 'vue'
+import { validateCurrentForm } from '@mp-se/espframework-ui-components'
 import {
-  validateCurrentForm,
   httpHeaderOptions,
   httpPostUrlOptions,
   gravityHttpPostFormatOptions,
@@ -195,22 +195,16 @@ import { global, status, config } from '@/modules/pinia'
 
 const render = ref('')
 
-const runTestGravity = () => {
-  const data = {
-    push_format: 'http_post_format_gravity'
-  }
-
+const runTestGravity = async () => {
+  const data = { push_format: 'http_post_format_gravity' }
   global.clearMessages()
-  config.runPushTest(data, () => {})
+  await config.runPushTest(data)
 }
 
-const runTestPressure = () => {
-  const data = {
-    push_format: 'http_post_format_pressure'
-  }
-
+const runTestPressure = async () => {
+  const data = { push_format: 'http_post_format_pressure' }
   global.clearMessages()
-  config.runPushTest(data, () => {})
+  await config.runPushTest(data)
 }
 
 const httpUrlCallback = (opt) => {

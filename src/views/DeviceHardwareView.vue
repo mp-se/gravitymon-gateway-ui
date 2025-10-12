@@ -97,9 +97,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import { validateCurrentForm, restart } from '@/modules/utils'
+import { validateCurrentForm } from '@mp-se/espframework-ui-components'
 import { global, config } from '@/modules/pinia'
-import BsSelect from '@/components/BsSelect.vue'
 
 const bleScanOptions = ref([
   { label: 'Active', value: true },
@@ -127,6 +126,10 @@ const timezoneOptions = ref([
   //{ label: '', value: "" },
   //{ label: '', value: "" },
 ])
+
+const restart = async () => {
+  await config.restart()
+}
 
 const save = () => {
   if (!validateCurrentForm()) return

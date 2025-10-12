@@ -12,7 +12,7 @@ import { onMounted, watch } from 'vue'
 import { Chart, registerables } from 'chart.js'
 import 'date-fns'
 import 'chartjs-adapter-date-fns'
-import { logDebug, logError } from '@/modules/logger'
+import { logDebug, logError } from '@mp-se/espframework-ui-components'
 
 var chart = null // Do not use ref for this, will cause stack overflow...
 

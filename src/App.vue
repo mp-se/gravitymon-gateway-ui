@@ -13,20 +13,27 @@
 
   <div v-if="!global.initialized" class="container text-center">
     <BsMessage
-      message="Initalizing GravityMon Gateway Web interface"
-      class="h2"
+      message="Initalizing Gravitymon Gateway Web interface"
       :dismissable="false"
       alert="info"
     ></BsMessage>
   </div>
 
-  <BsMenuBar v-if="global.initialized" :disabled="global.disabled" brand="Gateway" />
+  <BsMenuBar
+    v-if="global.initialized"
+    :disabled="global.disabled"
+    brand="Gravitymon-Gatway"
+    :menu-items="items"
+    :dark-mode="config.dark_mode"
+    :mdns="config.mdns"
+    :config-changed="global.configChanged"
+    @update:dark-mode="handleDarkModeUpdate"
+  />
 
   <div class="container">
     <div>
       <p></p>
     </div>
-
     <BsMessage
       v-if="global.isError"
       :close="close"
@@ -56,18 +63,21 @@
       alert="info"
     />
 
-    <BsMessage v-if="status.wifi_setup && global.initialized" :dismissable="false" alert="info">
+    <BsMessage v-if="status.wifi_setup" :dismissable="false" alert="info">
       Running in WIFI setup mode. Go to the
-      <router-link class="alert-link" to="/device/wifi">wifi settings</router-link> meny and select
-      wifi. Restart device after settings are selected.
+      <router-link class="alert-link" to="/device/wifi">wifi settings</router-link>
+      meny and select wifi. Restart device after wifi is configured.
     </BsMessage>
 
-    <BsMessage
-      v-if="!config.ble_active_scan && global.initialized"
-      :dismissable="true"
-      alert="warning"
-    >
-      Running BLE scanner in Passive mode will not detect Eddy Stone Beacons.
+    <BsMessage v-if="status.wifi_setup" :dismissable="false" alert="warning">
+      Sensors are not enabled when in wifi setup mode!
+    </BsMessage>
+
+    <BsMessage v-if="status.ispindel_config" :dismissable="true" alert="info">
+      iSpindel configuration found,
+      <router-link class="alert-link" to="/device/gyro">import</router-link>
+      formula/gyro or
+      <router-link class="alert-link" to="/other/support">delete</router-link> the configuration.
     </BsMessage>
   </div>
 
@@ -76,12 +86,12 @@
 </template>
 
 <script setup>
-import BsMenuBar from '@/components/BsMenuBar.vue'
-import BsFooter from '@/components/BsFooter.vue'
 import { onMounted, watch } from 'vue'
-import { global, status, config, saveConfigState } from '@/modules/pinia'
+import { global, status, config, saveConfigState } from './modules/pinia'
+import { sharedHttpClient as http } from '@mp-se/espframework-ui-components'
 import { storeToRefs } from 'pinia'
-
+import { logError, logInfo } from '@mp-se/espframework-ui-components'
+import { items } from './modules/router'
 const { disabled } = storeToRefs(global)
 
 const close = (alert) => {
@@ -96,53 +106,89 @@ watch(disabled, () => {
   else document.body.style.cursor = 'default'
 })
 
-onMounted(() => {
+onMounted(async () => {
   if (!global.initialized) {
-    showSpinner()
-    status.auth((success, data) => {
-      if (success) {
-        global.id = data.token
-
-        global.load((success) => {
-          if (success) {
-            status.load((success) => {
-              if (success) {
-                config.load((success) => {
-                  if (success) {
-                    config.loadFormat((success) => {
-                      if (success) {
-                        saveConfigState()
-                        global.initialized = true
-                      } else {
-                        global.messageError =
-                          'Failed to load format templates from device, please try to reload page!'
-                      }
-                      hideSpinner()
-                    })
-                  } else {
-                    global.messageError =
-                      'Failed to load configuration data from device, please try to reload page!'
-                    hideSpinner()
-                  }
-                })
-              } else {
-                global.messageError =
-                  'Failed to load status from device, please try to reload page!'
-                hideSpinner()
-              }
-            })
-          } else {
-            global.messageError =
-              'Failed to load feature flags from device, please try to reload page!'
-          }
-        })
-      } else {
-        global.messageError = 'Failed to authenticate with device, please try to reload page!'
-        hideSpinner()
-      }
-    })
+    await initializeApp()
   }
 })
+
+async function initializeApp() {
+  try {
+    showSpinner()
+
+    // Step 1: Authenticate with device (http client owns token)
+    const base = btoa('gateway:password')
+    const authOk = await http.auth(base)
+    if (!authOk) {
+      global.messageError = 'Failed to authenticate with device, please try to reload page!'
+      return
+    }
+
+    // Step 2: Load feature flags
+    const globalSuccess = await global.load()
+    if (!globalSuccess) {
+      global.messageError = 'Failed to load feature flags from device, please try to reload page!'
+      return
+    }
+
+    // Step 3: Load device status
+    const statusSuccess = await status.load()
+    if (!statusSuccess) {
+      global.messageError = 'Failed to load status from device, please try to reload page!'
+      return
+    }
+
+    // Step 4: Load configuration
+    const configSuccess = await config.load()
+    if (!configSuccess) {
+      global.messageError =
+        'Failed to load configuration data from device, please try to reload page!'
+      return
+    }
+
+    // Step 5: Load format templates
+    const formatSuccess = await config.loadFormat()
+    if (!formatSuccess) {
+      global.messageError =
+        'Failed to load format templates from device, please try to reload page!'
+      return
+    }
+
+    // Success! Initialize the app
+    saveConfigState()
+    handleDarkModeUpdate(config.dark_mode)
+    global.initialized = true
+  } catch (error) {
+    logError('App.initializeApp()', error)
+    global.messageError = `Initialization failed: ${error.message}`
+  } finally {
+    hideSpinner()
+  }
+}
+
+// Watch for changes to config.dark_mode and call handleDarkModeUpdate
+watch(
+  () => config.dark_mode,
+  (newValue) => {
+    handleDarkModeUpdate(newValue)
+  }
+)
+
+// Handle dark mode changes
+const handleDarkModeUpdate = (newValue) => {
+  logInfo('App.handleDarkModeUpdate()', 'Updating dark mode settings', newValue)
+
+  // update the store value
+  config.dark_mode = newValue
+  // fallback: ensure the attribute is set on the document root so Bootstrap theme rules apply
+  try {
+    const root = document.documentElement
+    if (newValue) root.setAttribute('data-bs-theme', 'dark')
+    else root.setAttribute('data-bs-theme', 'light')
+  } catch (e) {
+    logError('App.handleDarkModeUpdate()', 'Failed to set data-bs-theme on documentElement', e)
+  }
+}
 
 function showSpinner() {
   document.querySelector('#spinner').showModal()

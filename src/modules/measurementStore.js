@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { global, config } from '@/modules/pinia'
-import { logDebug, logError, logInfo } from '@/modules/logger'
-import { tempToF, psiToBar, psiToKPa, gravityToPlato } from '@/modules/utils'
+import { logDebug, logError, logInfo, sharedHttpClient as http, tempToF, psiToBar, psiToKPa, gravityToPlato } from '@mp-se/espframework-ui-components'
 
 // TODO: Convert to SG->Plato and C->F if needed
 
@@ -472,14 +471,12 @@ export const useMeasurementStore = defineStore('measurement', {
   },
   getters: {},
   actions: {
-    async fetchAllMeasurementFiles(callback) {
+    async fetchAllMeasurementFiles() {
       if (!this.files || this.files.length === 0) return
-      const fetchFile = (file) =>
-        new Promise((resolve) => {
-          this.fetchSecureDiskFile(file, (success, text) => {
-            resolve(success && text ? text : '')
-          })
-        })
+      const fetchFile = async (file) => {
+        const res = await this.fetchSecureDiskFile(file)
+        return res.success && res.text ? res.text : ''
+      }
       const fileContents = await Promise.all(this.files.map(fetchFile))
       const allLines = fileContents
         .map((content) => content.split(/\r?\n/).filter((line) => line.trim().length > 0))
@@ -526,73 +523,68 @@ export const useMeasurementStore = defineStore('measurement', {
       this.chamberData.sort((a, b) => getTime(a) - getTime(b))
       this.raptData.sort((a, b) => getTime(a) - getTime(b))
 
-      callback()
+      return
     },
-    updateMeasurementFiles(callback) {
+
+    async updateMeasurementFiles() {
       logInfo('measurementStore.updateMeasurementFiles()', 'Updating measurement files')
 
-      var data = {
-        command: 'dir'
-      }
+      const data = { command: 'dir' }
 
       this.files = []
 
-      this.sendSecureDiskRequest(data, (success, text) => {
-        if (success) {
-          var json = JSON.parse(text)
+      const res = await this.sendSecureDiskRequest(data)
+      if (res.success) {
+        try {
+          const json = JSON.parse(res.text)
           logInfo('measurementStore.updateMeasurementFiles()', json)
-
           for (const f of json.files) {
             if (f.file.endsWith('.csv') && f.file.startsWith('/data')) this.files.push(f.file)
           }
-
           logInfo('measurementStore.updateMeasurementFiles()', this.files)
-          callback(true)
-        } else {
-          logError('measurementStore.updateMeasurementFiles()', 'Failed to fetch measurement files')
-          callback(false)
+          return true
+        } catch (err) {
+          logError('measurementStore.updateMeasurementFiles()', 'Failed to parse response', err)
+          return false
         }
-      })
+      } else {
+        logError('measurementStore.updateMeasurementFiles()', 'Failed to fetch measurement files')
+        return false
+      }
     },
-    sendSecureDiskRequest(data, callback) {
+
+    async sendSecureDiskRequest(data) {
       global.disabled = true
       logInfo('dataStore.sendSecureDiskRequest()', 'Sending /api/sd')
-      fetch(global.baseURL + 'api/sd', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: global.token },
-        body: JSON.stringify(data),
-        signal: AbortSignal.timeout(global.fetchTimout)
-      })
-        .then((res) => res.text())
-        .then((text) => {
-          logDebug('dataStore.sendSecureDiskRequest()', text)
-          global.disabled = false
-          callback(true, text)
-        })
-        .catch((err) => {
-          logError('dataStore.sendSecureDiskRequest()', err)
-          global.disabled = false
-          callback(false, '')
-        })
+      try {
+        // Use postJson to send JSON payload and get the raw response
+        const resp = await http.postJson('api/sd', data)
+        // postJson returns a Response-like object; read text
+        const text = await resp.text()
+        logDebug('dataStore.sendSecureDiskRequest()', text)
+        global.disabled = false
+        return { success: true, text }
+      } catch (err) {
+        logError('dataStore.sendSecureDiskRequest()', err)
+        global.disabled = false
+        return { success: false, text: '' }
+      }
     },
-    fetchSecureDiskFile(fileName, callback) {
+
+    async fetchSecureDiskFile(fileName) {
       global.disabled = true
       logInfo('dataStore.fetchSecureDiskFile()', 'Fetching file from /sd')
-      fetch(global.baseURL + 'sd' + fileName, {
-        method: 'GET',
-        signal: AbortSignal.timeout(global.fetchTimout)
-      })
-        .then((res) => res.text())
-        .then((text) => {
-          logDebug('dataStore.fetchSecureDiskFile()', text)
-          global.disabled = false
-          callback(true, text)
-        })
-        .catch((err) => {
-          logError('dataStore.fetchSecureDiskFile()', err)
-          global.disabled = false
-          callback(false, '')
-        })
+      try {
+        const resp = await http.request('sd' + fileName, { method: 'GET' })
+        const text = await resp.text()
+        logDebug('dataStore.fetchSecureDiskFile()', text)
+        global.disabled = false
+        return { success: true, text }
+      } catch (err) {
+        logError('dataStore.fetchSecureDiskFile()', err)
+        global.disabled = false
+        return { success: false, text: '' }
+      }
     }
   }
 })
