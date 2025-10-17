@@ -126,7 +126,7 @@ import { ref } from 'vue'
 import { validateCurrentForm } from '@mp-se/espframework-ui-components'
 import { global, config } from '@/modules/pinia'
 import * as badge from '@/modules/badge'
-import { logError, logInfo } from '@mp-se/espframework-ui-components'
+import { logError, logInfo, sharedHttpClient as http } from '@mp-se/espframework-ui-components'
 
 const tempOptions = ref([
   { label: 'Celsius °C', value: 'C' },
@@ -149,31 +149,29 @@ const pressureOptions = ref([
   { label: 'Bar', value: 'Bar' }
 ])
 
-const factory = () => {
+const factory = async () => {
   global.clearMessages()
-  logInfo('DeviceSettingsView.factory()', 'Sending /api/calibrate')
+  logInfo('DeviceSettingsView.factory()', 'Sending /api/factory')
   global.disabled = true
-  fetch(global.baseURL + 'api/factory', {
-    headers: { Authorization: global.token },
-    signal: AbortSignal.timeout(global.fetchTimout)
-  })
-    .then((res) => res.json())
-    .then((json) => {
-      if (json.success == true) {
-        global.messageSuccess = json.message
-        setTimeout(() => {
-          location.reload(true)
-        }, 2000)
-      } else {
-        global.messageFailed = json.message
-        global.disabled = false
-      }
+  try {
+    const res = await http.request('api/factory', {
+      method: 'POST'
     })
-    .catch((err) => {
-      logError('DeviceSettingsView.factory()', err)
-      global.messageError = 'Failed to do factory restore'
+    const json = await res.json()
+    if (json.success == true) {
+      global.messageSuccess = json.message
+      setTimeout(() => {
+        location.reload(true)
+      }, 2000)
+    } else {
+      global.messageError = json.message
       global.disabled = false
-    })
+    }
+  } catch (err) {
+    logError('DeviceSettingsView.factory()', err)
+    global.messageError = 'Failed to do factory restore'
+    global.disabled = false
+  }
 }
 
 const restart = async () => {

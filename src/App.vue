@@ -72,13 +72,6 @@
     <BsMessage v-if="status.wifi_setup" :dismissable="false" alert="warning">
       Sensors are not enabled when in wifi setup mode!
     </BsMessage>
-
-    <BsMessage v-if="status.ispindel_config" :dismissable="true" alert="info">
-      iSpindel configuration found,
-      <router-link class="alert-link" to="/device/gyro">import</router-link>
-      formula/gyro or
-      <router-link class="alert-link" to="/other/support">delete</router-link> the configuration.
-    </BsMessage>
   </div>
 
   <router-view v-if="global.initialized" />
@@ -90,7 +83,7 @@ import { onMounted, watch } from 'vue'
 import { global, status, config, saveConfigState } from './modules/pinia'
 import { sharedHttpClient as http } from '@mp-se/espframework-ui-components'
 import { storeToRefs } from 'pinia'
-import { logError, logInfo } from '@mp-se/espframework-ui-components'
+import { logError, logInfo, version } from '@mp-se/espframework-ui-components'
 import { items } from './modules/router'
 const { disabled } = storeToRefs(global)
 
@@ -107,6 +100,8 @@ watch(disabled, () => {
 })
 
 onMounted(async () => {
+  logInfo('App.onMounted()', `Using espframework version ${version}`)
+
   if (!global.initialized) {
     await initializeApp()
   }

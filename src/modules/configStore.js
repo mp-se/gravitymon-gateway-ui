@@ -21,6 +21,7 @@ export const useConfigStore = defineStore('config', {
       // Wifi
       wifi_portal_timeout: 0,
       wifi_connect_timeout: 0,
+      use_wifi_direct: false,
       wifi_ssid: '',
       wifi_ssid2: '',
       wifi_pass: '',
@@ -80,6 +81,15 @@ export const useConfigStore = defineStore('config', {
     }
   },
   actions: {
+    isPsi() {
+      return this.pressure_unit === 'PSI'
+    },
+    isBar() {
+      return this.pressure_unit === 'Bar'
+    },
+    isKPa() {
+      return this.pressure_unit === 'kPa'
+    },
     toJson() {
       logInfo('configStore.toJSON()')
       const dest = {}
@@ -129,6 +139,7 @@ export const useConfigStore = defineStore('config', {
         // Wifi
         this.wifi_portal_timeout = json.wifi_portal_timeout
         this.wifi_connect_timeout = json.wifi_connect_timeout
+        this.use_wifi_direct = json.use_wifi_direct
         this.wifi_ssid = json.wifi_ssid
         this.wifi_ssid2 = json.wifi_ssid2
         this.wifi_pass = json.wifi_pass

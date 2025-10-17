@@ -23,14 +23,7 @@ export const useStatusStore = defineStore('status', {
       uptime_hours: 0,
       uptime_days: 0,
 
-      sd_enbled: false,
-
-      // Values that are not updated but needed for format template viewer
-      angle: 35,
-      gravity: 1.015,
-      pressure: 1.23,
-      temp: 20.1,
-      battery: 4.0
+      sd_enbled: false
     }
   },
   getters: {},

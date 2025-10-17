@@ -324,7 +324,7 @@ onBeforeMount(async () => {
       raptDeviceOptions.value.push({ label: 'All devices', value: '' })
     }
   } else {
-    global.errorMessage = 'Failed to fetch list of measurement files'
+    global.messageError = 'Failed to fetch list of measurement files'
   }
 })
 

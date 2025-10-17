@@ -187,30 +187,30 @@ export const pressureMqttFormatOptions = ref([
 export function applyTemplate(status, config, template) {
   var s = template
 
-  s = s.replaceAll('${temp}', status.temp)
+  s = s.replaceAll('${temp}', 22.4)
 
-  var c = status.temp
-  var f = status.temp
+  var c = 22.4
+  var f = 56.1
 
   if (config.temp_unit === 'C') {
-    f = tempToF(status.temp)
+    f = tempToF(22.4)
   } else {
-    c = tempToC(status.temp)
+    c = tempToC(22.4)
   }
 
   // TODO: Adjust the template values that are needed
 
   s = s.replaceAll('${temp-c}', c)
   s = s.replaceAll('${temp-f}', f)
-  s = s.replaceAll('${angle}', status.angle)
-  s = s.replaceAll('${tilt}', status.angle)
+  s = s.replaceAll('${angle}', 25)
+  s = s.replaceAll('${tilt}', 25)
   s = s.replaceAll('${app-ver}', global.app_ver)
   s = s.replaceAll('${app-build}', global.app_build)
   s = s.replaceAll('${rssi}', status.rssi)
-  s = s.replaceAll('${battery}', status.battery)
+  s = s.replaceAll('${battery}', 3.95)
 
   if (config.gravity_unit === 'G') {
-    var sg = status.gravity
+    var sg = 1.015
     s = s.replaceAll('${gravity}', sg)
     s = s.replaceAll('${gravity-sg}', sg)
     s = s.replaceAll('${corr-gravity}', sg)
@@ -219,7 +219,7 @@ export function applyTemplate(status, config, template) {
     s = s.replaceAll('${gravity-plato}', plato)
     s = s.replaceAll('${corr-gravity-plato}', sg)
   } else {
-    plato = status.gravity
+    plato = 1.10
     s = s.replaceAll('${gravity}', plato)
     s = s.replaceAll('${corr-gravity}', plato)
     s = s.replaceAll('${corr-gravity-plato}', plato)
@@ -240,11 +240,11 @@ export function applyTemplate(status, config, template) {
 
   s = s.replaceAll('${run-time}', 1)
 
-  var p = status.pressure
+  var p = 11.4
 
-  if (status.isKPa) {
+  if (config.isKPa) {
     p = kpaToPsi(p)
-  } else if (status.isBar) {
+  } else if (config.isBar) {
     p = barToPsi(p)
   }
 
@@ -258,20 +258,11 @@ export function applyTemplate(status, config, template) {
   s = s.replaceAll('${pressure1-bar}', psiToBar(p))
   s = s.replaceAll('${pressure1-kpa}', psiToKPa(p))
 
-  s = s.replaceAll('${app-ver}', global.app_ver)
-  s = s.replaceAll('${app-build}', global.app_build)
   s = s.replaceAll('${battery-percent}', 100)
-  s = s.replaceAll('${rssi}', status.rssi)
-  s = s.replaceAll('${run-time}', status.runtime_average)
-  s = s.replaceAll('${corr-gravity}', status.gravity)
-  s = s.replaceAll('${battery}', status.battery)
+  s = s.replaceAll('${run-time}', 1.2)
 
   s = s.replaceAll('${mdns}', config.mdns)
   s = s.replaceAll('${id}', config.id)
-  s = s.replaceAll('${sleep-interval}', config.sleep_interval)
-  s = s.replaceAll('${token}', config.token)
-  s = s.replaceAll('${token2}', config.token2)
-  s = s.replaceAll('${temp-unit}', config.temp_unit)
   s = s.replaceAll('${pressure-unit}', config.pressure_unit)
 
   try {
