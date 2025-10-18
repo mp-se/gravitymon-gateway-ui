@@ -170,8 +170,8 @@ function formatTemp(t) {
   return config.temp_unit === 'C' ? new Number(t).toFixed(2) : new Number(t).toFixed(1)
 }
 
-function refresh() {
-  status.load(() => {})
+async function refresh() {
+  await status.load()
 }
 
 onBeforeMount(() => {

@@ -235,9 +235,9 @@ const pressureRenderFormat = () => {
   render.value = applyTemplate(status, config, config.http_post_format_pressure)
 }
 
-const save = () => {
+const save = async () => {
   if (!validateCurrentForm()) return
 
-  config.saveAll()
+  await config.saveAll()
 }
 </script>

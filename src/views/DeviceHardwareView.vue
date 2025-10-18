@@ -131,10 +131,10 @@ const restart = async () => {
   await config.restart()
 }
 
-const save = () => {
+const save = async () => {
   if (!validateCurrentForm()) return
 
   global.clearMessages()
-  config.saveAll()
+  await config.saveAll()
 }
 </script>

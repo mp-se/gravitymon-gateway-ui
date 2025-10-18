@@ -240,9 +240,9 @@ const pressureRenderFormat = () => {
   render.value = s.replaceAll('&', '&')
 }
 
-const save = () => {
+const save = async () => {
   if (!validateCurrentForm()) return
 
-  config.saveAll()
+  await config.saveAll()
 }
 </script>
