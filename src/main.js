@@ -49,10 +49,8 @@ import {
 
 // Import local fragments (kept only if they provide local functionality not in the library)
 import AdvancedFilesFragment from '@/fragments/AdvancedFilesFragment.vue'
-import AdvancedSecureDiskFragment from '@/fragments/AdvancedSecureDiskFragment.vue'
 import EnableCorsFragment from '@/fragments/EnableCorsFragment.vue'
 import ListFilesFragment from '@/fragments/ListFilesFragment.vue'
-import ListSecureDiskFragment from '@/fragments/ListSecureDiskFragment.vue'
 import MeasurementGraphFragment from '@/fragments/MeasurementGraphFragment.vue'
 import MeasurementTableFragment from '@/fragments/MeasurementTableFragment.vue'
 import VoltageFragment from '@/fragments/VoltageFragment.vue'
@@ -100,10 +98,8 @@ app.component('IconInfoCircle', IconInfoCircle)
 
 // Register fragment components globally
 app.component('AdvancedFilesFragment', AdvancedFilesFragment)
-app.component('AdvancedSecureDiskFragment', AdvancedSecureDiskFragment)
 app.component('EnableCorsFragment', EnableCorsFragment)
 app.component('ListFilesFragment', ListFilesFragment)
-app.component('ListSecureDiskFragment', ListSecureDiskFragment)
 app.component('MeasurementGraphFragment', MeasurementGraphFragment)
 app.component('MeasurementTableFragment', MeasurementTableFragment)
 app.component('VoltageFragment', VoltageFragment)

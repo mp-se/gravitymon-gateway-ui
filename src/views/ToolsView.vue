@@ -14,12 +14,12 @@
     <hr />
 
     <template v-if="fileSystem == 0">
-      <ListFilesFragment></ListFilesFragment>
+      <ListFilesFragment type="fs"></ListFilesFragment>
       <div class="row gy-4">
         &nbsp;
         <hr />
       </div>
-      <AdvancedFilesFragment v-if="!hideAdvanced"></AdvancedFilesFragment>
+      <AdvancedFilesFragment v-if="!hideAdvanced" type="fs"></AdvancedFilesFragment>
 
       <div class="row gy-4" v-if="!hideAdvanced">
         &nbsp;
@@ -28,12 +28,12 @@
     </template>
 
     <template v-else>
-      <ListSecureCardFragment></ListSecureCardFragment>
+      <ListFilesFragment type="sd"></ListFilesFragment>
       <div class="row gy-4">
         &nbsp;
         <hr />
       </div>
-      <AdvancedSecureDiskFragment v-if="!hideAdvanced"></AdvancedSecureDiskFragment>
+      <AdvancedFilesFragment v-if="!hideAdvanced" type="sd"></AdvancedFilesFragment>
 
       <div class="row gy-4" v-if="!hideAdvanced">
         &nbsp;
@@ -69,8 +69,6 @@ import { ref } from 'vue'
 import { global, status } from '@/modules/pinia'
 import ListFilesFragment from '@/fragments/ListFilesFragment.vue'
 import AdvancedFilesFragment from '@/fragments/AdvancedFilesFragment.vue'
-import AdvancedSecureDiskFragment from '@/fragments/AdvancedSecureDiskFragment.vue'
-import ListSecureCardFragment from '@/fragments/ListSecureDiskFragment.vue'
 import EnableCorsFragment from '@/fragments/EnableCorsFragment.vue'
 
 const hideAdvanced = ref(true)
