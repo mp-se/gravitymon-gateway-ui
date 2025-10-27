@@ -11,17 +11,15 @@ import {
   gravityToPlato
 } from '@mp-se/espframework-ui-components'
 
-// TODO: Convert to SG->Plato and C->F if needed
-
 class TiltData {
-  constructor({ type, source, created, id, color, tempC, gravitySG, txPower, rssi }) {
+  constructor({ type, source, created, id, color, temp, gravity, txPower, rssi }) {
     this.type = type
     this.source = source
     this.created = new Date(created)
     this.id = id
     this.color = color
-    this.temp = config.temp_unit == 'C' ? tempC : tempToF(tempC)
-    this.gravity = config.gravity_unit == 'SG' ? gravitySG : gravityToPlato(gravitySG)
+    this.temp = config.temp_unit == 'C' ? temp : tempToF(temp)
+    this.gravity = config.gravity_unit == 'G' ? gravity : gravityToPlato(gravity)
     this.txPower = txPower
     this.rssi = rssi
     this.isPro = type === 'Tilt Pro'
@@ -85,8 +83,8 @@ class TiltData {
       created: parts[3], // Will be parsed to Date in constructor
       id: parts[4],
       color: parts[5],
-      tempC: parseFloat(parts[6]),
-      gravitySG: parseFloat(parts[7]),
+      temp: parseFloat(parts[6]),
+      gravity: parseFloat(parts[7]),
       txPower: parseInt(parts[8], 10),
       rssi: parseInt(parts[9], 10)
     })
@@ -101,9 +99,9 @@ class PressureData {
     id,
     name,
     token,
-    tempC,
-    pressurePsi,
-    pressurePsi1,
+    temp,
+    pressure,
+    pressure1,
     battery,
     txPower,
     rssi,
@@ -115,20 +113,19 @@ class PressureData {
     this.id = id
     this.name = name
     this.token = token
-    this.temp = tempC
-    this.temp = config.temp_unit == 'C' ? tempC : tempToF(tempC)
+    this.temp = config.temp_unit == 'C' ? temp : tempToF(temp)
     this.pressure =
       config.pressure_unit == 'PSI'
-        ? pressurePsi
+        ? pressure
         : config.pressure_unit == 'Bar'
-          ? psiToBar(pressurePsi)
-          : psiToKPa(pressurePsi)
+          ? psiToBar(pressure)
+          : psiToKPa(pressure)
     this.pressure1 =
       config.pressure_unit == 'PSI'
-        ? pressurePsi1
+        ? pressure1
         : config.pressure_unit == 'Bar'
-          ? psiToBar(pressurePsi1)
-          : psiToKPa(pressurePsi1)
+          ? psiToBar(pressure1)
+          : psiToKPa(pressure1)
     this.battery = battery
     this.txPower = txPower
     this.rssi = rssi
@@ -202,9 +199,9 @@ class PressureData {
       id: parts[4],
       name: parts[5],
       token: parts[6],
-      tempC: parseFloat(parts[7]),
-      pressurePsi: parseFloat(parts[8]),
-      pressurePsi1: parseFloat(parts[9]),
+      temp: parseFloat(parts[7]),
+      pressure: parseFloat(parts[8]),
+      pressure1: parseFloat(parts[9]),
       battery: parseFloat(parts[10]),
       txPower: parseInt(parts[11], 10),
       rssi: parseInt(parts[12], 10),
@@ -221,8 +218,8 @@ class GravityData {
     id,
     name,
     token,
-    tempC,
-    gravitySG,
+    temp,
+    gravity,
     angle,
     battery,
     txPower,
@@ -235,8 +232,8 @@ class GravityData {
     this.id = id
     this.name = name
     this.token = token
-    this.temp = config.temp_unit == 'C' ? tempC : tempToF(tempC)
-    this.gravity = config.gravity_unit == 'SG' ? gravitySG : gravityToPlato(gravitySG)
+    this.temp = config.temp_unit == 'C' ? temp : tempToF(temp)
+    this.gravity = config.gravity_unit == 'G' ? gravity : gravityToPlato(gravity)
     this.angle = angle
     this.battery = battery
     this.txPower = txPower
@@ -311,8 +308,8 @@ class GravityData {
       id: parts[4],
       name: parts[5],
       token: parts[6],
-      tempC: parseFloat(parts[7]),
-      gravitySG: parseFloat(parts[8]),
+      temp: parseFloat(parts[7]),
+      gravity: parseFloat(parts[8]),
       angle: parseFloat(parts[9]),
       battery: parseFloat(parts[10]),
       txPower: parseInt(parts[11], 10),
@@ -323,13 +320,13 @@ class GravityData {
 }
 
 class RaptData {
-  constructor({ type, source, created, id, tempC, gravitySG, angle, battery, txPower, rssi }) {
+  constructor({ type, source, created, id, temp, gravity, angle, battery, txPower, rssi }) {
     this.type = type
     this.source = source
     this.created = new Date(created)
     this.id = id
-    this.temp = config.temp_unit == 'C' ? tempC : tempToF(tempC)
-    this.gravity = config.gravity_unit == 'SG' ? gravitySG : gravityToPlato(gravitySG)
+    this.temp = config.temp_unit == 'C' ? temp : tempToF(temp)
+    this.gravity = config.gravity_unit == 'G' ? gravity : gravityToPlato(gravity)
     this.angle = angle
     this.battery = battery
     this.txPower = txPower
@@ -392,8 +389,8 @@ class RaptData {
       source: parts[2],
       created: parts[3],
       id: parts[4],
-      tempC: parseFloat(parts[5]),
-      gravitySG: parseFloat(parts[6]),
+      temp: parseFloat(parts[5]),
+      gravity: parseFloat(parts[6]),
       angle: parseFloat(parts[7]),
       battery: parseFloat(parts[8]),
       txPower: parseInt(parts[9], 10),
@@ -403,13 +400,13 @@ class RaptData {
 }
 
 class ChamberData {
-  constructor({ type, source, created, id, chamberTempC, beerTempC, rssi }) {
+  constructor({ type, source, created, id, chamberTemp, beerTemp, rssi }) {
     this.type = type
     this.source = source
     this.created = new Date(created)
     this.id = id
-    this.chamberTemp = config.temp_unit == 'C' ? chamberTempC : tempToF(chamberTempC)
-    this.beerTemp = config.temp_unit == 'C' ? beerTempC : tempToF(beerTempC)
+    this.chamberTemp = config.temp_unit == 'C' ? chamberTemp : tempToF(chamberTemp)
+    this.beerTemp = config.temp_unit == 'C' ? beerTemp : tempToF(beerTemp)
     this.rssi = rssi
   }
 
@@ -460,8 +457,8 @@ class ChamberData {
       source: parts[2],
       created: parts[3],
       id: parts[4],
-      chamberTempC: parseFloat(parts[5]),
-      beerTempC: parseFloat(parts[6]),
+      chamberTemp: parseFloat(parts[5]),
+      beerTemp: parseFloat(parts[6]),
       rssi: parseInt(parts[7], 10)
     })
   }
