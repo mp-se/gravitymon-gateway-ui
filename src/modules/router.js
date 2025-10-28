@@ -9,6 +9,7 @@ import DeviceSettingsView from '@/views/DeviceSettingsView.vue'
 import DeviceHardwareView from '@/views/DeviceHardwareView.vue'
 import DeviceWifiView from '@/views/DeviceWifiView.vue'
 import DeviceWifi2View from '@/views/DeviceWifi2View.vue'
+import DeviceWifiApView from '@/views/DeviceWifiApView.vue'
 import PushSettingsView from '@/views/PushSettingsView.vue'
 import PushHttpPost1View from '@/views/PushHttpPost1View.vue'
 import PushHttpPost2View from '@/views/PushHttpPost2View.vue'
@@ -48,6 +49,11 @@ const routes = [
     path: '/device/wifi2',
     name: 'device-wifi2',
     component: DeviceWifi2View
+  },
+  {
+    path: '/device/wifi-ap',
+    name: 'device-wifi-ap',
+    component: DeviceWifiApView
   },
   {
     path: '/data',
@@ -154,6 +160,10 @@ const items = ref([
         label: 'Hardware',
         badge: badge.deviceHardwareBadge,
         path: '/device/hardware'
+      },
+      {
+        label: 'Wifi AP',
+        path: '/device/wifi-ap'
       },
       {
         label: 'Wifi',
