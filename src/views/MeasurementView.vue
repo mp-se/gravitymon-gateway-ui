@@ -231,6 +231,12 @@ const chamberColumns = ref([
 ])
 
 onBeforeMount(async () => {
+
+  if(!status.sd_mounted) {
+    logDebug('MeasurementView.onBeforeMount()', 'No SD card present, skipping data load')
+    return
+  }
+
   const success = await measurement.updateMeasurementFiles()
   if (success) {
     logDebug('MeasurementView.onBeforeMount()')
