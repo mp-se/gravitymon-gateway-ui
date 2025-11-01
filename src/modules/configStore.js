@@ -251,7 +251,6 @@ export const useConfigStore = defineStore('config', {
       if (JSON.stringify(data).length == 2) {
         logInfo('configStore.sendConfig()', 'No config data to store, skipping step')
         global.disabled = false
-        this.convertTemp()
         return true
       }
 
