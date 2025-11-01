@@ -7,7 +7,7 @@
 export var configData = {
   // Device configuration
   id: "7376ef",
-  mdns: "gravmon3",
+  mdns: "gateway",
   temp_unit: "C",
   gravity_unit: "G",
   pressure_unit: "PSI",
@@ -81,7 +81,7 @@ export var statusData = {
   id: "7376ef",
   angle: 22.4,
   rssi: -56,
-  mdns: "gravmon",
+  mdns: "gateway",
   wifi_ssid: "wifi",
   total_heap: 1000,
   free_heap: 500,
