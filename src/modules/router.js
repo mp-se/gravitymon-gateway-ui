@@ -19,6 +19,7 @@ import PushMqttView from '@/views/PushMqttView.vue'
 import AboutView from '@/views/AboutView.vue'
 import FirmwareView from '@/views/FirmwareView.vue'
 import SupportView from '@/views/SupportView.vue'
+import BackupView from '@/views/BackupView.vue'
 import SerialView from '@/views/SerialView.vue'
 import ToolsView from '@/views/ToolsView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
@@ -99,6 +100,11 @@ const routes = [
     path: '/other/support',
     name: 'support',
     component: SupportView
+  },
+  {
+    path: '/other/backup',
+    name: 'backup',
+    component: BackupView
   },
   {
     path: '/other/tools',
@@ -224,6 +230,10 @@ const items = ref([
       {
         label: 'Serial console',
         path: '/other/serial'
+      },
+      {
+        label: 'Backup & Restore',
+        path: '/other/backup'
       },
       {
         label: 'Firmware update',
