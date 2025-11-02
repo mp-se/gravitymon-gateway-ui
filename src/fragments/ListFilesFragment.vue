@@ -43,7 +43,7 @@
 
   <div v-if="fileData !== null" class="col-md-12">
     <h6>
-      File contents{{ dataType ? ', format: ' + dataType : '' }}, size {{ fileData.length }} bytes
+      File contents{{ dataType ? ', format: ' + dataType : '' }}, size {{ fileDataSize }} bytes
     </h6>
     <pre class="border p-2" v-html="fileData"></pre>
   </div>
@@ -70,6 +70,7 @@ const filesystemUsage = ref(null)
 const filesystemUsageText = ref(null)
 const filesView = ref([])
 const fileData = ref(null)
+const fileDataSize = ref(0)
 const dataType = ref('')
 
 // Computed properties for dynamic defaults based on type
@@ -262,6 +263,7 @@ const viewFile = async (f) => {
 
     if (res && res.success) {
       const text = res.text
+      fileDataSize.value = text.length // Use the raw text length for size
 
       if (isValidJson(text)) {
         fileData.value = colorizeJson(JSON.parse(text))
