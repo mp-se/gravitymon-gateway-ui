@@ -503,19 +503,19 @@ export const useMeasurementStore = defineStore('measurement', {
         if (!line.trim()) continue
         if (TiltData.isTiltDataCsv(line)) {
           const obj = TiltData.fromCsvLine(line)
-          if (obj) this.tiltData.push(obj)
+          if (obj && this.isValidDate(obj)) this.tiltData.push(obj)
         } else if (GravityData.isGravityDataCsv(line)) {
           const obj = GravityData.fromCsvLine(line)
-          if (obj) this.gravitymonData.push(obj)
+          if (obj && this.isValidDate(obj)) this.gravitymonData.push(obj)
         } else if (PressureData.isPressureDataCsv(line)) {
           const obj = PressureData.fromCsvLine(line)
-          if (obj) this.pressuremonData.push(obj)
+          if (obj && this.isValidDate(obj)) this.pressuremonData.push(obj)
         } else if (ChamberData.isChamberDataCsv(line)) {
           const obj = ChamberData.fromCsvLine(line)
-          if (obj) this.chamberData.push(obj)
+          if (obj && this.isValidDate(obj)) this.chamberData.push(obj)
         } else if (RaptData.isRaptDataCsv(line)) {
           const obj = RaptData.fromCsvLine(line)
-          if (obj) this.raptData.push(obj)
+          if (obj && this.isValidDate(obj)) this.raptData.push(obj)
         } else {
           logError('parseMeasurementFileLines', 'Unknown CSV line type', line)
         }
@@ -533,6 +533,13 @@ export const useMeasurementStore = defineStore('measurement', {
       this.raptData.sort((a, b) => getTime(a) - getTime(b))
 
       return
+    },
+
+    // Helper function to validate date - only accept data from 2025 onwards
+    isValidDate(obj) {
+      if (!obj || !obj.getCreated()) return false
+      const date = obj.getCreated() instanceof Date ? obj.getCreated() : new Date(obj.getCreated())
+      return date.getFullYear() >= 2025
     },
 
     async updateMeasurementFiles() {
