@@ -180,12 +180,10 @@ const raptDeviceOptions = ref([])
 const gravitymonColumns = ref([
   { key: 'id', label: 'ID', method: 'getId' },
   { key: 'name', label: 'Name', method: 'getName' },
-  { key: 'token', label: 'Token', method: 'getToken' },
   { key: 'temp', label: 'Temp', method: 'getTemp', format: 'temperature' },
   { key: 'gravity', label: 'Gravity', method: 'getGravity' },
   { key: 'angle', label: 'Angle', method: 'getAngle' },
   { key: 'battery', label: 'Battery', method: 'getBattery', format: 'voltage' },
-  { key: 'txPower', label: 'Tx Power', method: 'getTxPower' },
   { key: 'rssi', label: 'RSSI', method: 'getRssi' },
   { key: 'interval', label: 'Interval', method: 'getInterval', format: 'seconds' }
 ])
@@ -201,7 +199,6 @@ const raptColumns = ref([
 ])
 
 const tiltColumns = ref([
-  // { key: 'id', label: 'ID', method: 'getId' },
   { key: 'color', label: 'Color', method: 'getColor' },
   { key: 'temp', label: 'Temp', method: 'getTemp', format: 'temperature' },
   { key: 'gravity', label: 'Gravity', method: 'getGravity' },
@@ -218,7 +215,6 @@ const pressuremonColumns = ref([
   { key: 'pressure', label: 'Pressure', method: 'getPressure' },
   { key: 'pressure1', label: 'Pressure1', method: 'getPressure1' },
   { key: 'battery', label: 'Battery', method: 'getBattery', format: 'voltage' },
-  { key: 'txPower', label: 'Tx Power', method: 'getTxPower' },
   { key: 'rssi', label: 'RSSI', method: 'getRssi' },
   { key: 'interval', label: 'Interval', method: 'getInterval', format: 'seconds' }
 ])
@@ -226,8 +222,7 @@ const pressuremonColumns = ref([
 const chamberColumns = ref([
   { key: 'id', label: 'ID', method: 'getId' },
   { key: 'chamberTemp', label: 'Chamber Temp', method: 'getChamberTemp', format: 'temperature' },
-  { key: 'beerTemp', label: 'Beer Temp', method: 'getBeerTemp', format: 'temperature' },
-  { key: 'rssi', label: 'RSSI', method: 'getRssi' }
+  { key: 'beerTemp', label: 'Beer Temp', method: 'getBeerTemp', format: 'temperature' }
 ])
 
 onBeforeMount(async () => {
