@@ -24,6 +24,7 @@ import SerialView from '@/views/SerialView.vue'
 import ToolsView from '@/views/ToolsView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import MeasurementView from '@/views/MeasurementView.vue'
+import MeasurementSettingsView from '@/views/MeasurementSettingsView.vue'
 
 const routes = [
   {
@@ -57,9 +58,14 @@ const routes = [
     component: DeviceWifiApView
   },
   {
-    path: '/data',
-    name: 'measurement',
+    path: '/data/view',
+    name: 'measurement-view',
     component: MeasurementView
+  },
+  {
+    path: '/data/settings',
+    name: 'measurement-settings',
+    component: MeasurementSettingsView
   },
   {
     path: '/other/firmware',
@@ -182,7 +188,16 @@ const items = ref([
     label: 'Measurements',
     icon: 'IconData',
     path: '/data',
-    subs: []
+    subs: [
+      {
+        label: 'Settings',
+        path: '/data/settings'
+      },
+      {
+        label: 'View',
+        path: '/data/view'
+      }
+    ]
   },
   {
     label: 'Push targets',

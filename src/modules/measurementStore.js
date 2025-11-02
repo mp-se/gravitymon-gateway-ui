@@ -479,6 +479,9 @@ export const useMeasurementStore = defineStore('measurement', {
   actions: {
     async fetchAllMeasurementFiles() {
       if (!this.files || this.files.length === 0) return
+
+      logInfo('measurementStore.fetchAllMeasurementFiles()', 'Fetching from', this.files)
+
       const fetchFile = async (file) => {
         const res = await this.fetchSecureDiskFile(file)
         return res.success && res.text ? res.text : ''
@@ -488,7 +491,7 @@ export const useMeasurementStore = defineStore('measurement', {
         .map((content) => content.split(/\r?\n/).filter((line) => line.trim().length > 0))
         .flat()
 
-      logInfo('measurementStore.fetchAllMeasurementFiles()', allLines)
+      // logInfo('measurementStore.fetchAllMeasurementFiles()', allLines)
 
       this.tiltData = []
       this.gravitymonData = []
@@ -533,7 +536,11 @@ export const useMeasurementStore = defineStore('measurement', {
     },
 
     async updateMeasurementFiles() {
-      logInfo('measurementStore.updateMeasurementFiles()', 'Updating measurement files')
+      logInfo(
+        'measurementStore.updateMeasurementFiles()',
+        'Updating measurement files, limit',
+        config.sd_log_files
+      )
 
       const data = { command: 'dir' }
 
@@ -545,7 +552,16 @@ export const useMeasurementStore = defineStore('measurement', {
           const json = JSON.parse(res.text)
           logInfo('measurementStore.updateMeasurementFiles()', json)
           for (const f of json.files) {
-            if (f.file.endsWith('.csv') && f.file.startsWith('/data')) this.files.push(f.file)
+            if (f.file.endsWith('.csv') && f.file.startsWith('/data')) {
+              // Extract the number after '/data' (e.g., '/data.csv' -> 0, '/data1.csv' -> 1)
+              const fileName = f.file.replace('/data', '').replace('.csv', '')
+              const fileNumber = fileName === '' ? 0 : parseInt(fileName, 10)
+
+              // Only include files where the number is < config.sd_log_files
+              if (fileNumber < config.sd_log_files) {
+                this.files.push(f.file)
+              }
+            }
           }
           logInfo('measurementStore.updateMeasurementFiles()', this.files)
           return true
@@ -583,7 +599,7 @@ export const useMeasurementStore = defineStore('measurement', {
       try {
         const resp = await http.request('sd' + fileName, { method: 'GET' })
         const text = await resp.text()
-        logDebug('dataStore.fetchSecureDiskFile()', text)
+        // logDebug('dataStore.fetchSecureDiskFile()', text)
         global.disabled = false
         return { success: true, text }
       } catch (err) {

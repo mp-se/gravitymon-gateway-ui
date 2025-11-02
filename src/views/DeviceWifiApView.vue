@@ -6,7 +6,6 @@
 
     <form @submit.prevent="save" class="needs-validation" novalidate>
       <div class="row">
-
         <div class="col-md-12">
           <p>
             Wifi Direct allows a device to directly connect with the gateway and bypass the access
@@ -47,7 +46,6 @@
             &nbsp;Generate
           </button>
         </div>
-
       </div>
 
       <div class="row gy-2">
@@ -106,8 +104,7 @@ const save = () => {
   if (!validateCurrentForm()) return
 
   config.saveAll()
-  global.messageInfo =
-    'If WIFI settings are changed, restart the device so they can take effect!'
+  global.messageInfo = 'If WIFI settings are changed, restart the device so they can take effect!'
 }
 
 const restart = async () => {

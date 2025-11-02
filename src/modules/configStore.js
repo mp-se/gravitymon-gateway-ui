@@ -18,6 +18,8 @@ export const useConfigStore = defineStore('config', {
       ble_active_scan: false,
       ble_scan_time: 5,
       timezone: '',
+      // Logging
+      sd_log_files: 4,
       // Wifi
       wifi_portal_timeout: 0,
       wifi_connect_timeout: 0,
@@ -136,6 +138,8 @@ export const useConfigStore = defineStore('config', {
         this.ble_active_scan = json.ble_active_scan
         this.ble_scan_time = json.ble_scan_time
         this.timezone = json.timezone
+        // Logging
+        this.sd_log_files = json.sd_log_files
         // Wifi
         this.wifi_portal_timeout = json.wifi_portal_timeout
         this.wifi_connect_timeout = json.wifi_connect_timeout

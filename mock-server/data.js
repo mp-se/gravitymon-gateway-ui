@@ -17,6 +17,8 @@ export var configData = {
   ble_active_scan: false,
   ble_scan_time: 5,
   timezone: "CET-1CEST,M3.5.0,M10.5.0/3",
+  // Logging
+  sd_log_files: 4,
   // Wifi
   wifi_portal_timeout: 120,
   wifi_connect_timeout: 20,

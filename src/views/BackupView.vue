@@ -118,7 +118,9 @@ function backup() {
   backup.config.http_post2_format_pressure = encodeURIComponent(
     backup.config.http_post2_format_pressure
   )
-  backup.config.http_get_format_pressure = encodeURIComponent(backup.config.http_get_format_pressure)
+  backup.config.http_get_format_pressure = encodeURIComponent(
+    backup.config.http_get_format_pressure
+  )
   backup.config.influxdb2_format_pressure = encodeURIComponent(
     backup.config.influxdb2_format_pressure
   )
@@ -154,10 +156,7 @@ async function restore() {
     let text = e.target.result
     try {
       const data = JSON.parse(text)
-      if (
-        data.meta.software === 'Gravitymon-Gateway' &&
-        (data.meta.version === '0.8')
-      ) {
+      if (data.meta.software === 'Gravitymon-Gateway' && data.meta.version === '0.8') {
         await doRestore(data.config)
       } else {
         global.messageError = 'Unknown format, unable to process'
@@ -199,7 +198,6 @@ function download(content, mimeType, filename) {
 
 async function doRestore(json) {
   for (const k in json) {
-
     if (k.endsWith('_format_gravity')) {
       config[k] = decodeURIComponent(json[k])
     } else {

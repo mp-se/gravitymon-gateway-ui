@@ -219,7 +219,7 @@ export function applyTemplate(status, config, template) {
     s = s.replaceAll('${gravity-plato}', plato)
     s = s.replaceAll('${corr-gravity-plato}', sg)
   } else {
-    plato = 1.10
+    plato = 1.1
     s = s.replaceAll('${gravity}', plato)
     s = s.replaceAll('${corr-gravity}', plato)
     s = s.replaceAll('${corr-gravity-plato}', plato)
