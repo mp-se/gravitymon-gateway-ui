@@ -16,7 +16,7 @@
             step="1"
             width="5"
             help="Max number of log files to keep on the SD card, each file is 16kb in size"
-            :disabled="global.disabled"
+            :disabled="global.disabled || !global.feature.sd"
           ></BsInputNumber>
         </div>
       </div>
