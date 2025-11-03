@@ -19,6 +19,7 @@ export var configData = {
   timezone: "CET-1CEST,M3.5.0,M10.5.0/3",
   // Logging
   sd_log_files: 4,
+  sd_log_min_time: 5, // Minutes
   // Wifi
   wifi_portal_timeout: 120,
   wifi_connect_timeout: 20,

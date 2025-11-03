@@ -20,6 +20,7 @@ export const useConfigStore = defineStore('config', {
       timezone: '',
       // Logging
       sd_log_files: 4,
+      sd_log_min_time: 5,
       // Wifi
       wifi_portal_timeout: 0,
       wifi_connect_timeout: 0,
@@ -140,6 +141,7 @@ export const useConfigStore = defineStore('config', {
         this.timezone = json.timezone
         // Logging
         this.sd_log_files = json.sd_log_files
+        this.sd_log_min_time = json.sd_log_min_time
         // Wifi
         this.wifi_portal_timeout = json.wifi_portal_timeout
         this.wifi_connect_timeout = json.wifi_connect_timeout

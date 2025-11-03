@@ -6,18 +6,38 @@
 
     <form @submit.prevent="saveSettings" class="needs-validation" novalidate>
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
           <BsInputNumber
             v-model="config.sd_log_files"
-            unit=""
-            label="Number of sd card log files"
+            label="Max number of log files on SD card"
             min="2"
             max="100"
             step="1"
             width="5"
-            help="Max number of log files to keep on the SD card, each file is 16kb in size"
+            help="Max number of log files to keep on the SD card"
             :disabled="global.disabled || !global.feature.sd"
           ></BsInputNumber>
+        </div>
+        <div class="col-md-4">
+          <BsInputNumber
+            v-model="fixedSize"
+            unit="kb"
+            label="Size of each log file on SD card"
+            step="1"
+            width="5"
+            help="Size of each logfile on the SD card"
+            :disabled="true"
+          ></BsInputNumber>
+        </div>
+        <div class="col-md-4">
+          <BsSelect
+            v-model="config.sd_log_min_time"
+            :options="timeOptions"
+            label="Minimum time between logs to SD card (BLE)"
+            width="5"
+            help="Minimum time to log BLE data to sd card per device."
+            :disabled="global.disabled || !global.feature.sd"
+          ></BsSelect>
         </div>
       </div>
 
@@ -46,8 +66,22 @@
 </template>
 
 <script setup>
-import { validateCurrentForm } from '@mp-se/espframework-ui-components'
+import { ref } from 'vue'
+import { BsSelect, validateCurrentForm } from '@mp-se/espframework-ui-components'
 import { global, config } from '@/modules/pinia'
+
+const fixedSize = ref(16)
+
+const timeOptions = ref([
+  { label: '1 min', value: 1 },
+  { label: '3 min', value: 3 },
+  { label: '5 min', value: 5 },
+  { label: '10 min', value: 10 },
+  { label: '15 min', value: 15 },
+  { label: '30 min', value: 30 },
+  { label: '45 min', value: 45 },
+  { label: '60 min', value: 60 },
+])
 
 const saveSettings = async () => {
   if (!validateCurrentForm()) return
