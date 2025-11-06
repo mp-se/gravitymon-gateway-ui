@@ -134,7 +134,7 @@
 <script setup>
 import { global, status, config } from '@/modules/pinia'
 import { ref, onBeforeMount, onBeforeUnmount } from 'vue'
-import { psiToBar, psiToKPa } from '@mp-se/espframework-ui-components'
+import { psiToBar, psiToKPa, tempToF, gravityToPlato } from '@mp-se/espframework-ui-components'
 
 const polling = ref(null)
 
@@ -155,7 +155,7 @@ function formatTime(t) {
 }
 
 function formatGravity(g) {
-  return config.gravity_unit === 'G' ? new Number(g).toFixed(3) : new Number(g).toFixed(1)
+  return config.gravity_unit === 'G' ? new Number(g).toFixed(3) : gravityToPlato(new Number(g).toFixed(1))
 }
 
 function formatPressure(p) {
@@ -167,7 +167,7 @@ function formatPressure(p) {
 }
 
 function formatTemp(t) {
-  return config.temp_unit === 'C' ? new Number(t).toFixed(2) : new Number(t).toFixed(1)
+  return config.temp_unit === 'C' ? new Number(t).toFixed(2) : tempToF(new Number(t).toFixed(1))
 }
 
 async function refresh() {
