@@ -20,6 +20,7 @@ export var configData = {
   // Logging
   sd_log_files: 4,
   sd_log_min_time: 5, // Minutes
+  display_layout_id: 0,
   // Wifi
   wifi_portal_timeout: 120,
   wifi_connect_timeout: 20,

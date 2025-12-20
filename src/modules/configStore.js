@@ -21,6 +21,7 @@ export const useConfigStore = defineStore('config', {
       // Logging
       sd_log_files: 4,
       sd_log_min_time: 5,
+      display_layout_id: 0,
       // Wifi
       wifi_portal_timeout: 0,
       wifi_connect_timeout: 0,
@@ -142,6 +143,7 @@ export const useConfigStore = defineStore('config', {
         // Logging
         this.sd_log_files = json.sd_log_files
         this.sd_log_min_time = json.sd_log_min_time
+        this.display_layout_id = json.display_layout_id
         // Wifi
         this.wifi_portal_timeout = json.wifi_portal_timeout
         this.wifi_connect_timeout = json.wifi_connect_timeout

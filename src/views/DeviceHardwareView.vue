@@ -6,7 +6,7 @@
 
     <form @submit.prevent="save" class="needs-validation" novalidate>
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
           <BsInputSwitch
             v-model="config.ble_enable"
             label="Enable Bluetooth"
@@ -14,7 +14,7 @@
             :disabled="global.disabled"
           ></BsInputSwitch>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
           <BsInputRadio
             v-model="config.ble_active_scan"
             :options="bleScanOptions"
@@ -23,7 +23,7 @@
             :disabled="global.disabled || !config.ble_enable"
           ></BsInputRadio>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
           <BsInputNumber
             v-model="config.ble_scan_time"
             unit="s"
@@ -32,16 +32,6 @@
             :disabled="global.disabled || !config.ble_enable"
           ></BsInputNumber>
         </div>
-        <div class="col-md-3">
-          <BsSelect
-            v-model="config.timezone"
-            :options="timezoneOptions"
-            label="Timezone"
-            width=""
-            :disabled="global.disabled"
-          ></BsSelect>
-        </div>
-
         <div class="col-md-12">
           <p>&nbsp;</p>
           <p class="fw-normal">Enable/Disable bluetooth requires a restart of the device.</p>
@@ -55,6 +45,31 @@
           </p>
           <p class="fw-normal">If you want to use the Tilt options I recommend TiltBridge!</p>
         </div>
+
+        <div class="col-md-12">
+          <hr />
+        </div>
+
+        <div class="col-md-4">
+          <BsSelect
+            v-model="config.timezone"
+            :options="timezoneOptions"
+            label="Timezone"
+            width=""
+            :disabled="global.disabled"
+          ></BsSelect>
+        </div>
+
+        <div class="col-md-4">
+          <BsSelect
+            v-model="config.display_layout_id"
+            :options="displayLayoutOptions"
+            label="Display Layout"
+            width=""
+            :disabled="global.disabled"
+          ></BsSelect>
+        </div>
+
       </div>
       <div class="row gy-2">
         <div class="col-md-12">
@@ -103,6 +118,11 @@ import { global, config } from '@/modules/pinia'
 const bleScanOptions = ref([
   { label: 'Active', value: true },
   { label: 'Passive', value: false }
+])
+
+const displayLayoutOptions = ref([
+  { label: 'Overview', value: 0 },
+  { label: 'Device focused', value: 1 }
 ])
 
 // List of timezones, https://github.com/nayarsystems/posix_tz_db/blob/master/zones.csv
