@@ -74,6 +74,21 @@
             :hidden="!global.disabled"
           ></span>
           &nbsp;Erase device logs
+        </button>&nbsp;
+
+        <button
+          @click="fetchMdns"
+          type="button"
+          class="btn btn-secondary"
+          :disabled="global.disabled"
+        >
+          <span
+            class="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+            :hidden="!global.disabled"
+          ></span>
+          &nbsp;Fetch mDNS data
         </button>
       </div>
     </div>
@@ -114,6 +129,38 @@ async function fetchLog(file) {
     }
   } catch (err) {
     logDebug('SupportView.fetchLog()', 'Error fetching ' + file, err)
+  }
+  return false
+}
+
+async function fetchMdns() {
+  try {
+    const res = await http.getJson('api/mdns')
+    logDebug('SupportView.fetchMdns()', res)
+    if (res) {
+      logDebug('SupportView.fetchMdns()', 'Fetching mdns data completed')
+
+      // Convert last_seen timestamp to formatted date string
+      if (res.mdns && Array.isArray(res.mdns)) {
+        res.mdns.forEach(item => {
+          if (item.last_seen) {
+            const date = new Date(item.last_seen * 1000)
+            const year = date.getFullYear()
+            const month = String(date.getMonth() + 1).padStart(2, '0')
+            const day = String(date.getDate()).padStart(2, '0')
+            const hours = String(date.getHours()).padStart(2, '0')
+            const minutes = String(date.getMinutes()).padStart(2, '0')
+            const seconds = String(date.getSeconds()).padStart(2, '0')
+            item.last_seen = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+          }
+        })
+      }
+
+      logData.value = JSON.stringify(res.mdns, null, 2)
+      return true
+    }
+  } catch (err) {
+    logDebug('SupportView.fetchMdns()', 'Error fetching mdns data', err)
   }
   return false
 }
