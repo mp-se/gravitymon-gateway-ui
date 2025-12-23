@@ -221,6 +221,7 @@ const pressuremonColumns = ref([
 
 const chamberColumns = ref([
   { key: 'id', label: 'ID', method: 'getId' },
+  { key: 'name', label: 'Name', method: 'getName' },
   { key: 'chamberTemp', label: 'Chamber Temp', method: 'getChamberTemp', format: 'temperature' },
   { key: 'beerTemp', label: 'Beer Temp', method: 'getBeerTemp', format: 'temperature' }
 ])
@@ -300,8 +301,7 @@ onBeforeMount(async () => {
           return true
         })
         .map((entry) => ({
-          // label: entry.getId() + ' - ' + entry.getName(),
-          label: entry.getId(),
+          label: entry.getId() + ' - ' + getNameForId(measurement.chamberData, entry.getId()),
           value: entry.getId()
         }))
       chamberDeviceOptions.value.push({ label: 'All devices', value: '' })
@@ -327,6 +327,11 @@ onBeforeMount(async () => {
     global.messageError = 'Failed to fetch list of measurement files'
   }
 })
+
+const getNameForId = (entries, id) => {
+  const entry = entries.find((e) => e.getId() === id && e.getName() !== "" && e.getName() !== e.getId())
+  return entry ? entry.getName() : ""
+}
 
 onBeforeUnmount(() => {})
 

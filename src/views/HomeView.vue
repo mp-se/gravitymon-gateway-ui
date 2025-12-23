@@ -44,7 +44,19 @@
                       ? ' kPa'
                       : ' Bar'
                 }}
-                Temperature: {{ formatTemp(p.temp) }} {{ config.temp_unit }}
+                <template v-if="p.pressure1 !== undefined">
+                  , Pressure1: {{ formatPressure(p.pressure1) }}
+                  {{
+                    config.pressure_unit === 'PSI'
+                      ? ' psi'
+                      : config.pressure_unit === 'kPa'
+                        ? ' kPa'
+                        : ' Bar'
+                  }}
+                </template>
+                <template v-if="p.temp !== undefined">
+                , Temperature: {{ formatTemp(p.temp) }} {{ config.temp_unit }}
+                </template>
               </p>
 
               <span class="badge bg-primary">{{ p.source }}</span
@@ -59,11 +71,15 @@
             <BsCard
               header="Temperature Device"
               color="secondary"
-              :title="t.device + ' (' + formatTime(t.update_time) + ')'"
+              :title="t.name === '' ? t.device : t.name + ' (' + formatTime(t.update_time) + ')'"
             >
               <p class="text-center">
-                Chamber: {{ formatTemp(t.chamber_temp) }} {{ config.temp_unit }}, Beer:
-                {{ formatTemp(t.beer_temp) }} {{ config.temp_unit }}
+                <template v-if="t.chamber_temp !== undefined">
+                Chamber: {{ formatTemp(t.chamber_temp) }} {{ config.temp_unit }}
+                </template>
+                <template v-if="t.beer_temp !== undefined">
+                , Beer: {{ formatTemp(t.beer_temp) }} {{ config.temp_unit }}
+                </template>
               </p>
 
               <span class="badge bg-primary">{{ t.source }}</span

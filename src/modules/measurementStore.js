@@ -400,7 +400,7 @@ class RaptData {
 }
 
 class ChamberData {
-  constructor({ type, source, created, id, chamberTemp, beerTemp, rssi }) {
+  constructor({ type, source, created, id, chamberTemp, beerTemp, rssi, name, txPower }) {
     this.type = type
     this.source = source
     this.created = new Date(created)
@@ -408,6 +408,8 @@ class ChamberData {
     this.chamberTemp = config.temp_unit == 'C' ? chamberTemp : tempToF(chamberTemp)
     this.beerTemp = config.temp_unit == 'C' ? beerTemp : tempToF(beerTemp)
     this.rssi = rssi
+    this.name = name
+    this.txPower = txPower
   }
 
   getType() {
@@ -431,13 +433,19 @@ class ChamberData {
   getRssi() {
     return this.rssi
   }
+  getName() {
+    return this.name
+  }
+  getTxPower() {
+    return this.txPower
+  }
 
   static isChamberDataCsv(line) {
     const parts = line.split(',')
     return parts.length >= 2 && parts[0] === '1' && parts[1] === 'Chamber Controller'
   }
 
-  // Example: 1,Chamber Controller,BLE Beacon,2025-07-06 12:34:56,ID,20.00,19.00,-70,,,,,,
+  // Example: 1,Chamber Controller,BLE Beacon,2025-07-06 12:34:56,ID,20.00,19.00,-70,Name,,,,,
   static fromCsvLine(line) {
     const parts = line.split(',')
     if (parts.length < 8) {
@@ -459,7 +467,9 @@ class ChamberData {
       id: parts[4],
       chamberTemp: parseFloat(parts[5]),
       beerTemp: parseFloat(parts[6]),
-      rssi: parseInt(parts[7], 10)
+      rssi: parseInt(parts[7], 10),
+      name: parts[8],
+      txPower: parseInt(parts[9], 10),
     })
   }
 }
