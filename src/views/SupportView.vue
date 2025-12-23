@@ -73,8 +73,8 @@
             aria-hidden="true"
             :hidden="!global.disabled"
           ></span>
-          &nbsp;Erase device logs
-        </button>&nbsp;
+          &nbsp;Erase device logs</button
+        >&nbsp;
 
         <button
           @click="fetchMdns"
@@ -142,7 +142,7 @@ async function fetchMdns() {
 
       // Convert last_seen timestamp to formatted date string
       if (res.mdns && Array.isArray(res.mdns)) {
-        res.mdns.forEach(item => {
+        res.mdns.forEach((item) => {
           if (item.last_seen) {
             const date = new Date(item.last_seen * 1000)
             const year = date.getFullYear()

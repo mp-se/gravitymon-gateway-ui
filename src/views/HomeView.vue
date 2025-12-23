@@ -55,7 +55,7 @@
                   }}
                 </template>
                 <template v-if="p.temp !== undefined">
-                , Temperature: {{ formatTemp(p.temp) }} {{ config.temp_unit }}
+                  , Temperature: {{ formatTemp(p.temp) }} {{ config.temp_unit }}
                 </template>
               </p>
 
@@ -75,10 +75,10 @@
             >
               <p class="text-center">
                 <template v-if="t.chamber_temp !== undefined">
-                Chamber: {{ formatTemp(t.chamber_temp) }} {{ config.temp_unit }}
+                  Chamber: {{ formatTemp(t.chamber_temp) }} {{ config.temp_unit }}
                 </template>
                 <template v-if="t.beer_temp !== undefined">
-                , Beer: {{ formatTemp(t.beer_temp) }} {{ config.temp_unit }}
+                  , Beer: {{ formatTemp(t.beer_temp) }} {{ config.temp_unit }}
                 </template>
               </p>
 
@@ -171,7 +171,9 @@ function formatTime(t) {
 }
 
 function formatGravity(g) {
-  return config.gravity_unit === 'G' ? new Number(g).toFixed(3) : gravityToPlato(new Number(g).toFixed(1))
+  return config.gravity_unit === 'G'
+    ? new Number(g).toFixed(3)
+    : gravityToPlato(new Number(g).toFixed(1))
 }
 
 function formatPressure(p) {

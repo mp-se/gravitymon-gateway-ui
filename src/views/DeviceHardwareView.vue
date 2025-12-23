@@ -69,7 +69,6 @@
             :disabled="global.disabled"
           ></BsSelect>
         </div>
-
       </div>
       <div class="row gy-2">
         <div class="col-md-12">

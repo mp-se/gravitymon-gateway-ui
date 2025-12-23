@@ -469,7 +469,7 @@ class ChamberData {
       beerTemp: parseFloat(parts[6]),
       rssi: parseInt(parts[7], 10),
       name: parts[8],
-      txPower: parseInt(parts[9], 10),
+      txPower: parseInt(parts[9], 10)
     })
   }
 }

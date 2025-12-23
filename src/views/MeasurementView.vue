@@ -329,8 +329,10 @@ onBeforeMount(async () => {
 })
 
 const getNameForId = (entries, id) => {
-  const entry = entries.find((e) => e.getId() === id && e.getName() !== "" && e.getName() !== e.getId())
-  return entry ? entry.getName() : ""
+  const entry = entries.find(
+    (e) => e.getId() === id && e.getName() !== '' && e.getName() !== e.getId()
+  )
+  return entry ? entry.getName() : ''
 }
 
 onBeforeUnmount(() => {})
