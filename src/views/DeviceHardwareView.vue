@@ -55,11 +55,11 @@
           <p class="fw-normal">Enable/Disable bluetooth requires a restart of the device.</p>
           <p class="fw-normal">
             Supporting the following GravityMon BLE transmission options:
-            <lu>
+            <ul>
               <li>Gravitymon iBeacon (<b>Passive scanning</b>)</li>
               <li>Gravitymon EddyStone (<b>Active scanning, Require BLE 5.0, i.e. ESP32 S3</b>)</li>
               <li>Pressuremon iBeacon (<b>Passive scanning</b>)</li>
-            </lu>
+            </ul>
           </p>
           <p class="fw-normal">If you want to use the Tilt options I recommend TiltBridge!</p>
         </div>

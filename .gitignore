@@ -5,3 +5,4 @@ npm-debug.log*
 .vscode
 .DS_store
 copy*.sh
+coverage/

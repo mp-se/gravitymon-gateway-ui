@@ -216,13 +216,7 @@ function download(content, mimeType, filename) {
 
 async function doRestore(json) {
   for (const k in json) {
-    if (k.endsWith('_format_gravity')) {
-      config[k] = decodeURIComponent(json[k])
-    } else {
-      config[k] = json[k]
-    }
-
-    if (k.endsWith('_format_pressure')) {
+    if (k.endsWith('_format_gravity') || k.endsWith('_format_pressure')) {
       config[k] = decodeURIComponent(json[k])
     } else {
       config[k] = json[k]

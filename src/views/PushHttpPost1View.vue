@@ -200,7 +200,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { validateCurrentForm } from '@mp-se/espframework-ui-components'
 import {
   httpHeaderOptions,
@@ -212,6 +212,10 @@ import {
 import { global, status, config } from '@/modules/pinia'
 
 const render = ref('')
+
+const pushDisabled = computed(() => {
+  return global.disabled
+})
 
 const runTestGravity = async () => {
   const data = { push_format: 'http_post_format_gravity' }
