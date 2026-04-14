@@ -503,7 +503,8 @@ describe('PushHttpGetView (action tests)', () => {
 
   it('complex header formats are handled', () => {
     const wrapper = mount(PushHttpGetView)
-    const complexHeader = 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0'
+    const complexHeader =
+      'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0'
 
     wrapper.vm.httpHeaderH1Callback(complexHeader)
 

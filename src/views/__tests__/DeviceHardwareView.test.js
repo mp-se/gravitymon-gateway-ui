@@ -85,7 +85,7 @@ describe('DeviceHardwareView', () => {
     }
     const radioStub = {
       template:
-        "<select @change=\"$emit('update:modelValue', $event.target.value === 'true')\"><option value=\"true\">Active</option><option value=\"false\">Passive</option></select>",
+        '<select @change="$emit(\'update:modelValue\', $event.target.value === \'true\')"><option value="true">Active</option><option value="false">Passive</option></select>',
       props: ['modelValue', 'disabled', 'label', 'width', 'options'],
       emits: ['update:modelValue']
     }

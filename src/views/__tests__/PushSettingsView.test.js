@@ -250,6 +250,7 @@ describe('PushSettingsView', () => {
   })
 
   it('handles rapid form changes', () => {
+    // eslint-disable-next-line no-unused-vars
     const wrapper = createWrapper()
 
     config.token = 'token1'
@@ -294,6 +295,7 @@ describe('PushSettingsView', () => {
   })
 
   it('updates timeout values independently', () => {
+    // eslint-disable-next-line no-unused-vars
     const wrapper = createWrapper()
 
     config.push_timeout = 25
@@ -409,6 +411,7 @@ describe('PushSettingsView', () => {
   })
 
   it('timeout values are updated independently', () => {
+    // eslint-disable-next-line no-unused-vars
     const wrapper = createWrapper()
 
     config.push_timeout = 15
@@ -425,6 +428,7 @@ describe('PushSettingsView', () => {
     config.token = 'new-token'
     config.push_timeout = 20
     config.push_resend_time = 500
+
     const wrapper = createWrapper()
 
     await wrapper.vm.save()
@@ -519,6 +523,7 @@ describe('PushSettingsView', () => {
   })
 
   it('token field accepts numbers and special chars', () => {
+    // eslint-disable-next-line no-unused-vars
     const wrapper = createWrapper()
 
     config.token = '12345-abc-!@#$'
@@ -529,6 +534,7 @@ describe('PushSettingsView', () => {
   })
 
   it('timeout inputs accept numeric values', () => {
+    // eslint-disable-next-line no-unused-vars
     const wrapper = createWrapper()
 
     config.push_timeout = 45
@@ -549,11 +555,7 @@ describe('PushSettingsView', () => {
     validateCurrentForm.mockReturnValue(true)
     const wrapper = createWrapper()
 
-    await Promise.all([
-      wrapper.vm.save(),
-      wrapper.vm.save(),
-      wrapper.vm.save()
-    ])
+    await Promise.all([wrapper.vm.save(), wrapper.vm.save(), wrapper.vm.save()])
 
     expect(config.saveAll).toHaveBeenCalledTimes(3)
   })

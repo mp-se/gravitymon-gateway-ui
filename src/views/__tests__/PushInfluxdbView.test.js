@@ -337,6 +337,7 @@ describe('PushInfluxdbView (action tests)', () => {
   })
 
   it('all config fields can be set independently', () => {
+    // eslint-disable-next-line no-unused-vars
     const wrapper = createWrapper()
 
     config.influxdb2_target = 'http://influx-server'
@@ -383,6 +384,7 @@ describe('PushInfluxdbView (action tests)', () => {
   })
 
   it('complex target URLs are preserved', () => {
+    // eslint-disable-next-line no-unused-vars
     const wrapper = createWrapper()
     const complexUrl = 'https://influx.example.com:8086/api/v2/write'
 
@@ -392,6 +394,7 @@ describe('PushInfluxdbView (action tests)', () => {
   })
 
   it('complex tokens are preserved', () => {
+    // eslint-disable-next-line no-unused-vars
     const wrapper = createWrapper()
     const complexToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9'
 
@@ -401,6 +404,7 @@ describe('PushInfluxdbView (action tests)', () => {
   })
 
   it('gravity and pressure can be toggled independently', () => {
+    // eslint-disable-next-line no-unused-vars
     const wrapper = createWrapper()
 
     config.influxdb2_gravity = true
@@ -423,7 +427,8 @@ describe('PushInfluxdbView (action tests)', () => {
   })
 
   it('gravityRenderFormat with multiple template variables', () => {
-    config.influxdb2_format_gravity = 'measurement,gravity=${gravity},temp=${temp_unit} value=${battery}'
+    config.influxdb2_format_gravity =
+      'measurement,gravity=${gravity},temp=${temp_unit} value=${battery}'
     const wrapper = createWrapper()
 
     wrapper.vm.gravityRenderFormat()
@@ -490,7 +495,9 @@ describe('PushInfluxdbView (action tests)', () => {
 
     wrapper.vm.gravityInfluxdb2FormatCallback(specialChars)
 
-    expect(config.influxdb2_format_gravity).toBe('measurement,tag1=value1 field1="test with spaces"')
+    expect(config.influxdb2_format_gravity).toBe(
+      'measurement,tag1=value1 field1="test with spaces"'
+    )
   })
 
   it('pressureInfluxdb2FormatCallback handles special characters', () => {
@@ -504,6 +511,7 @@ describe('PushInfluxdbView (action tests)', () => {
 
   it('render variable maintains state between calls', () => {
     config.influxdb2_format_gravity = 'gravity=${gravity}'
+
     const wrapper = createWrapper()
 
     wrapper.vm.gravityRenderFormat()
@@ -536,6 +544,7 @@ describe('PushInfluxdbView (action tests)', () => {
   })
 
   it('all config fields can be set independently', () => {
+    // eslint-disable-next-line no-unused-vars
     const wrapper = createWrapper()
 
     config.influxdb2_target = 'http://localhost:8086'

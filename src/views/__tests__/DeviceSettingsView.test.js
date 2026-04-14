@@ -461,6 +461,7 @@ describe('DeviceSettingsView', () => {
   })
 
   it('updates all config independently', () => {
+    // eslint-disable-next-line no-unused-vars
     const wrapper = createWrapper()
 
     config.mdns = 'device1'
@@ -499,6 +500,7 @@ describe('DeviceSettingsView', () => {
     config.gravity_unit = 'P'
     config.pressure_unit = 'kPa'
     config.dark_mode = true
+
     const wrapper = createWrapper()
 
     await wrapper.vm.saveSettings()

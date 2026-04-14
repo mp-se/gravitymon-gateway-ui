@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { shallowMount } from '@vue/test-utils'
 import DeviceWifi2View from '../DeviceWifi2View.vue'
 import { createTestingPinia } from '../../tests/testUtils'

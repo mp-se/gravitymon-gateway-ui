@@ -329,6 +329,7 @@ describe('PushMqttView (action tests)', () => {
   })
 
   it('all MQTT config fields can be set independently', () => {
+    // eslint-disable-next-line no-unused-vars
     const wrapper = createWrapper()
 
     config.mqtt_target = 'mqtt.example.com'
@@ -375,6 +376,7 @@ describe('PushMqttView (action tests)', () => {
   })
 
   it('hostname with port is preserved', () => {
+    // eslint-disable-next-line no-unused-vars
     const wrapper = createWrapper()
     const hostname = 'mqtt.example.com'
 
@@ -384,6 +386,7 @@ describe('PushMqttView (action tests)', () => {
   })
 
   it('port numbers are preserved', () => {
+    // eslint-disable-next-line no-unused-vars
     const wrapper = createWrapper()
 
     config.mqtt_port = 8883
@@ -394,6 +397,7 @@ describe('PushMqttView (action tests)', () => {
   })
 
   it('credentials are preserved', () => {
+    // eslint-disable-next-line no-unused-vars
     const wrapper = createWrapper()
     const username = 'admin'
     const password = 'secretpassword'
@@ -406,6 +410,7 @@ describe('PushMqttView (action tests)', () => {
   })
 
   it('gravity and pressure can be toggled independently', () => {
+    // eslint-disable-next-line no-unused-vars
     const wrapper = createWrapper()
 
     config.mqtt_gravity = true
@@ -581,6 +586,7 @@ describe('PushMqttView (action tests)', () => {
   })
 
   it('MQTT target is updated independently of other fields', () => {
+    // eslint-disable-next-line no-unused-vars
     const wrapper = createWrapper()
 
     config.mqtt_target = 'broker.example.com'

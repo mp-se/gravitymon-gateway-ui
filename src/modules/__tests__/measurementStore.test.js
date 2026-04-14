@@ -592,8 +592,7 @@ describe('measurementStore module', () => {
     store.files = ['/data.csv']
     store.fetchSecureDiskFile = vi.fn(async () => ({
       success: true,
-      text:
-        '1,Gravitymon,BLE Beacon,2025-07-06 12:34:57,G-1,Fermenter,token,20.00,1.0400,45.00,3.70,-59,-70,60\r\n1,Tilt,BLE Beacon,2025-07-06 12:34:56,Red,Red,20.00,1.0500,-59,-70,,,,'
+      text: '1,Gravitymon,BLE Beacon,2025-07-06 12:34:57,G-1,Fermenter,token,20.00,1.0400,45.00,3.70,-59,-70,60\r\n1,Tilt,BLE Beacon,2025-07-06 12:34:56,Red,Red,20.00,1.0500,-59,-70,,,,'
     }))
 
     await store.fetchAllMeasurementFiles()

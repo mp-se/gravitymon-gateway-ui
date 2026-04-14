@@ -272,6 +272,7 @@ describe('MeasurementSettingsView', () => {
     validateCurrentForm.mockReturnValue(true)
     global.feature.sd = true
     config.sd_log_files = 50
+
     const wrapper = createWrapper()
 
     await wrapper.vm.saveSettings()
@@ -291,6 +292,7 @@ describe('MeasurementSettingsView', () => {
   })
 
   it('updates both SD settings independently', () => {
+    // eslint-disable-next-line no-unused-vars
     const wrapper = createWrapper()
 
     config.sd_log_files = 30
@@ -314,6 +316,7 @@ describe('MeasurementSettingsView', () => {
   })
 
   it('handles rapid configuration changes', () => {
+    // eslint-disable-next-line no-unused-vars
     const wrapper = createWrapper()
 
     config.sd_log_files = 5

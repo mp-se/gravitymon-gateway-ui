@@ -255,7 +255,10 @@ describe('configStore module', () => {
     store.getWifiScanStatus = vi
       .fn()
       .mockResolvedValueOnce({ success: true, data: { status: true } })
-      .mockResolvedValueOnce({ success: true, data: { status: false, success: true, networks: [] } })
+      .mockResolvedValueOnce({
+        success: true,
+        data: { status: false, success: true, networks: [] }
+      })
 
     const resultPromise = store.runWifiScan()
     await vi.runAllTimersAsync()
@@ -330,7 +333,10 @@ describe('configStore module', () => {
   it('gets push test status and handles failures', async () => {
     const store = await loadStore()
     http.getJson.mockResolvedValueOnce({ status: false, success: true })
-    expect(await store.getPushTestStatus()).toEqual({ success: true, data: { status: false, success: true } })
+    expect(await store.getPushTestStatus()).toEqual({
+      success: true,
+      data: { status: false, success: true }
+    })
 
     http.getJson.mockRejectedValueOnce(new Error('status fail'))
     expect(await store.getPushTestStatus()).toEqual({ success: false, data: null })
@@ -344,7 +350,10 @@ describe('configStore module', () => {
     expect(await store.sendWifiScan()).toBe(false)
 
     http.getJson.mockResolvedValueOnce({ status: false, success: true })
-    expect(await store.getWifiScanStatus()).toEqual({ success: true, data: { status: false, success: true } })
+    expect(await store.getWifiScanStatus()).toEqual({
+      success: true,
+      data: { status: false, success: true }
+    })
     http.getJson.mockRejectedValueOnce(new Error('wifi status fail'))
     expect(await store.getWifiScanStatus()).toEqual({ success: false, data: null })
 
@@ -354,7 +363,10 @@ describe('configStore module', () => {
     expect(await store.sendHardwareScan()).toBe(false)
 
     http.getJson.mockResolvedValueOnce({ status: false, success: true })
-    expect(await store.getHardwareScanStatus()).toEqual({ success: true, data: { status: false, success: true } })
+    expect(await store.getHardwareScanStatus()).toEqual({
+      success: true,
+      data: { status: false, success: true }
+    })
     http.getJson.mockRejectedValueOnce(new Error('hw status fail'))
     expect(await store.getHardwareScanStatus()).toEqual({ success: false, data: null })
   })
@@ -398,12 +410,17 @@ describe('configStore module', () => {
     store.getPushTestStatus = vi
       .fn()
       .mockResolvedValueOnce({ success: true, data: { status: true } })
-      .mockResolvedValueOnce({ success: true, data: { status: false, success: false, push_return_code: 12 } })
-    expect(await (async () => {
-      const resultPromise = store.runPushTest({ push_format: 'x' })
-      await vi.runAllTimersAsync()
-      return resultPromise
-    })()).toBe(true)
+      .mockResolvedValueOnce({
+        success: true,
+        data: { status: false, success: false, push_return_code: 12 }
+      })
+    expect(
+      await (async () => {
+        const resultPromise = store.runPushTest({ push_format: 'x' })
+        await vi.runAllTimersAsync()
+        return resultPromise
+      })()
+    ).toBe(true)
     expect(globalStore.messageError).toContain('12')
 
     globalStore.messageError = ''
@@ -431,7 +448,10 @@ describe('configStore module', () => {
       .mockResolvedValueOnce({ success: true, data: { status: false, success: true, found: [] } })
     const hwPromise = store.runHardwareScan()
     await vi.runAllTimersAsync()
-    expect(await hwPromise).toEqual({ success: true, data: { status: false, success: true, found: [] } })
+    expect(await hwPromise).toEqual({
+      success: true,
+      data: { status: false, success: true, found: [] }
+    })
 
     store.sendHardwareScan = vi.fn(async () => false)
     expect(await store.runHardwareScan()).toEqual({ success: false })

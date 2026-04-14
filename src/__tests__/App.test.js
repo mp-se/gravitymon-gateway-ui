@@ -26,21 +26,24 @@ describe('App', () => {
   beforeEach(() => {
     vi.clearAllMocks()
 
-    Object.assign(global, reactive({
-      initialized: false,
-      disabled: false,
-      configChanged: false,
-      messageError: '',
-      messageWarning: '',
-      messageSuccess: '',
-      messageInfo: '',
-      isError: false,
-      isWarning: false,
-      isSuccess: false,
-      isInfo: false,
-      clearMessages: vi.fn(),
-      load: vi.fn(async () => true)
-    }))
+    Object.assign(
+      global,
+      reactive({
+        initialized: false,
+        disabled: false,
+        configChanged: false,
+        messageError: '',
+        messageWarning: '',
+        messageSuccess: '',
+        messageInfo: '',
+        isError: false,
+        isWarning: false,
+        isSuccess: false,
+        isInfo: false,
+        clearMessages: vi.fn(),
+        load: vi.fn(async () => true)
+      })
+    )
 
     Object.assign(status, {
       wifi_setup: false,

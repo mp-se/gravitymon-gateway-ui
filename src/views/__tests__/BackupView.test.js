@@ -139,7 +139,14 @@ describe('BackupView', () => {
       })
     }
 
-    vi.stubGlobal('FileReader', vi.fn(() => mockReader))
+    vi.stubGlobal(
+      'FileReader',
+      class {
+        constructor() {
+          Object.assign(this, mockReader)
+        }
+      }
+    )
     vi.spyOn(document, 'getElementById').mockReturnValue({
       files: [new File(['data'], 'backup.txt')],
       value: 'backup.txt'
@@ -163,7 +170,14 @@ describe('BackupView', () => {
       })
     }
 
-    vi.stubGlobal('FileReader', vi.fn(() => mockReader))
+    vi.stubGlobal(
+      'FileReader',
+      class {
+        constructor() {
+          Object.assign(this, mockReader)
+        }
+      }
+    )
     vi.spyOn(document, 'getElementById').mockReturnValue({
       files: [new File(['data'], 'backup.txt')],
       value: 'backup.txt'
@@ -187,7 +201,14 @@ describe('BackupView', () => {
       })
     }
 
-    vi.stubGlobal('FileReader', vi.fn(() => mockReader))
+    vi.stubGlobal(
+      'FileReader',
+      class {
+        constructor() {
+          Object.assign(this, mockReader)
+        }
+      }
+    )
     vi.spyOn(document, 'getElementById').mockReturnValue({
       files: [new File(['data'], 'backup.txt')],
       value: 'backup.txt'
@@ -219,7 +240,14 @@ describe('BackupView', () => {
       })
     }
 
-    vi.stubGlobal('FileReader', vi.fn(() => mockReader))
+    vi.stubGlobal(
+      'FileReader',
+      class {
+        constructor() {
+          Object.assign(this, mockReader)
+        }
+      }
+    )
     vi.spyOn(document, 'getElementById').mockReturnValue({
       files: [new File(['data'], 'backup.txt')],
       value: 'backup.txt'

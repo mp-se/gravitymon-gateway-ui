@@ -159,10 +159,7 @@ describe('MeasurementView', () => {
 
   it('filters gravitymon table data by selected device id', async () => {
     status.sd_mounted = true
-    measurement.gravitymonData = [
-      makeGravityEntry('G-1', 'Alpha'),
-      makeGravityEntry('G-2', 'Beta')
-    ]
+    measurement.gravitymonData = [makeGravityEntry('G-1', 'Alpha'), makeGravityEntry('G-2', 'Beta')]
 
     const wrapper = mount(MeasurementView)
     await flushPromises()

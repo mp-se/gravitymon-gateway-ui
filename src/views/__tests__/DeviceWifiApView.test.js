@@ -278,7 +278,7 @@ describe('DeviceWifiApView', () => {
   })
 
   it('manual password entry can be entered', () => {
-    const wrapper = createWrapper()
+    createWrapper()
 
     config.wifi_direct_pass = 'manualpass123'
     expect(config.wifi_direct_pass).toBe('manualpass123')
