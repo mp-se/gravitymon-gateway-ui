@@ -10,6 +10,8 @@ on:
 jobs:
   vue-build:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
       - uses: actions/checkout@v4
@@ -32,7 +34,7 @@ jobs:
           npm install
           npm run build 
                 
-      - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version. https://github.com/marketplace/actions/add-commit
+      - uses: EndBug/add-and-commit@v10 # Updated for Node.js 24 compatibility. https://github.com/marketplace/actions/add-commit
         with:
           add: 'dist'
           author_name: GitHub Action
