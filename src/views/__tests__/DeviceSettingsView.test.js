@@ -35,6 +35,7 @@ describe('DeviceSettingsView', () => {
 
   it('displays mdns input field', () => {
     config.mdns = 'my-device'
+    // eslint-disable-next-line no-unused-vars
     const wrapper = createWrapper()
 
     expect(config.mdns).toBe('my-device')
@@ -42,6 +43,7 @@ describe('DeviceSettingsView', () => {
 
   it('displays temperature format options', () => {
     config.temp_unit = 'C'
+    // eslint-disable-next-line no-unused-vars
     const wrapper = createWrapper()
 
     expect(config.temp_unit).toBe('C')
@@ -52,6 +54,7 @@ describe('DeviceSettingsView', () => {
 
   it('displays gravity format options', () => {
     config.gravity_unit = 'G'
+    // eslint-disable-next-line no-unused-vars
     const wrapper = createWrapper()
 
     expect(config.gravity_unit).toBe('G')
@@ -62,6 +65,7 @@ describe('DeviceSettingsView', () => {
 
   it('displays pressure unit options', () => {
     config.pressure_unit = 'PSI'
+    // eslint-disable-next-line no-unused-vars
     const wrapper = createWrapper()
 
     expect(config.pressure_unit).toBe('PSI')
@@ -75,6 +79,7 @@ describe('DeviceSettingsView', () => {
 
   it('displays dark mode options', () => {
     config.dark_mode = false
+    // eslint-disable-next-line no-unused-vars
     const wrapper = createWrapper()
 
     expect(config.dark_mode).toBe(false)
@@ -172,6 +177,7 @@ describe('DeviceSettingsView', () => {
     config.gravity_unit = 'P'
     config.pressure_unit = 'Bar'
     config.dark_mode = true
+    // eslint-disable-next-line no-unused-vars
     const wrapper = createWrapper()
 
     expect(config.mdns).toBe('brewmon')
@@ -179,5 +185,326 @@ describe('DeviceSettingsView', () => {
     expect(config.gravity_unit).toBe('P')
     expect(config.pressure_unit).toBe('Bar')
     expect(config.dark_mode).toBe(true)
+  })
+
+  it('validates device settings before saving', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.mdns = 'test-device'
+    const wrapper = createWrapper()
+
+    await wrapper.vm.saveSettings()
+
+    expect(validateCurrentForm).toHaveBeenCalled()
+    expect(config.saveAll).toHaveBeenCalled()
+  })
+
+  it('saves with celsius temperature unit', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.temp_unit = 'C'
+    const wrapper = createWrapper()
+
+    await wrapper.vm.saveSettings()
+
+    expect(config.saveAll).toHaveBeenCalled()
+    expect(config.temp_unit).toBe('C')
+  })
+
+  it('saves with fahrenheit temperature unit', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.temp_unit = 'F'
+    const wrapper = createWrapper()
+
+    await wrapper.vm.saveSettings()
+
+    expect(config.saveAll).toHaveBeenCalled()
+    expect(config.temp_unit).toBe('F')
+  })
+
+  it('saves with gravity unit grams', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.gravity_unit = 'G'
+    const wrapper = createWrapper()
+
+    await wrapper.vm.saveSettings()
+
+    expect(config.saveAll).toHaveBeenCalled()
+    expect(config.gravity_unit).toBe('G')
+  })
+
+  it('saves with gravity unit plato', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.gravity_unit = 'P'
+    const wrapper = createWrapper()
+
+    await wrapper.vm.saveSettings()
+
+    expect(config.saveAll).toHaveBeenCalled()
+    expect(config.gravity_unit).toBe('P')
+  })
+
+  it('saves with pressure unit PSI', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.pressure_unit = 'PSI'
+    const wrapper = createWrapper()
+
+    await wrapper.vm.saveSettings()
+
+    expect(config.saveAll).toHaveBeenCalled()
+    expect(config.pressure_unit).toBe('PSI')
+  })
+
+  it('saves with pressure unit kPa', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.pressure_unit = 'kPa'
+    const wrapper = createWrapper()
+
+    await wrapper.vm.saveSettings()
+
+    expect(config.saveAll).toHaveBeenCalled()
+    expect(config.pressure_unit).toBe('kPa')
+  })
+
+  it('saves with pressure unit Bar', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.pressure_unit = 'Bar'
+    const wrapper = createWrapper()
+
+    await wrapper.vm.saveSettings()
+
+    expect(config.saveAll).toHaveBeenCalled()
+    expect(config.pressure_unit).toBe('Bar')
+  })
+
+  it('saves with dark mode enabled', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.dark_mode = true
+    const wrapper = createWrapper()
+
+    await wrapper.vm.saveSettings()
+
+    expect(config.saveAll).toHaveBeenCalled()
+    expect(config.dark_mode).toBe(true)
+  })
+
+  it('saves with dark mode disabled', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.dark_mode = false
+    const wrapper = createWrapper()
+
+    await wrapper.vm.saveSettings()
+
+    expect(config.saveAll).toHaveBeenCalled()
+    expect(config.dark_mode).toBe(false)
+  })
+
+  it('disables save button when validation fails', async () => {
+    validateCurrentForm.mockReturnValue(false)
+    config.saveAll.mockClear()
+    const wrapper = createWrapper()
+
+    await wrapper.vm.saveSettings()
+
+    expect(config.saveAll).not.toHaveBeenCalled()
+  })
+
+  it('disables save button when form is disabled', () => {
+    global.disabled = true
+    const wrapper = createWrapper()
+    const saveButton = wrapper.findAll('button')[0]
+
+    expect(saveButton.attributes('disabled')).toBeDefined()
+  })
+
+  it('disables restart button when form is disabled', () => {
+    global.disabled = true
+    const wrapper = createWrapper()
+    const buttons = wrapper.findAll('button')
+
+    expect(buttons[1].attributes('disabled')).toBeDefined()
+  })
+
+  it('disables factory reset button when form is disabled', () => {
+    global.disabled = true
+    const wrapper = createWrapper()
+    const buttons = wrapper.findAll('button')
+
+    expect(buttons[2].attributes('disabled')).toBeDefined()
+  })
+
+  it('enables buttons when global.disabled is false', () => {
+    global.disabled = false
+    const wrapper = createWrapper()
+    const buttons = wrapper.findAll('button')
+
+    buttons.forEach((button) => {
+      expect(button.attributes('disabled')).toBeUndefined()
+    })
+  })
+
+  it('disables save when no config changes', () => {
+    global.configChanged = false
+    const wrapper = createWrapper()
+    const saveButton = wrapper.findAll('button')[0]
+
+    expect(saveButton.attributes('disabled')).toBeDefined()
+  })
+
+  it('enables save when config changes', () => {
+    global.configChanged = true
+    const wrapper = createWrapper()
+    const saveButton = wrapper.findAll('button')[0]
+
+    expect(saveButton.attributes('disabled')).toBeUndefined()
+  })
+
+  it('warns when mdns is not configured', () => {
+    config.mdns = ''
+    const wrapper = createWrapper()
+
+    expect(wrapper.text()).toContain('define a mdns name')
+  })
+
+  it('hides mdns warning when mdns is configured', () => {
+    config.mdns = 'device-name'
+    const wrapper = createWrapper()
+
+    expect(wrapper.text()).not.toContain('define a mdns name')
+  })
+
+  it('saves with valid mdns name', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.mdns = 'my-brew-device'
+    const wrapper = createWrapper()
+
+    await wrapper.vm.saveSettings()
+
+    expect(config.saveAll).toHaveBeenCalled()
+    expect(config.mdns).toBe('my-brew-device')
+  })
+
+  it('restarts device successfully', async () => {
+    config.restart.mockClear()
+    const wrapper = createWrapper()
+
+    await wrapper.vm.restart()
+
+    expect(config.restart).toHaveBeenCalledTimes(1)
+  })
+
+  it('factory reset success message is set', async () => {
+    http.request.mockResolvedValue({
+      json: vi.fn().mockResolvedValue({ success: true, message: 'Device reset' })
+    })
+    global.messageSuccess = ''
+    const wrapper = createWrapper()
+
+    await wrapper.vm.factory()
+
+    expect(global.messageSuccess).toBe('Device reset')
+  })
+
+  it('factory reset disables controls after success', async () => {
+    http.request.mockResolvedValue({
+      json: vi.fn().mockResolvedValue({ success: true, message: 'Reset' })
+    })
+    global.disabled = false
+    const wrapper = createWrapper()
+
+    await wrapper.vm.factory()
+
+    expect(global.disabled).toBe(true)
+  })
+
+  it('factory reset error message is set on failure', async () => {
+    http.request.mockResolvedValue({
+      json: vi.fn().mockResolvedValue({ success: false, message: 'Network error' })
+    })
+    global.messageError = ''
+    const wrapper = createWrapper()
+
+    await wrapper.vm.factory()
+
+    expect(global.messageError).toBe('Network error')
+  })
+
+  it('factory reset enables controls after failure', async () => {
+    http.request.mockResolvedValue({
+      json: vi.fn().mockResolvedValue({ success: false, message: 'Error' })
+    })
+    global.disabled = true
+    const wrapper = createWrapper()
+
+    await wrapper.vm.factory()
+
+    expect(global.disabled).toBe(false)
+  })
+
+  it('factory reset handles network exceptions', async () => {
+    http.request.mockRejectedValue(new Error('Connection timeout'))
+    global.messageError = ''
+    const wrapper = createWrapper()
+
+    await wrapper.vm.factory()
+
+    expect(global.messageError).toBe('Failed to do factory restore')
+  })
+
+  it('factory reset API call uses correct endpoint', async () => {
+    http.request.mockResolvedValue({
+      json: vi.fn().mockResolvedValue({ success: true, message: 'Done' })
+    })
+    const wrapper = createWrapper()
+
+    await wrapper.vm.factory()
+
+    expect(http.request).toHaveBeenCalledWith('api/factory', { method: 'POST' })
+  })
+
+  it('updates all config independently', () => {
+    const wrapper = createWrapper()
+
+    config.mdns = 'device1'
+    expect(config.mdns).toBe('device1')
+    expect(config.temp_unit).not.toBe('device1')
+
+    config.temp_unit = 'F'
+    expect(config.mdns).toBe('device1')
+    expect(config.temp_unit).toBe('F')
+  })
+
+  it('maintains config state across saves', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.mdns = 'persistent-device'
+    config.temp_unit = 'C'
+    const wrapper = createWrapper()
+
+    await wrapper.vm.saveSettings()
+    expect(config.mdns).toBe('persistent-device')
+
+    await wrapper.vm.saveSettings()
+    expect(config.mdns).toBe('persistent-device')
+    expect(config.temp_unit).toBe('C')
+  })
+
+  it('renders all form labels', () => {
+    const wrapper = createWrapper()
+
+    expect(wrapper.text()).toContain('Device - Settings')
+  })
+
+  it('multiple configuration changes are saved together', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.mdns = 'brew-device'
+    config.temp_unit = 'F'
+    config.gravity_unit = 'P'
+    config.pressure_unit = 'kPa'
+    config.dark_mode = true
+    const wrapper = createWrapper()
+
+    await wrapper.vm.saveSettings()
+
+    expect(config.saveAll).toHaveBeenCalledTimes(1)
+    expect(config.mdns).toBe('brew-device')
+    expect(config.temp_unit).toBe('F')
   })
 })

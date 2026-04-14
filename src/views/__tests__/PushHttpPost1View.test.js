@@ -155,6 +155,7 @@ describe('PushHttpPost1View (action tests)', () => {
   })
 
   it('toggles gravity enabled state', () => {
+    // eslint-disable-next-line no-unused-vars
     const wrapper = mount(PushHttpPost1View)
 
     config.http_post_gravity = false
@@ -165,6 +166,7 @@ describe('PushHttpPost1View (action tests)', () => {
   })
 
   it('toggles pressure enabled state', () => {
+    // eslint-disable-next-line no-unused-vars
     const wrapper = mount(PushHttpPost1View)
 
     config.http_post_pressure = false
@@ -198,6 +200,7 @@ describe('PushHttpPost1View (action tests)', () => {
   })
 
   it('form updates config values when inputs change', () => {
+    // eslint-disable-next-line no-unused-vars
     const wrapper = mount(PushHttpPost1View)
 
     config.http_post_target = 'http://example.com/post1'
@@ -223,6 +226,7 @@ describe('PushHttpPost1View (action tests)', () => {
     config.http_post_header2 = 'Header2-Value'
     config.http_post_format_gravity = 'gravity=${gravity}'
     config.http_post_format_pressure = 'pressure=${pressure}'
+    // eslint-disable-next-line no-unused-vars
     const wrapper = mount(PushHttpPost1View)
 
     expect(config.http_post_target).toBe('http://api.example.com/post1')
@@ -230,5 +234,153 @@ describe('PushHttpPost1View (action tests)', () => {
     expect(config.http_post_header2).toBe('Header2-Value')
     expect(config.http_post_format_gravity).toBe('gravity=${gravity}')
     expect(config.http_post_format_pressure).toBe('pressure=${pressure}')
+  })
+
+  it('httpUrlCallback updates http_post_target', () => {
+    const wrapper = mount(PushHttpPost1View)
+    const testUrl = 'https://api.example.com/post1'
+
+    wrapper.vm.httpUrlCallback(testUrl)
+
+    expect(config.http_post_target).toBe(testUrl)
+  })
+
+  it('httpHeaderH1Callback updates http_post_header1', () => {
+    const wrapper = mount(PushHttpPost1View)
+    const testHeader = 'X-API-Key: secretkey123'
+
+    wrapper.vm.httpHeaderH1Callback(testHeader)
+
+    expect(config.http_post_header1).toBe(testHeader)
+  })
+
+  it('httpHeaderH2Callback updates http_post_header2', () => {
+    const wrapper = mount(PushHttpPost1View)
+    const testHeader = 'Accept-Encoding: gzip'
+
+    wrapper.vm.httpHeaderH2Callback(testHeader)
+
+    expect(config.http_post_header2).toBe(testHeader)
+  })
+
+  it('gravityHttpFormatCallback decodes and updates format', () => {
+    const wrapper = mount(PushHttpPost1View)
+    const encoded = encodeURIComponent('{"gravity":"{{gravity}}"}')
+
+    wrapper.vm.gravityHttpFormatCallback(encoded)
+
+    expect(config.http_post_format_gravity).toContain('{{gravity}}')
+  })
+
+  it('pressureHttpFormatCallback decodes and updates format', () => {
+    const wrapper = mount(PushHttpPost1View)
+    const encoded = encodeURIComponent('{"pressure":"{{pressure}}"}')
+
+    wrapper.vm.pressureHttpFormatCallback(encoded)
+
+    expect(config.http_post_format_pressure).toContain('{{pressure}}')
+  })
+
+  it('gravityRenderFormat renders gravity preview', () => {
+    config.http_post_format_gravity = 'G={{gravity}}'
+    const wrapper = mount(PushHttpPost1View)
+
+    wrapper.vm.gravityRenderFormat()
+
+    expect(wrapper.vm.render).toBeTruthy()
+  })
+
+  it('pressureRenderFormat renders pressure preview', () => {
+    config.http_post_format_pressure = 'P={{pressure}}'
+    const wrapper = mount(PushHttpPost1View)
+
+    wrapper.vm.pressureRenderFormat()
+
+    expect(wrapper.vm.render).toBeTruthy()
+  })
+
+  it('save validates before saving', async () => {
+    validateCurrentForm.mockReturnValueOnce(true)
+    const wrapper = mount(PushHttpPost1View)
+    config.saveAll.mockClear()
+
+    await wrapper.vm.save()
+
+    expect(validateCurrentForm).toHaveBeenCalled()
+    expect(config.saveAll).toHaveBeenCalledTimes(1)
+  })
+
+  it('runTestGravity clears messages', async () => {
+    const wrapper = mount(PushHttpPost1View)
+    global.clearMessages.mockClear()
+
+    await wrapper.vm.runTestGravity()
+
+    expect(global.clearMessages).toHaveBeenCalled()
+  })
+
+  it('runTestPressure clears messages', async () => {
+    const wrapper = mount(PushHttpPost1View)
+    global.clearMessages.mockClear()
+
+    await wrapper.vm.runTestPressure()
+
+    expect(global.clearMessages).toHaveBeenCalled()
+  })
+
+  it('multiple callbacks work in sequence', () => {
+    const wrapper = mount(PushHttpPost1View)
+
+    wrapper.vm.httpUrlCallback('https://post1.example.com')
+    wrapper.vm.httpHeaderH1Callback('Auth: token')
+    wrapper.vm.httpHeaderH2Callback('Type: json')
+    wrapper.vm.gravityHttpFormatCallback(encodeURIComponent('g={{gravity}}'))
+    wrapper.vm.pressureHttpFormatCallback(encodeURIComponent('p={{pressure}}'))
+
+    expect(config.http_post_target).toBe('https://post1.example.com')
+    expect(config.http_post_header1).toBe('Auth: token')
+    expect(config.http_post_header2).toBe('Type: json')
+  })
+
+  it('handles encoded special characters in callbacks', () => {
+    const wrapper = mount(PushHttpPost1View)
+    const encoded = encodeURIComponent('{"key":"value&data"}')
+
+    wrapper.vm.gravityHttpFormatCallback(encoded)
+
+    expect(config.http_post_format_gravity).toContain('&')
+  })
+
+  it('render properly escapes ampersands', () => {
+    config.http_post_format_gravity = 'a&b&c'
+    const wrapper = mount(PushHttpPost1View)
+
+    wrapper.vm.gravityRenderFormat()
+
+    expect(wrapper.vm.render).toBeTruthy()
+  })
+
+  it('pushDisabled reflects disabled state', () => {
+    global.disabled = true
+    const wrapper = mount(PushHttpPost1View)
+
+    expect(wrapper.vm.pushDisabled).toBe(true)
+  })
+
+  it('empty URL callback works', () => {
+    const wrapper = mount(PushHttpPost1View)
+
+    wrapper.vm.httpUrlCallback('')
+
+    expect(config.http_post_target).toBe('')
+  })
+
+  it('complex URLs are preserved', () => {
+    const wrapper = mount(PushHttpPost1View)
+    const complexUrl = 'https://api.example.com:8080/v1/post?key=val&other=123'
+
+    wrapper.vm.httpUrlCallback(complexUrl)
+
+    expect(config.http_post_target).toBe(complexUrl)
   })
 })

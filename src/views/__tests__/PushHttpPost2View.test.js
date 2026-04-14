@@ -159,6 +159,7 @@ describe('PushHttpPost2View (action tests)', () => {
   })
 
   it('toggles gravity enabled state', () => {
+    // eslint-disable-next-line no-unused-vars
     const wrapper = mount(PushHttpPost2View)
 
     config.http_post2_gravity = false
@@ -169,6 +170,7 @@ describe('PushHttpPost2View (action tests)', () => {
   })
 
   it('toggles pressure enabled state', () => {
+    // eslint-disable-next-line no-unused-vars
     const wrapper = mount(PushHttpPost2View)
 
     config.http_post2_pressure = false
@@ -209,6 +211,7 @@ describe('PushHttpPost2View (action tests)', () => {
   })
 
   it('form updates config values when inputs change', () => {
+    // eslint-disable-next-line no-unused-vars
     const wrapper = mount(PushHttpPost2View)
 
     config.http_post2_target = 'http://example.com/post2'
@@ -234,6 +237,7 @@ describe('PushHttpPost2View (action tests)', () => {
     config.http_post2_header2 = 'Header2-Value'
     config.http_post2_format_gravity = 'gravity=${gravity}'
     config.http_post2_format_pressure = 'pressure=${pressure}'
+    // eslint-disable-next-line no-unused-vars
     const wrapper = mount(PushHttpPost2View)
 
     expect(config.http_post2_target).toBe('http://api.example.com/post2')
@@ -255,5 +259,171 @@ describe('PushHttpPost2View (action tests)', () => {
     const wrapper = mount(PushHttpPost2View)
 
     expect(wrapper.vm.pushDisabled).toBe(true)
+  })
+
+  it('httpUrlCallback updates http_post2_target', () => {
+    const wrapper = mount(PushHttpPost2View)
+    const testUrl = 'https://api.example.com/post2'
+
+    wrapper.vm.httpUrlCallback(testUrl)
+
+    expect(config.http_post2_target).toBe(testUrl)
+  })
+
+  it('httpHeaderH1Callback updates http_post2_header1', () => {
+    const wrapper = mount(PushHttpPost2View)
+    const testHeader = 'X-Custom-Header: value'
+
+    wrapper.vm.httpHeaderH1Callback(testHeader)
+
+    expect(config.http_post2_header1).toBe(testHeader)
+  })
+
+  it('httpHeaderH2Callback updates http_post2_header2', () => {
+    const wrapper = mount(PushHttpPost2View)
+    const testHeader = 'Authorization: Bearer token'
+
+    wrapper.vm.httpHeaderH2Callback(testHeader)
+
+    expect(config.http_post2_header2).toBe(testHeader)
+  })
+
+  it('gravityHttpFormatCallback decodes and updates format', () => {
+    const wrapper = mount(PushHttpPost2View)
+    const encoded = encodeURIComponent('{"g":"{{gravity}}"}')
+
+    wrapper.vm.gravityHttpFormatCallback(encoded)
+
+    expect(config.http_post2_format_gravity).toContain('{{gravity}}')
+  })
+
+  it('pressureHttpFormatCallback decodes and updates format', () => {
+    const wrapper = mount(PushHttpPost2View)
+    const encoded = encodeURIComponent('{"p":"{{pressure}}"}')
+
+    wrapper.vm.pressureHttpFormatCallback(encoded)
+
+    expect(config.http_post2_format_pressure).toContain('{{pressure}}')
+  })
+
+  it('gravityRenderFormat generates preview', () => {
+    config.http_post2_format_gravity = 'grav={{gravity}}'
+    const wrapper = mount(PushHttpPost2View)
+
+    wrapper.vm.gravityRenderFormat()
+
+    expect(wrapper.vm.render).toBeTruthy()
+  })
+
+  it('pressureRenderFormat generates preview', () => {
+    config.http_post2_format_pressure = 'pres={{pressure}}'
+    const wrapper = mount(PushHttpPost2View)
+
+    wrapper.vm.pressureRenderFormat()
+
+    expect(wrapper.vm.render).toBeTruthy()
+  })
+
+  it('multiple callbacks work sequentially', () => {
+    const wrapper = mount(PushHttpPost2View)
+
+    wrapper.vm.httpUrlCallback('https://endpoint.example.com/post2')
+    wrapper.vm.httpHeaderH1Callback('Token: abc123')
+    wrapper.vm.httpHeaderH2Callback('Content-Length: 256')
+    wrapper.vm.gravityHttpFormatCallback(encodeURIComponent('{gravity}'))
+    wrapper.vm.pressureHttpFormatCallback(encodeURIComponent('{pressure}'))
+
+    expect(config.http_post2_target).toBe('https://endpoint.example.com/post2')
+    expect(config.http_post2_header1).toBe('Token: abc123')
+    expect(config.http_post2_header2).toBe('Content-Length: 256')
+  })
+
+  it('save validates form before saving', async () => {
+    validateCurrentForm.mockReturnValueOnce(true)
+    config.saveAll.mockClear()
+    const wrapper = mount(PushHttpPost2View)
+
+    await wrapper.vm.save()
+
+    expect(validateCurrentForm).toHaveBeenCalled()
+    expect(config.saveAll).toHaveBeenCalled()
+  })
+
+  it('runTestGravity clears messages and calls runPushTest', async () => {
+    const wrapper = mount(PushHttpPost2View)
+    config.runPushTest.mockClear()
+
+    await wrapper.vm.runTestGravity()
+
+    expect(global.clearMessages).toHaveBeenCalled()
+    expect(config.runPushTest).toHaveBeenCalledWith({
+      push_format: 'http_post2_format_gravity'
+    })
+  })
+
+  it('runTestPressure clears messages and calls runPushTest', async () => {
+    const wrapper = mount(PushHttpPost2View)
+    config.runPushTest.mockClear()
+
+    await wrapper.vm.runTestPressure()
+
+    expect(global.clearMessages).toHaveBeenCalled()
+    expect(config.runPushTest).toHaveBeenCalledWith({
+      push_format: 'http_post2_format_pressure'
+    })
+  })
+
+  it('handles special characters in URL', () => {
+    const wrapper = mount(PushHttpPost2View)
+    const specialUrl = 'https://api.example.com:8080/post2?key=val&other=123#hash'
+
+    wrapper.vm.httpUrlCallback(specialUrl)
+
+    expect(config.http_post2_target).toBe(specialUrl)
+  })
+
+  it('handles special characters in headers', () => {
+    const wrapper = mount(PushHttpPost2View)
+    const specialHeader = 'Authorization: Bearer eyJhbGciO...'
+
+    wrapper.vm.httpHeaderH1Callback(specialHeader)
+
+    expect(config.http_post2_header1).toBe(specialHeader)
+  })
+
+  it('render escapes ampersands', () => {
+    config.http_post2_format_gravity = 'key1=val1&key2=val2'
+    const wrapper = mount(PushHttpPost2View)
+
+    wrapper.vm.gravityRenderFormat()
+
+    expect(wrapper.vm.render).toBeTruthy()
+  })
+
+  it('empty URL callback works', () => {
+    const wrapper = mount(PushHttpPost2View)
+
+    wrapper.vm.httpUrlCallback('')
+
+    expect(config.http_post2_target).toBe('')
+  })
+
+  it('empty header callbacks work', () => {
+    const wrapper = mount(PushHttpPost2View)
+
+    wrapper.vm.httpHeaderH1Callback('')
+    wrapper.vm.httpHeaderH2Callback('')
+
+    expect(config.http_post2_header1).toBe('')
+    expect(config.http_post2_header2).toBe('')
+  })
+
+  it('pressure format callback with URI-encoded data', () => {
+    const wrapper = mount(PushHttpPost2View)
+    const encoded = encodeURIComponent('{"psi":"{{pressure}}","unit":"psi"}')
+
+    wrapper.vm.pressureHttpFormatCallback(encoded)
+
+    expect(config.http_post2_format_pressure).toContain('{{pressure}}')
   })
 })

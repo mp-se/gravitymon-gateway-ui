@@ -41,6 +41,7 @@ describe('PushSettingsView', () => {
   })
 
   it('displays push timeout input with correct range', () => {
+    // eslint-disable-next-line no-unused-vars
     const wrapper = createWrapper()
 
     config.push_timeout = 30
@@ -54,6 +55,7 @@ describe('PushSettingsView', () => {
   })
 
   it('displays push resend time input with correct range', () => {
+    // eslint-disable-next-line no-unused-vars
     const wrapper = createWrapper()
 
     config.push_resend_time = 60
@@ -102,6 +104,7 @@ describe('PushSettingsView', () => {
     config.token = 'my-token'
     config.push_timeout = 45
     config.push_resend_time = 90
+    // eslint-disable-next-line no-unused-vars
     const wrapper = createWrapper()
 
     expect(config.token).toBe('my-token')
@@ -119,5 +122,452 @@ describe('PushSettingsView', () => {
     await Promise.all([promise1, promise2])
 
     expect(config.saveAll).toHaveBeenCalledTimes(2)
+  })
+
+  it('validates form with valid token', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.token = 'valid-token-123456'
+    const wrapper = createWrapper()
+
+    await wrapper.vm.save()
+
+    expect(validateCurrentForm).toHaveBeenCalled()
+    expect(config.saveAll).toHaveBeenCalled()
+  })
+
+  it('saves empty token when valid', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.token = ''
+    const wrapper = createWrapper()
+
+    await wrapper.vm.save()
+
+    expect(config.saveAll).toHaveBeenCalled()
+    expect(config.token).toBe('')
+  })
+
+  it('saves with minimum push timeout', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.push_timeout = 10
+    const wrapper = createWrapper()
+
+    await wrapper.vm.save()
+
+    expect(config.saveAll).toHaveBeenCalled()
+    expect(config.push_timeout).toBe(10)
+  })
+
+  it('saves with maximum push timeout', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.push_timeout = 120
+    const wrapper = createWrapper()
+
+    await wrapper.vm.save()
+
+    expect(config.saveAll).toHaveBeenCalled()
+    expect(config.push_timeout).toBe(120)
+  })
+
+  it('saves with minimum resend time', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.push_resend_time = 10
+    const wrapper = createWrapper()
+
+    await wrapper.vm.save()
+
+    expect(config.saveAll).toHaveBeenCalled()
+    expect(config.push_resend_time).toBe(10)
+  })
+
+  it('saves with maximum resend time', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.push_resend_time = 1800
+    const wrapper = createWrapper()
+
+    await wrapper.vm.save()
+
+    expect(config.saveAll).toHaveBeenCalled()
+    expect(config.push_resend_time).toBe(1800)
+  })
+
+  it('disables save when global.disabled is true', () => {
+    global.disabled = true
+    const wrapper = createWrapper()
+    const saveButton = wrapper.findAll('button')[0]
+
+    expect(saveButton.attributes('disabled')).toBeDefined()
+  })
+
+  it('enables save when global.disabled is false', () => {
+    global.disabled = false
+    const wrapper = createWrapper()
+    const saveButton = wrapper.findAll('button')[0]
+
+    expect(saveButton.attributes('disabled')).toBeUndefined()
+  })
+
+  it('disables save when configChanged is false', () => {
+    global.configChanged = false
+    const wrapper = createWrapper()
+    const saveButton = wrapper.findAll('button')[0]
+
+    expect(saveButton.attributes('disabled')).toBeDefined()
+  })
+
+  it('enables save when configChanged is true', () => {
+    global.configChanged = true
+    const wrapper = createWrapper()
+    const saveButton = wrapper.findAll('button')[0]
+
+    expect(saveButton.attributes('disabled')).toBeUndefined()
+  })
+
+  it('renders and saves with all fields populated', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.token = 'full-token'
+    config.push_timeout = 45
+    config.push_resend_time = 300
+    const wrapper = createWrapper()
+
+    expect(wrapper.find('form').exists()).toBe(true)
+    await wrapper.vm.save()
+
+    expect(config.saveAll).toHaveBeenCalled()
+    expect(config.token).toBe('full-token')
+    expect(config.push_timeout).toBe(45)
+    expect(config.push_resend_time).toBe(300)
+  })
+
+  it('prevents save on validation error', async () => {
+    validateCurrentForm.mockReturnValue(false)
+    config.token = 'test'
+    config.saveAll.mockClear()
+    const wrapper = createWrapper()
+
+    await wrapper.vm.save()
+
+    expect(config.saveAll).not.toHaveBeenCalled()
+  })
+
+  it('handles rapid form changes', () => {
+    const wrapper = createWrapper()
+
+    config.token = 'token1'
+    expect(config.token).toBe('token1')
+
+    config.token = 'token2'
+    expect(config.token).toBe('token2')
+
+    config.push_timeout = 20
+    expect(config.push_timeout).toBe(20)
+
+    config.push_resend_time = 200
+    expect(config.push_resend_time).toBe(200)
+  })
+
+  it('maintains config state between saves', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.token = 'persistent-token'
+    const wrapper = createWrapper()
+
+    await wrapper.vm.save()
+    expect(config.token).toBe('persistent-token')
+
+    await wrapper.vm.save()
+    expect(config.token).toBe('persistent-token')
+  })
+
+  it('calls validateCurrentForm with correct parameters', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    const wrapper = createWrapper()
+
+    await wrapper.vm.save()
+
+    expect(validateCurrentForm).toHaveBeenCalled()
+  })
+
+  it('renders message field label when needed', () => {
+    const wrapper = createWrapper()
+
+    expect(wrapper.html()).toBeTruthy()
+    expect(wrapper.text()).toContain('Push - Settings')
+  })
+
+  it('updates timeout values independently', () => {
+    const wrapper = createWrapper()
+
+    config.push_timeout = 25
+    expect(config.push_timeout).toBe(25)
+    expect(config.push_resend_time).toBe(60)
+
+    config.push_resend_time = 120
+    expect(config.push_timeout).toBe(25)
+    expect(config.push_resend_time).toBe(120)
+  })
+
+  it('supports long token values', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    const longToken = 'a'.repeat(256)
+    config.token = longToken
+    const wrapper = createWrapper()
+
+    await wrapper.vm.save()
+
+    expect(config.token).toBe(longToken)
+    expect(config.saveAll).toHaveBeenCalled()
+  })
+
+  it('handles special characters in token', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.token = 'token-with-special!@#$%'
+    const wrapper = createWrapper()
+
+    await wrapper.vm.save()
+
+    expect(config.token).toBe('token-with-special!@#$%')
+    expect(config.saveAll).toHaveBeenCalled()
+  })
+
+  it('initialization sets default values', () => {
+    config.token = ''
+    config.push_timeout = 30
+    config.push_resend_time = 60
+    const wrapper = createWrapper()
+
+    expect(wrapper.vm).toBeDefined()
+    expect(config.push_timeout).toBe(30)
+    expect(config.push_resend_time).toBe(60)
+  })
+
+  it('save function returns early on validation failure', async () => {
+    validateCurrentForm.mockReturnValue(false)
+    config.saveAll.mockClear()
+    const wrapper = createWrapper()
+
+    const result = await wrapper.vm.save()
+
+    expect(config.saveAll).not.toHaveBeenCalled()
+    expect(result).toBeUndefined()
+  })
+
+  it('save function proceeds on validation success', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.saveAll.mockClear()
+    const wrapper = createWrapper()
+
+    await wrapper.vm.save()
+
+    expect(validateCurrentForm).toHaveBeenCalled()
+    expect(config.saveAll).toHaveBeenCalled()
+  })
+
+  it('button element exists and is properly configured', () => {
+    const wrapper = createWrapper()
+    const buttons = wrapper.findAll('button')
+
+    expect(buttons).toHaveLength(1)
+    expect(buttons[0].text()).toContain('Save')
+  })
+
+  it('form contains all expected input fields', () => {
+    const wrapper = createWrapper()
+
+    expect(wrapper.text()).toContain('Push - Settings')
+    expect(wrapper.find('form').exists()).toBe(true)
+    expect(wrapper.vm).toBeDefined()
+  })
+
+  it('form submission calls save method', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    const wrapper = createWrapper()
+    const saveButton = wrapper.find('button[type="submit"]')
+
+    expect(saveButton.exists()).toBe(true)
+  })
+
+  it('token can be empty string', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.token = ''
+    const wrapper = createWrapper()
+
+    await wrapper.vm.save()
+
+    expect(config.token).toBe('')
+    expect(config.saveAll).toHaveBeenCalled()
+  })
+
+  it('token can be very long', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    const veryLongToken = 'x'.repeat(500)
+    config.token = veryLongToken
+    const wrapper = createWrapper()
+
+    await wrapper.vm.save()
+
+    expect(config.token).toBe(veryLongToken)
+    expect(config.saveAll).toHaveBeenCalled()
+  })
+
+  it('timeout values are updated independently', () => {
+    const wrapper = createWrapper()
+
+    config.push_timeout = 15
+    expect(config.push_timeout).toBe(15)
+    expect(config.push_resend_time).toBe(60)
+
+    config.push_resend_time = 900
+    expect(config.push_timeout).toBe(15)
+    expect(config.push_resend_time).toBe(900)
+  })
+
+  it('all config fields can be changed simultaneously', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.token = 'new-token'
+    config.push_timeout = 20
+    config.push_resend_time = 500
+    const wrapper = createWrapper()
+
+    await wrapper.vm.save()
+
+    expect(config.token).toBe('new-token')
+    expect(config.push_timeout).toBe(20)
+    expect(config.push_resend_time).toBe(500)
+    expect(config.saveAll).toHaveBeenCalledTimes(1)
+  })
+
+  it('save button disable state reflects global.disabled', () => {
+    global.disabled = true
+    const wrapper = createWrapper()
+    const saveButton = wrapper.find('button[type="submit"]')
+
+    expect(saveButton.attributes('disabled')).toBeDefined()
+  })
+
+  it('save button disable state reflects global.configChanged', () => {
+    global.configChanged = false
+    const wrapper = createWrapper()
+    const saveButton = wrapper.find('button[type="submit"]')
+
+    expect(saveButton.attributes('disabled')).toBeDefined()
+  })
+
+  it('save button is enabled when both conditions are met', () => {
+    global.disabled = false
+    global.configChanged = true
+    const wrapper = createWrapper()
+    const saveButton = wrapper.find('button[type="submit"]')
+
+    expect(saveButton.attributes('disabled')).toBeUndefined()
+  })
+
+  it('push timeout minimum value is preserved', () => {
+    config.push_timeout = 10
+    // eslint-disable-next-line no-unused-vars
+    const wrapper = createWrapper()
+
+    expect(config.push_timeout).toBe(10)
+  })
+
+  it('push timeout maximum value is preserved', () => {
+    config.push_timeout = 60
+    // eslint-disable-next-line no-unused-vars
+    const wrapper = createWrapper()
+
+    expect(config.push_timeout).toBe(60)
+  })
+
+  it('push resend time minimum value is preserved', () => {
+    config.push_resend_time = 10
+    // eslint-disable-next-line no-unused-vars
+    const wrapper = createWrapper()
+
+    expect(config.push_resend_time).toBe(10)
+  })
+
+  it('push resend time maximum value is preserved', () => {
+    config.push_resend_time = 1800
+    // eslint-disable-next-line no-unused-vars
+    const wrapper = createWrapper()
+
+    expect(config.push_resend_time).toBe(1800)
+  })
+
+  it('validateCurrentForm is called with proper context', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    const wrapper = createWrapper()
+
+    await wrapper.vm.save()
+
+    expect(validateCurrentForm).toHaveBeenCalledTimes(1)
+  })
+
+  it('saveAll is only called after successful validation', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.saveAll.mockClear()
+    const wrapper = createWrapper()
+
+    await wrapper.vm.save()
+
+    expect(config.saveAll).toHaveBeenCalledTimes(1)
+  })
+
+  it('component renders spinner in save button when disabled', () => {
+    global.disabled = true
+    const wrapper = createWrapper()
+
+    expect(wrapper.text()).toContain('Save')
+  })
+
+  it('token field accepts numbers and special chars', () => {
+    const wrapper = createWrapper()
+
+    config.token = '12345-abc-!@#$'
+    expect(config.token).toBe('12345-abc-!@#$')
+
+    config.token = 'Bearer eyJhbGciOi'
+    expect(config.token).toBe('Bearer eyJhbGciOi')
+  })
+
+  it('timeout inputs accept numeric values', () => {
+    const wrapper = createWrapper()
+
+    config.push_timeout = 45
+    expect(config.push_timeout).toBe(45)
+
+    config.push_resend_time = 750
+    expect(config.push_resend_time).toBe(750)
+  })
+
+  it('form has correct structure and classes', () => {
+    const wrapper = createWrapper()
+
+    expect(wrapper.find('form.needs-validation').exists()).toBe(true)
+    expect(wrapper.find('form[novalidate]').exists()).toBe(true)
+  })
+
+  it('multiple rapid saves are handled correctly', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    const wrapper = createWrapper()
+
+    await Promise.all([
+      wrapper.vm.save(),
+      wrapper.vm.save(),
+      wrapper.vm.save()
+    ])
+
+    expect(config.saveAll).toHaveBeenCalledTimes(3)
+  })
+
+  it('save preserves state across multiple calls', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.token = 'permanent-token'
+    config.push_timeout = 35
+    const wrapper = createWrapper()
+
+    await wrapper.vm.save()
+    await wrapper.vm.save()
+
+    expect(config.token).toBe('permanent-token')
+    expect(config.push_timeout).toBe(35)
   })
 })

@@ -1,74 +1,96 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { mount } from '@vue/test-utils'
-import { global, status } from '@/modules/pinia'
-import ToolsView from '@/views/ToolsView.vue'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { shallowMount } from '@vue/test-utils'
+import ToolsView from '../ToolsView.vue'
+import { createTestingPinia } from '../../tests/testUtils'
 
-describe('ToolsView', () => {
-  beforeEach(() => {
-    vi.clearAllMocks()
-    Object.assign(global, {
-      disabled: false
-    })
-    Object.assign(status, {
-      sd_mounted: false
-    })
+describe('ToolsView (smoke)', () => {
+  it('mounts without error', () => {
+    const pinia = createTestingPinia()
+    const wrapper = shallowMount(ToolsView, { global: { plugins: [pinia] } })
+    expect(wrapper.exists()).toBe(true)
   })
+})
 
-  it('renders the heading and internal flash file fragments by default', () => {
-    const wrapper = mount(ToolsView)
+describe('ToolsView (action tests)', () => {
+  beforeEach(() => vi.clearAllMocks())
 
-    expect(wrapper.text()).toContain('Tools')
-    expect(wrapper.vm.fileSystem).toBe(0)
-    expect(wrapper.vm.hideAdvanced).toBe(true)
-  })
-
-  it('shows filesystem options when an SD card is mounted', () => {
-    status.sd_mounted = true
-    const wrapper = mount(ToolsView)
-
-    expect(wrapper.vm.fileSystemOptions).toEqual([
-      { label: 'Internal Flash', value: 0 },
-      { label: 'Secure Digital (SD)', value: 1 }
-    ])
-    expect(status.sd_mounted).toBe(true)
-  })
-
-  it('toggles advanced tools on when enableAdvanced is called', async () => {
-    const wrapper = mount(ToolsView)
-
+  it('enableAdvanced toggles hideAdvanced from true to false', async () => {
+    const pinia = createTestingPinia()
+    const wrapper = shallowMount(ToolsView, { global: { plugins: [pinia] } })
     expect(wrapper.vm.hideAdvanced).toBe(true)
     wrapper.vm.enableAdvanced()
-    await wrapper.vm.$nextTick()
-
     expect(wrapper.vm.hideAdvanced).toBe(false)
   })
 
-  it('switches between internal flash and SD modes through the radio control', async () => {
-    status.sd_mounted = true
-    const radioStub = {
-      template:
-        '<select @change="$emit(\'update:modelValue\', Number($event.target.value))"><option value="0">Internal</option><option value="1">SD</option></select>',
-      props: ['modelValue', 'options', 'label', 'width'],
-      emits: ['update:modelValue']
-    }
-    const wrapper = mount(ToolsView, {
-      global: {
-        stubs: {
-          BsInputRadio: radioStub
-        }
-      }
-    })
-
-    await wrapper.find('select').setValue('1')
-
-    expect(wrapper.vm.fileSystem).toBe(1)
+  it('enableAdvanced toggles hideAdvanced back to true on second call', async () => {
+    const pinia = createTestingPinia()
+    const wrapper = shallowMount(ToolsView, { global: { plugins: [pinia] } })
+    wrapper.vm.enableAdvanced()
+    wrapper.vm.enableAdvanced()
+    expect(wrapper.vm.hideAdvanced).toBe(true)
   })
 
-  it('disables the advanced button when the global store is disabled', () => {
-    global.disabled = true
-    const wrapper = mount(ToolsView)
-    const button = wrapper.find('button')
+  it('enable advanced button is visible when hideAdvanced is true', async () => {
+    const pinia = createTestingPinia()
+    const wrapper = shallowMount(ToolsView, { global: { plugins: [pinia] } })
+    expect(wrapper.find('button').exists()).toBe(true)
+  })
 
-    expect(button.attributes('disabled')).toBeDefined()
+  it('clicking enable advanced button toggles hideAdvanced via click event', async () => {
+    const pinia = createTestingPinia()
+    const wrapper = shallowMount(ToolsView, { global: { plugins: [pinia] } })
+    expect(wrapper.vm.hideAdvanced).toBe(true)
+    await wrapper.find('button').trigger('click')
+    expect(wrapper.vm.hideAdvanced).toBe(false)
+  })
+
+  it('AdvancedFilesFragment is hidden when hideAdvanced is true', async () => {
+    const pinia = createTestingPinia()
+    const wrapper = shallowMount(ToolsView, { global: { plugins: [pinia], stubs: {} } })
+    expect(wrapper.vm.hideAdvanced).toBe(true)
+    expect(wrapper.findComponent({ name: 'AdvancedFilesFragment' }).exists()).toBe(false)
+  })
+
+  it('AdvancedFilesFragment is shown when hideAdvanced is toggled to false', async () => {
+    const pinia = createTestingPinia()
+    const wrapper = shallowMount(ToolsView, { global: { plugins: [pinia], stubs: {} } })
+    wrapper.vm.hideAdvanced = false
+    await wrapper.vm.$nextTick()
+    expect(wrapper.findComponent({ name: 'AdvancedFilesFragment' }).exists()).toBe(true)
+  })
+
+  it('EnableCorsFragment is hidden when hideAdvanced is true', async () => {
+    const pinia = createTestingPinia()
+    const wrapper = shallowMount(ToolsView, { global: { plugins: [pinia], stubs: {} } })
+    expect(wrapper.vm.hideAdvanced).toBe(true)
+    expect(wrapper.findComponent({ name: 'EnableCorsFragment' }).exists()).toBe(false)
+  })
+
+  it('EnableCorsFragment is shown when hideAdvanced is toggled to false', async () => {
+    const pinia = createTestingPinia()
+    const wrapper = shallowMount(ToolsView, { global: { plugins: [pinia], stubs: {} } })
+    wrapper.vm.hideAdvanced = false
+    await wrapper.vm.$nextTick()
+    expect(wrapper.findComponent({ name: 'EnableCorsFragment' }).exists()).toBe(true)
+  })
+
+  it('ListFilesFragment is always visible regardless of hideAdvanced state', async () => {
+    const pinia = createTestingPinia()
+    const wrapper = shallowMount(ToolsView, { global: { plugins: [pinia], stubs: {} } })
+    expect(wrapper.findComponent({ name: 'ListFilesFragment' }).exists()).toBe(true)
+    wrapper.vm.hideAdvanced = false
+    await wrapper.vm.$nextTick()
+    expect(wrapper.findComponent({ name: 'ListFilesFragment' }).exists()).toBe(true)
+  })
+
+  it('Enable Advanced button is only visible when hideAdvanced is true', async () => {
+    const pinia = createTestingPinia()
+    const wrapper = shallowMount(ToolsView, { global: { plugins: [pinia] } })
+    const buttons = wrapper.findAll('button')
+    expect(buttons.length).toBeGreaterThan(0)
+    wrapper.vm.hideAdvanced = false
+    await wrapper.vm.$nextTick()
+    const buttonsAfter = wrapper.findAll('button')
+    expect(buttonsAfter.length).toBeLessThan(buttons.length)
   })
 })

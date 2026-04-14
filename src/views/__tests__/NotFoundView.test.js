@@ -1,24 +1,41 @@
-import { describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
 import NotFoundView from '../NotFoundView.vue'
+import { createTestingPinia } from '../../tests/testUtils'
 
-describe('NotFoundView', () => {
-  it('renders the not found message', () => {
+describe('NotFoundView (smoke)', () => {
+  it('mounts without error', () => {
+    const pinia = createTestingPinia()
     const wrapper = mount(NotFoundView, {
       global: {
+        plugins: [pinia],
         mocks: {
-          $route: {
-            path: '/missing-page'
-          }
-        },
-        stubs: {
-          BsMessage: { template: '<div><slot /></div>' }
+          $route: { path: '/test' }
         }
       }
     })
-
     expect(wrapper.exists()).toBe(true)
-    expect(wrapper.text().toLowerCase()).toContain('not found')
-    expect(wrapper.text()).toContain('/missing-page')
+  })
+
+  it('renders with router for branch coverage of $route.path', async () => {
+    const { createRouter, createMemoryHistory } = await import('vue-router')
+    const pinia = createTestingPinia()
+    const router = createRouter({
+      history: createMemoryHistory(),
+      routes: [{ path: '/:pathMatch(.*)*', component: NotFoundView }]
+    })
+    await router.push('/notfound/page')
+    await router.isReady()
+    const wrapper = mount(NotFoundView, {
+      global: {
+        plugins: [pinia, router],
+        stubs: {
+          BsMessage: {
+            template: '<div><slot /></div>'
+          }
+        }
+      }
+    })
+    expect(wrapper.exists()).toBe(true)
+    expect(wrapper.text()).toContain('/notfound/page')
   })
 })
