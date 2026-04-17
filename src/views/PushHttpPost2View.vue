@@ -1,21 +1,23 @@
 <!--
- * GravityMon Gateway UI
- * Copyright (c) 2021-2026 Magnus
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
- -->
+  GravityMon
+  Copyright (c) 2021-2026 Magnus
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  Alternatively, this software may be used under the terms of a
+  commercial license. See LICENSE_COMMERCIAL for details.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
 <template>
   <div class="container">
     <p></p>
@@ -86,52 +88,67 @@
             :disabled="pushDisabled"
           />
         </div>
+        <div class="col-md-6">
+          <BsInputNumber
+            v-model="config.http_post2_int"
+            label="Skip interval"
+            min="0"
+            max="5"
+            width="4"
+            help="Defines how many sleep cycles to skip between pushing data to this target, 1 = every second cycle. Default is 0."
+            :disabled="pushDisabled"
+          />
+        </div>
       </div>
       <div class="row">
         <div class="col-md-9">
           <BsInputTextAreaFormat
             v-model="config.http_post2_format_gravity"
             rows="6"
-            label="Gravity Data format"
+            label="Data format"
             help="Format template used to create the data sent to the remote service"
-            :disabled="pushDisabled || !config.http_post_gravity"
+            :disabled="pushDisabled"
+            v-if="global.ui.enableGravity"
           />
         </div>
         <div class="col-md-3">
-          <BsInputSwitch
-            v-model="config.http_post2_gravity"
-            label="Enable gravity"
-            :disabled="global.disabled"
-          />
           <BsDropdown
             label="Predefined formats"
             button="Formats"
             :options="gravityHttpPostFormatOptions"
             :callback="gravityHttpFormatCallback"
-            :disabled="pushDisabled || !config.http_post2_gravity"
+            :disabled="pushDisabled"
+            v-if="global.ui.enableGravity"
           />
           <BsModal
             @click="gravityRenderFormat"
-            v-model="render"
+            v-model="gravityRender"
             :code="true"
             :json="true"
             title="Format preview"
             button="Preview format"
-            :disabled="pushDisabled || !config.http_post2_gravity"
+            :disabled="pushDisabled"
+            v-if="global.ui.enableGravity"
           />
         </div>
-      </div>
-      <div class="row">
+        <div class="col-md-3" v-if="global.ui.enableGravity && global.ui.enablePressure">
+          <BsInputSwitch
+            v-model="config.http_post2_gravity"
+            label="Enable gravity"
+            :disabled="global.disabled"
+          />
+        </div>
         <div class="col-md-9">
           <BsInputTextAreaFormat
             v-model="config.http_post2_format_pressure"
             rows="6"
-            label="Pressure Data format"
+            label="Data format (Pressure)"
             help="Format template used to create the data sent to the remote service"
-            :disabled="pushDisabled || !config.http_post2_pressure"
+            :disabled="pushDisabled"
+            v-if="global.ui.enablePressure"
           />
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3" v-if="global.ui.enablePressure && global.ui.enableGravity">
           <BsInputSwitch
             v-model="config.http_post2_pressure"
             label="Enable pressure"
@@ -142,16 +159,34 @@
             button="Formats"
             :options="pressureHttpPostFormatOptions"
             :callback="pressureHttpFormatCallback"
-            :disabled="pushDisabled || !config.http_post2_pressure"
+            :disabled="pushDisabled"
           />
           <BsModal
             @click="pressureRenderFormat"
-            v-model="render"
+            v-model="pressureRender"
             :code="true"
             :json="true"
             title="Format preview"
             button="Preview format"
-            :disabled="pushDisabled || !config.http_post2_pressure"
+            :disabled="pushDisabled"
+          />
+        </div>
+        <div class="col-md-3" v-if="global.ui.enablePressure && !global.ui.enableGravity">
+          <BsDropdown
+            label="Predefined formats"
+            button="Formats"
+            :options="pressureHttpPostFormatOptions"
+            :callback="pressureHttpFormatCallback"
+            :disabled="pushDisabled"
+          />
+          <BsModal
+            @click="pressureRenderFormat"
+            v-model="pressureRender"
+            :code="true"
+            :json="true"
+            title="Format preview"
+            button="Preview format"
+            :disabled="pushDisabled"
           />
         </div>
       </div>
@@ -169,12 +204,13 @@
               class="spinner-border spinner-border-sm"
               role="status"
               aria-hidden="true"
-              :hidden="!global.disabled"
+              v-show="global.disabled"
             ></span>
             &nbsp;Save</button
           >&nbsp;
 
           <button
+            v-if="global.ui.enableGravity"
             @click="runTestGravity"
             type="button"
             class="btn btn-secondary"
@@ -189,6 +225,7 @@
             &nbsp;Run push gravity test</button
           >&nbsp;
           <button
+            v-if="global.ui.enablePressure"
             @click="runTestPressure"
             type="button"
             class="btn btn-secondary"
@@ -210,32 +247,47 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import { httpHeaderOptions, httpPostUrlOptions } from '@/modules/utils'
+import { gravityHttpPostFormatOptions } from '@/modules/gravityFormatOptions'
+import { pressureHttpPostFormatOptions } from '@/modules/pressureFormatOptions'
+import { applyTemplate } from '@/modules/formatTemplate'
 import { validateCurrentForm } from '@mp-se/espframework-ui-components'
-import {
-  httpHeaderOptions,
-  httpPostUrlOptions,
-  gravityHttpPostFormatOptions,
-  pressureHttpPostFormatOptions,
-  applyTemplate
-} from '@/modules/utils'
 import { global, status, config } from '@/modules/pinia'
+import { logError } from '@mp-se/espframework-ui-components'
 
-const render = ref('')
+const gravityRender = ref('')
+const pressureRender = ref('')
 
 const pushDisabled = computed(() => {
   return global.disabled || config.use_wifi_direct
 })
 
 const runTestGravity = async () => {
-  const data = { push_format: 'http_post2_format_gravity' }
-  global.clearMessages()
-  await config.runPushTest(data)
+  try {
+    const data = {
+      push_format: 'http_post2_format_gravity'
+    }
+
+    global.clearMessages()
+    await config.runPushTest(data)
+  } catch (error) {
+    logError('PushHttpPost2View.runTestGravity()', error)
+    global.messageError = 'Failed to start push test'
+  }
 }
 
 const runTestPressure = async () => {
-  const data = { push_format: 'http_post2_format_pressure' }
-  global.clearMessages()
-  await config.runPushTest(data)
+  try {
+    const data = {
+      push_format: 'http_post2_format_pressure'
+    }
+
+    global.clearMessages()
+    await config.runPushTest(data)
+  } catch (error) {
+    logError('PushHttpPost2View.runTestPressure()', error)
+    global.messageError = 'Failed to start push test'
+  }
 }
 
 const httpUrlCallback = (opt) => {
@@ -259,11 +311,11 @@ const pressureHttpFormatCallback = (opt) => {
 }
 
 const gravityRenderFormat = () => {
-  render.value = applyTemplate(status, config, config.http_post2_format_gravity)
+  gravityRender.value = applyTemplate(status, config, config.http_post2_format_gravity)
 }
 
 const pressureRenderFormat = () => {
-  render.value = applyTemplate(status, config, config.http_post2_format_pressure)
+  pressureRender.value = applyTemplate(status, config, config.http_post2_format_pressure)
 }
 
 const save = async () => {

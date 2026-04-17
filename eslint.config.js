@@ -22,7 +22,20 @@ export default [
     },
   },
 
+  {
+    name: 'app/test-files',
+    files: ['**/__tests__/**/*.js', 'src/tests/**/*.js'],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        ...globals.vitest,
+      },
+    },
+  },
+
   js.configs.recommended,
   ...pluginVue.configs['flat/essential'],
   skipFormatting,
 ]
+

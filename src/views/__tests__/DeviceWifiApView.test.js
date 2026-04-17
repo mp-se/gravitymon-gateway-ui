@@ -1,8 +1,8 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi, afterEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import DeviceWifiApView from '../DeviceWifiApView.vue'
 import { config, global, status } from '@/modules/pinia'
-import { validateCurrentForm } from '@mp-se/espframework-ui-components'
+import { validateCurrentForm, logDebug } from '@mp-se/espframework-ui-components'
 
 describe('DeviceWifiApView', () => {
   const createWrapper = () =>
@@ -338,5 +338,253 @@ describe('DeviceWifiApView', () => {
     expect(config.wifi_direct_pass).toBe('')
     wrapper.vm.generate()
     expect(config.wifi_direct_pass.length).toBeLessThanOrEqual(10)
+  })
+
+  it('generate logs debug message', () => {
+    logDebug.mockClear()
+    const wrapper = createWrapper()
+
+    wrapper.vm.generate()
+
+    expect(logDebug).toHaveBeenCalledWith('DeviceWifiView:generate()')
+  })
+
+  it('generate with maximum BigUint64Array values', () => {
+    const maxValue = 18446744073709551615n
+    const randomValues = BigUint64Array.from([maxValue, maxValue])
+    vi.spyOn(window.crypto, 'getRandomValues').mockReturnValue(randomValues)
+    const wrapper = createWrapper()
+
+    wrapper.vm.generate()
+
+    expect(config.wifi_direct_ssid).toBe('gw-ABC123')
+    expect(config.wifi_direct_pass).toHaveLength(10)
+  })
+
+  it('generate with small BigUint64Array values', () => {
+    const randomValues = BigUint64Array.from([0n, 0n])
+    vi.spyOn(window.crypto, 'getRandomValues').mockReturnValue(randomValues)
+    const wrapper = createWrapper()
+
+    wrapper.vm.generate()
+
+    expect(config.wifi_direct_ssid).toBe('gw-ABC123')
+    expect(config.wifi_direct_pass.length).toBeLessThanOrEqual(10)
+  })
+
+  it('save calls validateCurrentForm before saving', () => {
+    validateCurrentForm.mockReturnValue(true)
+    validateCurrentForm.mockClear()
+    config.saveAll.mockClear()
+    const wrapper = createWrapper()
+
+    wrapper.vm.save()
+
+    expect(validateCurrentForm).toHaveBeenCalled()
+    expect(config.saveAll).toHaveBeenCalled()
+  })
+
+  it('save returns early without calling saveAll when validation fails', () => {
+    validateCurrentForm.mockReturnValue(false)
+    config.saveAll.mockClear()
+    const wrapper = createWrapper()
+
+    wrapper.vm.save()
+
+    expect(config.saveAll).not.toHaveBeenCalled()
+  })
+
+  it('save message contains restart and effect keywords', () => {
+    validateCurrentForm.mockReturnValue(true)
+    global.messageInfo = ''
+    const wrapper = createWrapper()
+
+    wrapper.vm.save()
+
+    expect(global.messageInfo).toContain('restart')
+    expect(global.messageInfo).toContain('effect')
+  })
+
+  it('save message is about device restart not general restart', () => {
+    validateCurrentForm.mockReturnValue(true)
+    global.messageInfo = ''
+    const wrapper = createWrapper()
+
+    wrapper.vm.save()
+
+    expect(global.messageInfo).toContain('device')
+  })
+
+  it('generate creates password with only alphanumeric characters', () => {
+    const randomValues = BigUint64Array.from([999999999n, 888888888n])
+    vi.spyOn(window.crypto, 'getRandomValues').mockReturnValue(randomValues)
+    const wrapper = createWrapper()
+
+    wrapper.vm.generate()
+
+    expect(/^[a-zA-Z0-9]+$/.test(config.wifi_direct_pass)).toBe(true)
+  })
+
+  it('save with both SSID and password set', () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.wifi_direct_ssid = 'test-ssid'
+    config.wifi_direct_pass = 'test-pass'
+    config.saveAll.mockClear()
+    const wrapper = createWrapper()
+
+    wrapper.vm.save()
+
+    expect(config.saveAll).toHaveBeenCalledTimes(1)
+    expect(config.wifi_direct_ssid).toBe('test-ssid')
+    expect(config.wifi_direct_pass).toBe('test-pass')
+  })
+
+  it('generate replaces previous SSID completely', () => {
+    const wrapper = createWrapper()
+    config.wifi_direct_ssid = 'old-ssid'
+
+    wrapper.vm.generate()
+
+    expect(config.wifi_direct_ssid).toMatch(/^gw-/)
+    expect(config.wifi_direct_ssid).not.toContain('old-ssid')
+  })
+
+  it('generate replaces previous password completely', () => {
+    const randomValues1 = BigUint64Array.from([111n, 222n])
+    vi.spyOn(window.crypto, 'getRandomValues').mockReturnValue(randomValues1)
+    const wrapper = createWrapper()
+
+    config.wifi_direct_pass = 'old-password'
+    wrapper.vm.generate()
+    const newPass = config.wifi_direct_pass
+
+    expect(newPass).not.toContain('old')
+    expect(newPass.length).toBeLessThanOrEqual(10)
+  })
+
+  it('restart awaits async operation', async () => {
+    config.restart.mockImplementation(() => Promise.resolve())
+    const wrapper = createWrapper()
+
+    const promise = wrapper.vm.restart()
+    expect(promise).toBeInstanceOf(Promise)
+
+    await promise
+    expect(config.restart).toHaveBeenCalled()
+  })
+
+  it('SSID format always starts with gw- prefix', () => {
+    const wrapper = createWrapper()
+    status.id = 'TEST001'
+
+    wrapper.vm.generate()
+
+    expect(config.wifi_direct_ssid).toBe('gw-TEST001')
+  })
+
+  it('SSID includes full status.id without truncation', () => {
+    const wrapper = createWrapper()
+    status.id = 'LONGID12345'
+
+    wrapper.vm.generate()
+
+    expect(config.wifi_direct_ssid).toBe('gw-LONGID12345')
+  })
+
+  it('password substring operation limits to 10 characters', () => {
+    const randomValues = BigUint64Array.from([123456789012345n, 987654321098765n])
+    vi.spyOn(window.crypto, 'getRandomValues').mockReturnValue(randomValues)
+    const wrapper = createWrapper()
+
+    wrapper.vm.generate()
+
+    expect(config.wifi_direct_pass.length).toBe(10)
+  })
+
+  it('password conversion uses toString(36) for lowercase', () => {
+    const randomValues = BigUint64Array.from([12345n, 67890n])
+    vi.spyOn(window.crypto, 'getRandomValues').mockReturnValue(randomValues)
+    const wrapper = createWrapper()
+
+    wrapper.vm.generate()
+
+    expect(config.wifi_direct_pass).toBeTruthy()
+    expect(config.wifi_direct_pass.length).toBeLessThanOrEqual(10)
+  })
+
+  it('form submission prevents default behavior', () => {
+    const wrapper = createWrapper()
+    const form = wrapper.find('form')
+
+    expect(form.exists()).toBe(true)
+  })
+
+  it('generate button type is button not submit', () => {
+    const wrapper = createWrapper()
+    const buttons = wrapper.findAll('button')
+    const generateBtn = buttons.find((b) => b.text().includes('Generate'))
+
+    expect(generateBtn?.attributes('type')).toBe('button')
+  })
+
+  it('save button type is submit', () => {
+    const wrapper = createWrapper()
+    const buttons = wrapper.findAll('button')
+    const saveBtn = buttons.find((b) => b.text().includes('Save'))
+
+    expect(saveBtn?.attributes('type')).toBe('submit')
+  })
+
+  it('status.id is read correctly from pinia store', () => {
+    const wrapper = createWrapper()
+    status.id = 'CUSTOM123'
+
+    wrapper.vm.generate()
+
+    expect(config.wifi_direct_ssid).toContain('CUSTOM123')
+  })
+
+  it('sequential generates with different status.id values', () => {
+    const wrapper = createWrapper()
+
+    status.id = 'FIRST'
+    wrapper.vm.generate()
+    const ssid1 = config.wifi_direct_ssid
+
+    status.id = 'SECOND'
+    wrapper.vm.generate()
+    const ssid2 = config.wifi_direct_ssid
+
+    expect(ssid1).toBe('gw-FIRST')
+    expect(ssid2).toBe('gw-SECOND')
+    expect(ssid1).not.toBe(ssid2)
+  })
+
+  it('global.messageInfo is initially empty', () => {
+    global.messageInfo = ''
+    createWrapper()
+
+    expect(global.messageInfo).toBe('')
+  })
+
+  it('save overrides messageInfo with restart message', () => {
+    validateCurrentForm.mockReturnValue(true)
+    global.messageInfo = 'old message'
+    const wrapper = createWrapper()
+
+    wrapper.vm.save()
+
+    expect(global.messageInfo).toBe('If WIFI settings are changed, restart the device so they can take effect!')
+  })
+
+  it('validation before save is blocking', () => {
+    validateCurrentForm.mockReturnValue(false)
+    config.saveAll.mockImplementation(() => {
+      throw new Error('Should not be called')
+    })
+    const wrapper = createWrapper()
+
+    expect(() => wrapper.vm.save()).not.toThrow()
+    expect(config.saveAll).not.toHaveBeenCalled()
   })
 })

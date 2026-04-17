@@ -36,7 +36,6 @@
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/test-utils": "^2.4.6",
     "autoprefixer": "^10.4.21",
-    "baseline-browser-mapping": "^2.9.11",
     "cors": "^2.8.5",
     "cssnano": "^7.1.1",
     "eslint": "^9.36.0",

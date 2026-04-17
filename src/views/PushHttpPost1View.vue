@@ -1,37 +1,62 @@
 <!--
- * GravityMon Gateway UI
- * Copyright (c) 2021-2026 Magnus
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
- -->
+  GravityMon
+  Copyright (c) 2021-2026 Magnus
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  Alternatively, this software may be used under the terms of a
+  commercial license. See LICENSE_COMMERCIAL for details.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
 <template>
   <div class="container">
     <p></p>
-    <p class="h3">Push - HTTP Post</p>
+    <p class="h3">Push - HTTP Post #1</p>
     <hr />
 
-    <form @submit.prevent="save" class="needs-validation" novalidate>
+    <form
+      @submit.prevent="save"
+      class="needs-validation"
+      novalidate
+      :disabled="config.use_wifi_direct"
+    >
       <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-8">
           <BsInputText
             v-model="config.http_post_target"
             type="url"
             maxlength="120"
             label="HTTP URL"
             help="URL to push target, use format http://servername.com/resource (Supports http and https)"
-            :disabled="global.disabled"
+            :disabled="pushDisabled"
+            v-if="config.http_post_tcp === false || global.ui.enableHttpPostTcpMode === false"
+          />
+
+          <BsInputText
+            v-model="config.http_post_target"
+            type="text"
+            maxlength="120"
+            label="Server"
+            help="IP and port to push target, use format server:port"
+            :disabled="pushDisabled"
+            v-if="config.http_post_tcp === true"
+          />
+        </div>
+        <div class="col-md-1">
+          <BsInputSwitch
+            v-model="config.http_post_tcp"
+            label="Use tcp"
+            v-if="global.ui.enableHttpPostTcpMode"
           />
         </div>
         <div class="col-md-3">
@@ -40,7 +65,8 @@
             button="URL"
             :options="httpPostUrlOptions"
             :callback="httpUrlCallback"
-            :disabled="global.disabled"
+            :disabled="pushDisabled"
+            v-if="config.http_post_tcp === false || global.ui.enableHttpPostTcpMode === false"
           />
         </div>
         <div class="col-md-9">
@@ -50,7 +76,8 @@
             pattern="(.+): (.+)"
             label="HTTP Header #1"
             help=""
-            :disabled="global.disabled"
+            :disabled="pushDisabled"
+            v-if="config.http_post_tcp === false || global.ui.enableHttpPostTcpMode === false"
           />
         </div>
         <div class="col-md-3">
@@ -59,7 +86,8 @@
             button="Header"
             :options="httpHeaderOptions"
             :callback="httpHeaderH1Callback"
-            :disabled="global.disabled"
+            :disabled="pushDisabled"
+            v-if="config.http_post_tcp === false || global.ui.enableHttpPostTcpMode === false"
           />
         </div>
         <div class="col-md-9">
@@ -69,7 +97,8 @@
             pattern="(.+): (.+)"
             label="HTTP Header #2"
             help="Set a http headers, empty string is skipped, example: Content-Type: application/json"
-            :disabled="global.disabled"
+            :disabled="pushDisabled"
+            v-if="config.http_post_tcp === false || global.ui.enableHttpPostTcpMode === false"
           />
         </div>
         <div class="col-md-3">
@@ -78,19 +107,33 @@
             button="Header"
             :options="httpHeaderOptions"
             :callback="httpHeaderH2Callback"
-            :disabled="global.disabled"
+            :disabled="pushDisabled"
+            v-if="config.http_post_tcp === false || global.ui.enableHttpPostTcpMode === false"
+          />
+        </div>
+        <div class="col-md-6">
+          <BsInputNumber
+            v-model="config.http_post_int"
+            label="Skip interval"
+            min="0"
+            max="5"
+            width="4"
+            help="Defines how many sleep cycles to skip between pushing data to this target, 1 = every second cycle. Default is 0."
+            :disabled="pushDisabled"
+            v-if="config.http_post_tcp === false || global.ui.enableHttpPostTcpMode === false"
           />
         </div>
         <div class="col-md-9">
           <BsInputTextAreaFormat
             v-model="config.http_post_format_gravity"
             rows="6"
-            label="Gravity Data format"
+            label="Data format"
             help="Format template used to create the data sent to the remote service"
-            :disabled="global.disabled || !config.http_post_gravity"
+            :disabled="pushDisabled"
+            v-if="global.ui.enableGravity"
           />
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3" v-if="global.ui.enableGravity && global.ui.enablePressure">
           <BsInputSwitch
             v-model="config.http_post_gravity"
             label="Enable gravity"
@@ -101,28 +144,47 @@
             button="Formats"
             :options="gravityHttpPostFormatOptions"
             :callback="gravityHttpFormatCallback"
-            :disabled="global.disabled || !config.http_post_gravity"
+            :disabled="pushDisabled"
           />
           <BsModal
             @click="gravityRenderFormat"
-            v-model="render"
+            v-model="gravityRender"
             :code="true"
             :json="true"
             title="Format preview"
             button="Preview format"
-            :disabled="global.disabled || !config.http_post_gravity"
+            :disabled="pushDisabled"
+          />
+        </div>
+        <div class="col-md-3" v-if="global.ui.enableGravity && !global.ui.enablePressure">
+          <BsDropdown
+            label="Predefined formats"
+            button="Formats"
+            :options="gravityHttpPostFormatOptions"
+            :callback="gravityHttpFormatCallback"
+            :disabled="pushDisabled"
+          />
+          <BsModal
+            @click="gravityRenderFormat"
+            v-model="gravityRender"
+            :code="true"
+            :json="true"
+            title="Format preview"
+            button="Preview format"
+            :disabled="pushDisabled"
           />
         </div>
         <div class="col-md-9">
           <BsInputTextAreaFormat
             v-model="config.http_post_format_pressure"
             rows="6"
-            label="Pressure Data format"
+            label="Data format (Pressure)"
             help="Format template used to create the data sent to the remote service"
-            :disabled="global.disabled || !config.http_post_pressure"
+            :disabled="pushDisabled"
+            v-if="global.ui.enablePressure"
           />
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3" v-if="global.ui.enablePressure && global.ui.enableGravity">
           <BsInputSwitch
             v-model="config.http_post_pressure"
             label="Enable pressure"
@@ -133,16 +195,34 @@
             button="Formats"
             :options="pressureHttpPostFormatOptions"
             :callback="pressureHttpFormatCallback"
-            :disabled="global.disabled || !config.http_post_pressure"
+            :disabled="pushDisabled"
           />
           <BsModal
             @click="pressureRenderFormat"
-            v-model="render"
+            v-model="pressureRender"
             :code="true"
             :json="true"
             title="Format preview"
             button="Preview format"
-            :disabled="global.disabled || !config.http_post_pressure"
+            :disabled="pushDisabled"
+          />
+        </div>
+        <div class="col-md-3" v-if="global.ui.enablePressure && !global.ui.enableGravity">
+          <BsDropdown
+            label="Predefined formats"
+            button="Formats"
+            :options="pressureHttpPostFormatOptions"
+            :callback="pressureHttpFormatCallback"
+            :disabled="pushDisabled"
+          />
+          <BsModal
+            @click="pressureRenderFormat"
+            v-model="pressureRender"
+            :code="true"
+            :json="true"
+            title="Format preview"
+            button="Preview format"
+            :disabled="pushDisabled"
           />
         </div>
       </div>
@@ -166,6 +246,7 @@
           >&nbsp;
 
           <button
+            v-if="global.ui.enableGravity"
             @click="runTestGravity"
             type="button"
             class="btn btn-secondary"
@@ -180,6 +261,7 @@
             &nbsp;Run push gravity test</button
           >&nbsp;
           <button
+            v-if="global.ui.enablePressure"
             @click="runTestPressure"
             type="button"
             class="btn btn-secondary"
@@ -200,33 +282,49 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { ref, computed } from 'vue'
+import { httpHeaderOptions, httpPostUrlOptions } from '@/modules/utils'
+import { gravityHttpPostFormatOptions } from '@/modules/gravityFormatOptions'
+import { pressureHttpPostFormatOptions } from '@/modules/pressureFormatOptions'
+import { applyTemplate } from '@/modules/formatTemplate'
 import { validateCurrentForm } from '@mp-se/espframework-ui-components'
-import {
-  httpHeaderOptions,
-  httpPostUrlOptions,
-  gravityHttpPostFormatOptions,
-  pressureHttpPostFormatOptions,
-  applyTemplate
-} from '@/modules/utils'
 import { global, status, config } from '@/modules/pinia'
+import { logError } from '@mp-se/espframework-ui-components'
+// BsInputSwitch is now globally registered from ESP Framework UI Components library
 
-const render = ref('')
+const gravityRender = ref('')
+const pressureRender = ref('')
 
 const pushDisabled = computed(() => {
-  return global.disabled
+  return global.disabled || config.use_wifi_direct
 })
 
 const runTestGravity = async () => {
-  const data = { push_format: 'http_post_format_gravity' }
-  global.clearMessages()
-  await config.runPushTest(data)
+  try {
+    const data = {
+      push_format: 'http_post_format_gravity'
+    }
+
+    global.clearMessages()
+    await config.runPushTest(data)
+  } catch (error) {
+    logError('PushHttpPost1View.runTestGravity()', error)
+    global.messageError = 'Failed to start push test'
+  }
 }
 
 const runTestPressure = async () => {
-  const data = { push_format: 'http_post_format_pressure' }
-  global.clearMessages()
-  await config.runPushTest(data)
+  try {
+    const data = {
+      push_format: 'http_post_format_pressure'
+    }
+
+    global.clearMessages()
+    await config.runPushTest(data)
+  } catch (error) {
+    logError('PushHttpPost1View.runTestPressure()', error)
+    global.messageError = 'Failed to start push test'
+  }
 }
 
 const httpUrlCallback = (opt) => {
@@ -250,15 +348,26 @@ const pressureHttpFormatCallback = (opt) => {
 }
 
 const gravityRenderFormat = () => {
-  render.value = applyTemplate(status, config, config.http_post_format_gravity)
+  gravityRender.value = applyTemplate(status, config, config.http_post_format_gravity)
 }
 
 const pressureRenderFormat = () => {
-  render.value = applyTemplate(status, config, config.http_post_format_pressure)
+  pressureRender.value = applyTemplate(status, config, config.http_post_format_pressure)
+}
+
+const serverPortPattern = /^([a-zA-Z0-9.-]+|\d{1,3}(?:\.\d{1,3}){3}):\d{1,5}$/
+
+function validateServerPortFormat(value) {
+  return serverPortPattern.test(value)
 }
 
 const save = async () => {
   if (!validateCurrentForm()) return
+
+  if (config.http_post_tcp && !validateServerPortFormat(config.http_post_target)) {
+    global.messageError = 'Server must be in format hostname:port or ip:port'
+    return
+  }
 
   await config.saveAll()
 }

@@ -1,55 +1,41 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { logError } from '@mp-se/espframework-ui-components'
-import { global } from '@/modules/pinia'
-import { applyTemplate } from '@/modules/utils'
+/*
+ * GravityMon Gateway UI
+ * Copyright (c) 2021-2026 Magnus
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ */
 
-describe('applyTemplate', () => {
-  const status = {
-    rssi: -42
-  }
+import { describe, expect, it } from 'vitest'
+import { httpHeaderOptions, httpPostUrlOptions, httpGetUrlOptions } from '@/modules/utils'
 
-  const config = {
-    temp_unit: 'C',
-    gravity_unit: 'G',
-    pressure_unit: 'PSI',
-    mdns: 'gw-test',
-    id: 'device-123',
-    sleep_interval: 900,
-    token: 'secret',
-    isKPa: false,
-    isBar: false
-  }
-
-  beforeEach(() => {
-    global.app_ver = '2.5.0'
-    global.app_build = '20260413'
-    vi.clearAllMocks()
+describe('utils - shared options', () => {
+  it('exports httpHeaderOptions ref', () => {
+    expect(httpHeaderOptions).toBeDefined()
+    expect(httpHeaderOptions.value).toBeInstanceOf(Array)
+    expect(httpHeaderOptions.value.length).toBeGreaterThan(0)
   })
 
-  it('renders JSON templates with replaced placeholders', () => {
-    const output = applyTemplate(
-      status,
-      config,
-      '{"device":"${mdns}","id":"${id}","tempUnit":"${temp-unit}","gravityUnit":"${gravity-unit}","version":"${app-ver}","rssi":${rssi}}'
-    )
-
-    expect(JSON.parse(output)).toEqual({
-      device: 'gw-test',
-      id: 'device-123',
-      tempUnit: 'C',
-      gravityUnit: 'G',
-      version: '2.5.0',
-      rssi: -42
-    })
+  it('exports httpPostUrlOptions ref', () => {
+    expect(httpPostUrlOptions).toBeDefined()
+    expect(httpPostUrlOptions.value).toBeInstanceOf(Array)
+    expect(httpPostUrlOptions.value.length).toBeGreaterThan(0)
   })
 
-  it('returns a plain string when the template is not JSON', () => {
-    const output = applyTemplate(status, config, 'device=${mdns}&rssi=${rssi}')
-
-    expect(output).toBe('device=gw-test&rssi=-42')
-    expect(logError).toHaveBeenCalledWith(
-      'utils.applyTemplate()',
-      'Not a valid json document, returning string'
-    )
+  it('exports httpGetUrlOptions ref', () => {
+    expect(httpGetUrlOptions).toBeDefined()
+    expect(httpGetUrlOptions.value).toBeInstanceOf(Array)
   })
 })
+

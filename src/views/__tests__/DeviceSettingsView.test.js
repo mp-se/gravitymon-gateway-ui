@@ -1,8 +1,8 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi, afterEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import DeviceSettingsView from '../DeviceSettingsView.vue'
 import { config, global } from '@/modules/pinia'
-import { sharedHttpClient as http, validateCurrentForm } from '@mp-se/espframework-ui-components'
+import { sharedHttpClient as http, validateCurrentForm, logInfo, logError } from '@mp-se/espframework-ui-components'
 
 describe('DeviceSettingsView', () => {
   const createWrapper = () =>
@@ -508,5 +508,241 @@ describe('DeviceSettingsView', () => {
     expect(config.saveAll).toHaveBeenCalledTimes(1)
     expect(config.mdns).toBe('brew-device')
     expect(config.temp_unit).toBe('F')
+  })
+
+  it('factory reset clears messages before starting', async () => {
+    global.clearMessages.mockClear()
+    http.request.mockResolvedValue({
+      json: vi.fn().mockResolvedValue({ success: true, message: 'Reset initiated' })
+    })
+    const wrapper = createWrapper()
+
+    await wrapper.vm.factory()
+
+    expect(global.clearMessages).toHaveBeenCalled()
+  })
+
+  it('factory reset logs info message at start', async () => {
+    logInfo.mockClear()
+    http.request.mockResolvedValue({
+      json: vi.fn().mockResolvedValue({ success: true, message: 'Reset initiated' })
+    })
+    const wrapper = createWrapper()
+
+    await wrapper.vm.factory()
+
+    expect(logInfo).toHaveBeenCalledWith('DeviceSettingsView.factory()', 'Sending /api/factory')
+  })
+
+  it('factory reset disables controls during request', async () => {
+    global.disabled = false
+    http.request.mockResolvedValue({
+      json: vi.fn().mockResolvedValue({ success: true, message: 'Reset initiated' })
+    })
+    const wrapper = createWrapper()
+
+    const factoryPromise = wrapper.vm.factory()
+    expect(global.disabled).toBe(true)
+
+    await factoryPromise
+  })
+
+  it('factory reset success triggers message and disables controls', async () => {
+    http.request.mockResolvedValue({
+      json: vi.fn().mockResolvedValue({ success: true, message: 'Factory reset initiated' })
+    })
+    const wrapper = createWrapper()
+
+    await wrapper.vm.factory()
+
+    expect(global.messageSuccess).toBe('Factory reset initiated')
+    expect(global.disabled).toBe(true)
+  })
+
+  it('factory reset error response keeps controls enabled', async () => {
+    global.disabled = false
+    http.request.mockResolvedValue({
+      json: vi.fn().mockResolvedValue({ success: false, message: 'Device is offline' })
+    })
+    const wrapper = createWrapper()
+
+    await wrapper.vm.factory()
+
+    expect(global.messageError).toBe('Device is offline')
+    expect(global.disabled).toBe(false)
+  })
+
+  it('factory reset network error shows default message', async () => {
+    global.disabled = false
+    http.request.mockRejectedValue(new Error('timeout'))
+    logError.mockClear()
+    const wrapper = createWrapper()
+
+    await wrapper.vm.factory()
+
+    expect(logError).toHaveBeenCalledWith('DeviceSettingsView.factory()', expect.any(Error))
+    expect(global.messageError).toBe('Failed to do factory restore')
+  })
+
+  it('saveSettings calls validateCurrentForm', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    const wrapper = createWrapper()
+
+    await wrapper.vm.saveSettings()
+
+    expect(validateCurrentForm).toHaveBeenCalled()
+  })
+
+  it('saveSettings returns early if validation fails', async () => {
+    validateCurrentForm.mockReturnValue(false)
+    config.saveAll.mockClear()
+    const wrapper = createWrapper()
+
+    await wrapper.vm.saveSettings()
+
+    expect(config.saveAll).not.toHaveBeenCalled()
+  })
+
+  it('restart method calls config.restart', async () => {
+    config.restart.mockClear()
+    const wrapper = createWrapper()
+
+    await wrapper.vm.restart()
+
+    expect(config.restart).toHaveBeenCalledTimes(1)
+  })
+
+  it('temperature and gravity units are independent', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.temp_unit = 'F'
+    config.gravity_unit = 'P'
+    const wrapper = createWrapper()
+
+    await wrapper.vm.saveSettings()
+
+    expect(config.temp_unit).toBe('F')
+    expect(config.gravity_unit).toBe('P')
+    expect(config.saveAll).toHaveBeenCalled()
+  })
+
+  it('pressure unit can be changed independently', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.pressure_unit = 'Bar'
+    const wrapper = createWrapper()
+
+    await wrapper.vm.saveSettings()
+
+    expect(config.pressure_unit).toBe('Bar')
+    expect(config.saveAll).toHaveBeenCalled()
+  })
+
+  it('all option arrays have expected values', () => {
+    const wrapper = createWrapper()
+
+    expect(wrapper.vm.tempOptions).toHaveLength(2)
+    expect(wrapper.vm.gravityOptions).toHaveLength(2)
+    expect(wrapper.vm.pressureOptions).toHaveLength(3)
+    expect(wrapper.vm.uiOptions).toHaveLength(2)
+  })
+
+  it('temperature options have correct labels and values', () => {
+    const wrapper = createWrapper()
+
+    expect(wrapper.vm.tempOptions[0]).toEqual({ label: 'Celsius °C', value: 'C' })
+    expect(wrapper.vm.tempOptions[1]).toEqual({ label: 'Fahrenheit °F', value: 'F' })
+  })
+
+  it('gravity options have correct labels and values', () => {
+    const wrapper = createWrapper()
+
+    expect(wrapper.vm.gravityOptions[0]).toEqual({ label: 'Specific Gravity', value: 'G' })
+    expect(wrapper.vm.gravityOptions[1]).toEqual({ label: 'Plato', value: 'P' })
+  })
+
+  it('pressure options have correct labels and values', () => {
+    const wrapper = createWrapper()
+
+    expect(wrapper.vm.pressureOptions).toContainEqual({ label: 'PSI', value: 'PSI' })
+    expect(wrapper.vm.pressureOptions).toContainEqual({ label: 'kPA', value: 'kPa' })
+    expect(wrapper.vm.pressureOptions).toContainEqual({ label: 'Bar', value: 'Bar' })
+  })
+
+  it('ui options have day and dark mode', () => {
+    const wrapper = createWrapper()
+
+    expect(wrapper.vm.uiOptions).toContainEqual({ label: 'Day mode', value: false })
+    expect(wrapper.vm.uiOptions).toContainEqual({ label: 'Dark mode', value: true })
+  })
+
+  it('factory reset with success compares using == operator', async () => {
+    http.request.mockResolvedValue({
+      json: vi.fn().mockResolvedValue({ success: true, message: 'Reset started' })
+    })
+    const wrapper = createWrapper()
+
+    await wrapper.vm.factory()
+
+    expect(global.messageSuccess).toBe('Reset started')
+    expect(global.disabled).toBe(true)
+  })
+
+  it('multiple saves accumulate correctly', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.saveAll.mockClear()
+    const wrapper = createWrapper()
+
+    config.mdns = 'device1'
+    await wrapper.vm.saveSettings()
+    expect(config.saveAll).toHaveBeenCalledTimes(1)
+
+    config.mdns = 'device2'
+    await wrapper.vm.saveSettings()
+    expect(config.saveAll).toHaveBeenCalledTimes(2)
+  })
+
+  it('dark mode false is treated as valid setting', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.dark_mode = false
+    const wrapper = createWrapper()
+
+    await wrapper.vm.saveSettings()
+
+    expect(config.saveAll).toHaveBeenCalled()
+    expect(config.dark_mode).toBe(false)
+  })
+
+  it('saveSettings awaits config.saveAll', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.saveAll.mockImplementation(() => Promise.resolve())
+    const wrapper = createWrapper()
+
+    const promise = wrapper.vm.saveSettings()
+    expect(promise).toBeInstanceOf(Promise)
+
+    await promise
+    expect(config.saveAll).toHaveBeenCalled()
+  })
+
+  it('factory request uses POST method', async () => {
+    http.request.mockResolvedValue({
+      json: vi.fn().mockResolvedValue({ success: true, message: 'OK' })
+    })
+    const wrapper = createWrapper()
+
+    await wrapper.vm.factory()
+
+    expect(http.request).toHaveBeenCalledWith('api/factory', { method: 'POST' })
+  })
+
+  it('factory endpoint is api/factory without leading slash', async () => {
+    http.request.mockResolvedValue({
+      json: vi.fn().mockResolvedValue({ success: false, message: 'Error' })
+    })
+    const wrapper = createWrapper()
+
+    await wrapper.vm.factory()
+
+    const callArgs = http.request.mock.calls[0]
+    expect(callArgs[0]).toBe('api/factory')
   })
 })

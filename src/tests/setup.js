@@ -186,7 +186,7 @@ const mockStatusStore = {
   $state: {}
 }
 
-// eslint-disable-next-line no-undef
+ 
 global.btoa = global.btoa || ((value) => Buffer.from(String(value), 'binary').toString('base64'))
 
 const mockMeasurementStore = {

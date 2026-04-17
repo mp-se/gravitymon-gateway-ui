@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi, afterEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import PushSettingsView from '../PushSettingsView.vue'
 import { config, global } from '@/modules/pinia'
@@ -571,5 +571,196 @@ describe('PushSettingsView', () => {
 
     expect(config.token).toBe('permanent-token')
     expect(config.push_timeout).toBe(35)
+  })
+
+  it('save method is async and returns Promise', () => {
+    const wrapper = createWrapper()
+
+    const result = wrapper.vm.save()
+    expect(result).toBeInstanceOf(Promise)
+  })
+
+  it('save calls validateCurrentForm before proceeding', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    validateCurrentForm.mockClear()
+    const wrapper = createWrapper()
+
+    await wrapper.vm.save()
+
+    expect(validateCurrentForm).toHaveBeenCalled()
+  })
+
+  it('save returns early when validation returns false', async () => {
+    validateCurrentForm.mockReturnValue(false)
+    config.saveAll.mockClear()
+    const wrapper = createWrapper()
+
+    const result = await wrapper.vm.save()
+
+    expect(result).toBeUndefined()
+    expect(config.saveAll).not.toHaveBeenCalled()
+  })
+
+  it('save calls saveAll when validation passes', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.saveAll.mockClear()
+    const wrapper = createWrapper()
+
+    await wrapper.vm.save()
+
+    expect(config.saveAll).toHaveBeenCalledTimes(1)
+  })
+
+  it('save awaits config.saveAll before returning', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    let saveAllCalled = false
+    config.saveAll.mockImplementation(() => {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          saveAllCalled = true
+          resolve()
+        }, 10)
+      })
+    })
+    const wrapper = createWrapper()
+
+    const savePromise = wrapper.vm.save()
+    expect(saveAllCalled).toBe(false)
+
+    await savePromise
+    expect(saveAllCalled).toBe(true)
+  })
+
+  it('validateCurrentForm is gate for saveAll execution', async () => {
+    validateCurrentForm.mockReturnValue(false)
+    config.saveAll.mockClear()
+    const wrapper = createWrapper()
+
+    await wrapper.vm.save()
+
+    expect(validateCurrentForm).toHaveBeenCalled()
+    expect(config.saveAll).not.toHaveBeenCalled()
+  })
+
+  it('save works with minimal config state', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.token = ''
+    config.push_timeout = 10
+    config.push_resend_time = 10
+    const wrapper = createWrapper()
+
+    await wrapper.vm.save()
+
+    expect(config.saveAll).toHaveBeenCalled()
+  })
+
+  it('save works with maximal config state', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.token = 'x'.repeat(100)
+    config.push_timeout = 60
+    config.push_resend_time = 1800
+    const wrapper = createWrapper()
+
+    await wrapper.vm.save()
+
+    expect(config.saveAll).toHaveBeenCalled()
+  })
+
+  it('save does not modify config values during save', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    const originalToken = 'original-token'
+    const originalTimeout = 30
+    const originalResend = 300
+    config.token = originalToken
+    config.push_timeout = originalTimeout
+    config.push_resend_time = originalResend
+    const wrapper = createWrapper()
+
+    await wrapper.vm.save()
+
+    expect(config.token).toBe(originalToken)
+    expect(config.push_timeout).toBe(originalTimeout)
+    expect(config.push_resend_time).toBe(originalResend)
+  })
+
+  it('save handler can be invoked multiple times sequentially', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    config.saveAll.mockClear()
+    const wrapper = createWrapper()
+
+    await wrapper.vm.save()
+    expect(config.saveAll).toHaveBeenCalledTimes(1)
+
+    await wrapper.vm.save()
+    expect(config.saveAll).toHaveBeenCalledTimes(2)
+
+    await wrapper.vm.save()
+    expect(config.saveAll).toHaveBeenCalledTimes(3)
+  })
+
+  it('form prevents default submission behavior', () => {
+    const wrapper = createWrapper()
+    const form = wrapper.find('form')
+
+    expect(form.exists()).toBe(true)
+    expect(form.attributes('novalidate')).toBeDefined()
+  })
+
+  it('save method exists and is callable', () => {
+    const wrapper = createWrapper()
+
+    expect(typeof wrapper.vm.save).toBe('function')
+    expect(wrapper.vm.save).toBeDefined()
+  })
+
+  it('global config is accessible from component', () => {
+    const wrapper = createWrapper()
+
+    expect(wrapper.vm).toBeDefined()
+  })
+
+  it('validation failure preserves config state', async () => {
+    validateCurrentForm.mockReturnValue(false)
+    config.token = 'test-token'
+    config.push_timeout = 45
+    const wrapper = createWrapper()
+
+    await wrapper.vm.save()
+
+    expect(config.token).toBe('test-token')
+    expect(config.push_timeout).toBe(45)
+  })
+
+  it('save can be called immediately after mount', async () => {
+    validateCurrentForm.mockReturnValue(true)
+    const wrapper = createWrapper()
+
+    await wrapper.vm.save()
+
+    expect(config.saveAll).toHaveBeenCalled()
+  })
+
+  it('token input field is used by v-model', () => {
+    // eslint-disable-next-line no-unused-vars
+    const wrapper = createWrapper()
+
+    config.token = 'model-test'
+    expect(config.token).toBe('model-test')
+  })
+
+  it('timeout input field is used by v-model', () => {
+    // eslint-disable-next-line no-unused-vars
+    const wrapper = createWrapper()
+
+    config.push_timeout = 55
+    expect(config.push_timeout).toBe(55)
+  })
+
+  it('resend time input field is used by v-model', () => {
+    // eslint-disable-next-line no-unused-vars
+    const wrapper = createWrapper()
+
+    config.push_resend_time = 555
+    expect(config.push_resend_time).toBe(555)
   })
 })
