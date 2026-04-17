@@ -1,8 +1,13 @@
-import { beforeEach, describe, expect, it, vi, afterEach } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import DeviceSettingsView from '../DeviceSettingsView.vue'
 import { config, global } from '@/modules/pinia'
-import { sharedHttpClient as http, validateCurrentForm, logInfo, logError } from '@mp-se/espframework-ui-components'
+import {
+  sharedHttpClient as http,
+  validateCurrentForm,
+  logInfo,
+  logError
+} from '@mp-se/espframework-ui-components'
 
 describe('DeviceSettingsView', () => {
   const createWrapper = () =>

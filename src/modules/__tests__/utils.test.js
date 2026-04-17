@@ -38,4 +38,3 @@ describe('utils - shared options', () => {
     expect(httpGetUrlOptions.value).toBeInstanceOf(Array)
   })
 })
-

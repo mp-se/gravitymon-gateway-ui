@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi, afterEach } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import MeasurementGraphFragment from '../MeasurementGraphFragment.vue'
 import { __chartInstances, Chart } from 'chart.js'
@@ -117,7 +117,7 @@ describe('MeasurementGraphFragment', () => {
   })
 
   it('chart configuration has correct axes setup', () => {
-    const wrapper = mount(MeasurementGraphFragment, {
+    mount(MeasurementGraphFragment, {
       props: {
         dataSet1: [{ x: 1, y: 1.012 }],
         dataSet2: [{ x: 1, y: 20.1 }],
@@ -483,7 +483,7 @@ describe('MeasurementGraphFragment', () => {
   })
 
   it('handles empty dataset arrays', () => {
-    const wrapper = mount(MeasurementGraphFragment, {
+    mount(MeasurementGraphFragment, {
       props: {
         dataSet1: [],
         dataSet2: [],
@@ -502,7 +502,7 @@ describe('MeasurementGraphFragment', () => {
     const largeData1 = Array.from({ length: 1000 }, (_, i) => ({ x: i, y: 1.01 + i * 0.001 }))
     const largeData2 = Array.from({ length: 1000 }, (_, i) => ({ x: i, y: 20 + i * 0.01 }))
 
-    const wrapper = mount(MeasurementGraphFragment, {
+    mount(MeasurementGraphFragment, {
       props: {
         dataSet1: largeData1,
         dataSet2: largeData2,

@@ -10,18 +10,7 @@ describe('NotFoundView (smoke)', () => {
       history: createMemoryHistory(),
       routes: [{ path: '/:pathMatch(.*)*', component: NotFoundView }]
     })
-    await router.push('/test')
-    await router.isReady()
-    const wrapper = mount(NotFoundView, {
-      global: {
-        plugins: [pinia, router],
-        stubs: {
-          BsMessage: {
-            template: '<div><slot /></div>'
-          }
-        }
-      }
-    })
+    const wrapper = mount(NotFoundView, { global: { plugins: [pinia, router] } })
     expect(wrapper.exists()).toBe(true)
   })
 

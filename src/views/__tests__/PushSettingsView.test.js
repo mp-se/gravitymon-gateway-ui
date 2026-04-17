@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi, afterEach } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import PushSettingsView from '../PushSettingsView.vue'
 import { config, global } from '@/modules/pinia'

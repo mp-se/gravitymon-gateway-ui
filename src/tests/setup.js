@@ -186,7 +186,6 @@ const mockStatusStore = {
   $state: {}
 }
 
- 
 global.btoa = global.btoa || ((value) => Buffer.from(String(value), 'binary').toString('base64'))
 
 const mockMeasurementStore = {

@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi, afterEach } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import DeviceWifiApView from '../DeviceWifiApView.vue'
 import { config, global, status } from '@/modules/pinia'
@@ -574,7 +574,9 @@ describe('DeviceWifiApView', () => {
 
     wrapper.vm.save()
 
-    expect(global.messageInfo).toBe('If WIFI settings are changed, restart the device so they can take effect!')
+    expect(global.messageInfo).toBe(
+      'If WIFI settings are changed, restart the device so they can take effect!'
+    )
   })
 
   it('validation before save is blocking', () => {
